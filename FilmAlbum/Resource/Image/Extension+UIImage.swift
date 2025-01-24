@@ -32,4 +32,8 @@ extension UIImage {
     static var faFilmFill: UIImage {
         return UIImage(systemName: "film.fill") ?? UIImage()
     }
+    
+    static func getProfileImage(number num : Int) -> UIImage {
+        return UIImage(named: ProfileImage(rawValue: num)?.getImageName() ?? "") ?? UIImage()
+    }
 }
