@@ -10,6 +10,9 @@
 
 .DS_Store
 
+# APIKey.swift file
+APIKey.swift
+
 ## User settings
 xcuserdata/
 
