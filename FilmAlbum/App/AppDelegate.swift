@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UIView.appearance().backgroundColor = UIColor.faBlack
         UILabel.appearance().textColor = UIColor.faWhite
-        
+        UINavigationBar.appearance().tintColor = UIColor.accent
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.faWhite, .font: UIFont.fa16BoldFont]
         sleep(2)
         return true
     }
