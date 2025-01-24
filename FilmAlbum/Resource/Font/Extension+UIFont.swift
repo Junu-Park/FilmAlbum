@@ -7,36 +7,36 @@
 
 import UIKit
 
-enum AFFont {
-    static var af16BoldFont: UIFont {
+extension UIFont {
+    static var fa16BoldFont: UIFont {
         UIFont.boldSystemFont(ofSize: 16)
     }
-    static var af15BoldFont: UIFont {
+    static var fa15BoldFont: UIFont {
         UIFont.boldSystemFont(ofSize: 15)
     }
-    static var af14BoldFont: UIFont {
+    static var fa14BoldFont: UIFont {
         UIFont.boldSystemFont(ofSize: 14)
     }
-    static var af13BoldFont: UIFont {
+    static var fa13BoldFont: UIFont {
         UIFont.boldSystemFont(ofSize: 13)
     }
-    static var af12BoldFont: UIFont {
+    static var fa12BoldFont: UIFont {
         UIFont.boldSystemFont(ofSize: 12)
     }
     
-    static var af16Font: UIFont {
+    static var fa16Font: UIFont {
         UIFont.systemFont(ofSize: 16)
     }
-    static var af15Font: UIFont {
+    static var fa15Font: UIFont {
         UIFont.systemFont(ofSize: 15)
     }
-    static var af14Font: UIFont {
+    static var fa14Font: UIFont {
         UIFont.systemFont(ofSize: 14)
     }
-    static var af13Font: UIFont {
+    static var fa13Font: UIFont {
         UIFont.systemFont(ofSize: 13)
     }
-    static var af12Font: UIFont {
+    static var fa12Font: UIFont {
         UIFont.systemFont(ofSize: 12)
     }
 }
