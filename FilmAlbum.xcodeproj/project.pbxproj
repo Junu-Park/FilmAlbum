@@ -19,7 +19,7 @@
 		510A051F2D435838008D6C70 /* Exceptions for "FilmAlbum" folder in "FilmAlbum" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				App/Info.plist,
 			);
 			target = 510A050C2D435836008D6C70 /* FilmAlbum */;
 		};
