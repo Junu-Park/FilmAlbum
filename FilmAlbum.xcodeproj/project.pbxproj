@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		510A05262D435990008D6C70 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 510A05252D435990008D6C70 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		510A050D2D435836008D6C70 /* FilmAlbum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmAlbum.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		510A05252D435990008D6C70 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		510A05042D435836008D6C70 = {
 			isa = PBXGroup;
 			children = (
+				510A05252D435990008D6C70 /* .gitignore */,
 				510A050F2D435836008D6C70 /* FilmAlbum */,
 				510A050E2D435836008D6C70 /* Products */,
 			);
@@ -122,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				510A05262D435990008D6C70 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
