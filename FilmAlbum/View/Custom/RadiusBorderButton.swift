@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RadiusBorderButton: UIButton {
+final class RadiusBorderButton: UIButton {
     
     init(title: String, radius: CGFloat) {
         super.init(frame: .zero)

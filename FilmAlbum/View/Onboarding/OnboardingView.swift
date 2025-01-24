@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class OnboardingView: UIView {
+final class OnboardingView: UIView {
     
     private let onboardingImageView: UIImageView = {
         let iv: UIImageView = UIImageView()
@@ -43,14 +43,14 @@ class OnboardingView: UIView {
         configureLayout()
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         self.addSubview(onboardingImageView)
         self.addSubview(titleLabel)
         self.addSubview(subTitleLabel)
         self.addSubview(startButton)
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         self.onboardingImageView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.width.equalToSuperview()
