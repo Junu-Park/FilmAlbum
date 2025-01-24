@@ -9,8 +9,15 @@ import UIKit
 
 final class OnboardingViewController: UIViewController {
 
+    let contentView: OnboardingView = OnboardingView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = OnboardingView()
+        self.view = contentView
+        self.contentView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func startButtonTapped() {
+        self.navigationController?.pushViewController(NicknameSettingViewController(), animated: true)
     }
 }
