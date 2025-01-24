@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NicknameSettingViewController: UIViewController {
+final class NicknameSettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

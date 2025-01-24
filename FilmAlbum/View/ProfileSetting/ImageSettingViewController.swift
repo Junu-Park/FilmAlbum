@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageSettingViewController: UIViewController {
+final class ImageSettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

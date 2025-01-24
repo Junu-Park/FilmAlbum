@@ -9,7 +9,7 @@ import UIKit
 
 final class OnboardingViewController: UIViewController {
 
-    let contentView: OnboardingView = OnboardingView()
+    private let contentView: OnboardingView = OnboardingView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
