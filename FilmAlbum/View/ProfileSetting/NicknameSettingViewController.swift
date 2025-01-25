@@ -7,9 +7,14 @@
 
 import UIKit
 
-final class NicknameSettingViewController: UIViewController {
+final class NicknameSettingViewController: CustomBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar()
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationItem.title = "프로필 설정"
     }
 }

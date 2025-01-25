@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class OnboardingViewController: UIViewController {
+final class OnboardingViewController: CustomBaseViewController {
 
     private let contentView: OnboardingView = OnboardingView()
     
