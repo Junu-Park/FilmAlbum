@@ -18,6 +18,6 @@ final class OnboardingViewController: CustomBaseViewController {
     }
     
     @objc private func startButtonTapped() {
-        self.navigationController?.pushViewController(NicknameSettingViewController(), animated: true)
+        self.navigationController?.pushViewController(NicknameSettingViewController(viewType: .nicknameSetting), animated: true)
     }
 }
