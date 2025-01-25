@@ -21,6 +21,6 @@ enum ProfileImage: Int {
     case profile11
     
     func getImageName() -> String {
-        return "profile\(self.rawValue)"
+        return "profile_\(self.rawValue)"
     }
 }
