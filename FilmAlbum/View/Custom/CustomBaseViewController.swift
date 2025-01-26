@@ -11,11 +11,14 @@ enum ViewType {
     case onboarding
     case main
     case nicknameSetting
+    case nicknameEditing
     case imageSetting
+    case imageEditing
     case search
     case searchDetail(movieTitle: String)
+    case setting
     
-    var title: String {
+    var navigationItemTitle: String {
         switch self {
         case .onboarding:
             return ""
@@ -23,12 +26,18 @@ enum ViewType {
             return "FilmAlbum"
         case .nicknameSetting:
             return "프로필 설정"
+        case .nicknameEditing:
+            return "프로필 편집"
         case .imageSetting:
             return "프로필 이미지 설정"
+        case .imageEditing:
+            return "프로필 이미지 편집"
         case .search:
             return "영화 검색"
         case .searchDetail(let movieTitle):
             return movieTitle
+        case .setting:
+            return "설정"
         }
     }
 }
