@@ -14,10 +14,10 @@ final class OnboardingViewController: CustomBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = contentView
-        self.contentView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        self.contentView.startButton.addTarget(self, action: #selector(self.startButtonTapped), for: .touchUpInside)
     }
     
     @objc private func startButtonTapped() {
-        self.navigationController?.pushViewController(NicknameSettingViewController(viewType: .nicknameSetting), animated: true)
+        self.navigationController?.pushViewController(NicknameViewController(viewType: .nicknameSetting), animated: true)
     }
 }

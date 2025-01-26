@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum ViewType {
+enum ViewType: Equatable {
     case onboarding
     case main
     case nicknameSetting
