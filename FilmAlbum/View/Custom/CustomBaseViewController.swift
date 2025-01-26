@@ -44,14 +44,21 @@ enum ViewType {
 
 class CustomBaseViewController: UIViewController {
 
+    var viewType: ViewType!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backButtonDisplayMode = .minimal
     }
     
     init(viewType: ViewType) {
         super.init(nibName: nil, bundle: nil)
-        self.navigationItem.title = viewType.title
+        self.viewType = viewType
+        setNavigationItem()
+    }
+    
+    private func setNavigationItem() {
+        self.navigationItem.backButtonDisplayMode = .minimal
+        self.navigationItem.title = self.viewType.navigationItemTitle
     }
     
     @available(*, unavailable)
