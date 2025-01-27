@@ -11,7 +11,7 @@ import SnapKit
 
 final class NicknameSettingView: UIView {
 
-    private lazy var profileImageView: ProfileImageView = ProfileImageView(profileImageType: self.profileImageType, isSelected: true, showCamera: true, canTap: true)
+    lazy var profileImageView: ProfileImageView = ProfileImageView(profileImageType: self.profileImageType, isSelected: true, showCamera: true, canTap: true)
     
     private let nicknameTextFieldView: NicknameTextFieldView = NicknameTextFieldView()
     

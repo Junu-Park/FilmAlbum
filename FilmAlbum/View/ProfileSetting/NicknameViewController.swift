@@ -18,7 +18,8 @@ final class NicknameViewController: CustomBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureHierarchy()
+        self.configureHierarchy()
+        self.configureProfileImageViewTapGesture()
     }
     
     private func configureHierarchy() {
@@ -29,5 +30,21 @@ final class NicknameViewController: CustomBaseViewController {
         } else {
             print(#function, "viewType error")
         }
+    }
+    
+    private func configureProfileImageViewTapGesture() {
+        if self.viewType == .nicknameSetting {
+            let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped))
+            self.settingView.profileImageView.addGestureRecognizer(gestureRecognizer)
+        } else if self.viewType == .nicknameEditing {
+            
+        } else {
+            print(#function, "viewType error")
+        }
+    }
+    
+    @objc private func profileImageViewTapped() {
+        print(#function)
+        self.navigationController?.pushViewController(ProfileImageViewController(viewType: .imageSetting), animated: true)
     }
 }
