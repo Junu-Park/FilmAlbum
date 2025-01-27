@@ -27,8 +27,11 @@ class ProfileImageSettingView: UIView {
     var selectedProfileImageType: ProfileImage! {
         didSet {
             self.selectedProfileImage.profileImageType = self.selectedProfileImageType
+            self.profileImageCollectionView.reloadData()
         }
     }
+    
+    private let profileImageList: [ProfileImage] = ProfileImage.allCases
     
     init(selectedProfileImageType: ProfileImage) {
         super.init(frame: .zero)
@@ -64,19 +67,27 @@ extension ProfileImageSettingView: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ProfileImage.allCases.count
+        return profileImageList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileImageCollectionViewCell.id, for: indexPath) as? ProfileImageCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.profileImageView.profileImageType = ProfileImage.allCases[indexPath.item]
+        cell.profileImageView.profileImageType = self.profileImageList[indexPath.item]
         
-        if ProfileImage.allCases[indexPath.item] == self.selectedProfileImageType {
+        if cell.profileImageView.profileImageType == self.selectedProfileImageType {
             cell.profileImageView.isSelected = true
+        } else {
+            cell.profileImageView.isSelected = false
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.selectedProfileImageType != self.profileImageList[indexPath.item] {
+            self.selectedProfileImageType = self.profileImageList[indexPath.item]
+        }
     }
 }
