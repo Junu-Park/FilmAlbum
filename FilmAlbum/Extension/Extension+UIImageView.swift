@@ -9,6 +9,7 @@ import UIKit
 
 extension UIImageView {
     func selectedProfileImage() {
+        self.alpha = 1
         self.layer.borderColor = UIColor.accent.cgColor
         self.layer.borderWidth = 3
     }
