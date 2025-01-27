@@ -53,6 +53,7 @@ class CustomBaseViewController: UIViewController {
     init(viewType: ViewType) {
         super.init(nibName: nil, bundle: nil)
         self.viewType = viewType
+        self.view.backgroundColor = UIColor.faBlack
         setNavigationItem()
     }
     
