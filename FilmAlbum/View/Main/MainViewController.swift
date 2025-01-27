@@ -11,5 +11,14 @@ final class MainViewController: CustomBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureNavigationItem()
+    }
+    
+    private func configureNavigationItem() {
+        self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
+    }
+    
+    @objc private func searchButtonTapped() {
+        
     }
 }
