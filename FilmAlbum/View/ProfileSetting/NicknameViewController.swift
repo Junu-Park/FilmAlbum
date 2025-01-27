@@ -23,9 +23,9 @@ final class NicknameViewController: CustomBaseViewController {
     
     private func configureHierarchy() {
         if self.viewType == .nicknameSetting {
-            self.view.addSubview(settingView)
+            self.view = self.settingView
         } else if self.viewType == .nicknameEditing {
-            self.view.addSubview(editingView)
+            self.view = self.editingView
         } else {
             print(#function, "viewType error")
         }
