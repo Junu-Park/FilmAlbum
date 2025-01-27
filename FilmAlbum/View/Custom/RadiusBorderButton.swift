@@ -21,6 +21,9 @@ final class RadiusBorderButton: UIButton {
         
         let attributedHighlightString: NSAttributedString = NSAttributedString(string: title, attributes: [.font: UIFont.fa14BoldFont, .foregroundColor: UIColor.faLightGray])
         self.setAttributedTitle(attributedHighlightString, for: .highlighted)
+        
+        let attributedDisableString: NSAttributedString = NSAttributedString(string: title, attributes: [.font: UIFont.fa14BoldFont, .foregroundColor: UIColor.faGray])
+        self.setAttributedTitle(attributedDisableString, for: .disabled)
     }
     
     @available(*, unavailable)
