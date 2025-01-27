@@ -62,7 +62,7 @@ final class NicknameSettingView: UIView {
     
     @objc private func completeButtonTapped() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
-        window.rootViewController = UINavigationController(rootViewController: MainViewController())
+        window.rootViewController = UINavigationController(rootViewController: MainViewController(viewType: .main))
         window.makeKeyAndVisible()
     }
     
