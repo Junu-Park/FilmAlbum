@@ -18,7 +18,7 @@ enum NicknameTextFieldState: String {
 
 final class NicknameTextFieldView: UIView {
 
-    private let nicknameTextField: UITextField = {
+    let nicknameTextField: UITextField = {
         let tf: UITextField = UITextField()
         
         tf.attributedText = NSAttributedString(string: "", attributes: [.font: UIFont.fa16Font])
@@ -37,26 +37,18 @@ final class NicknameTextFieldView: UIView {
         return view
     }()
     
-    private lazy var textFieldStateLabel: UILabel = {
+    lazy var textFieldStateLabel: UILabel = {
         let lb: UILabel = UILabel()
-        lb.text = self.nicknameState.rawValue
+        
+        lb.text = nicknameTextField.text.checkNicknameValidation().rawValue
         lb.font = UIFont.fa12Font
         lb.textColor = UIColor.accent
+        
         return lb
     }()
     
-    private var nicknameState: NicknameTextFieldState! {
-        didSet {
-            self.textFieldStateLabel.text = self.nicknameState.rawValue
-        }
-    }
-    
     init() {
         super.init(frame: .zero)
-        
-        self.nicknameState = self.checkNicknameValidation(nickname: self.nicknameTextField.text)
-        
-        self.nicknameTextField.delegate = self
         
         self.addSubview(nicknameTextField)
         self.addSubview(textFieldUnderlineView)
@@ -78,11 +70,5 @@ final class NicknameTextFieldView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension NicknameTextFieldView: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        self.nicknameState = self.checkNicknameValidation(nickname: textField.text)
     }
 }

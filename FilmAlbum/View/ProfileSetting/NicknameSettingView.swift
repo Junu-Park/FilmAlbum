@@ -17,10 +17,19 @@ final class NicknameSettingView: UIView {
     
     private var profileImageType: ProfileImage!
     
+    private var nicknameState: NicknameTextFieldState! {
+        didSet {
+            self.nicknameTextFieldView.textFieldStateLabel.text = self.nicknameState.rawValue
+            self.completeButton.isEnabled = self.nicknameState == NicknameTextFieldState.ok
+        }
+    }
+    
     init(profileImageType: ProfileImage) {
         super.init(frame: .zero)
         
         self.profileImageType = profileImageType
+        self.nicknameState = self.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
+        self.nicknameTextFieldView.nicknameTextField.delegate = self
         
         self.addSubview(self.profileImageView)
         self.addSubview(self.nicknameTextFieldView)
@@ -39,5 +48,11 @@ final class NicknameSettingView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension NicknameSettingView: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        self.nicknameState = textField.text.checkNicknameValidation()
     }
 }
