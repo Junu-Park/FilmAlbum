@@ -9,7 +9,7 @@ import UIKit
 
 final class ProfileImageViewController: CustomBaseViewController {
 
-    private lazy var settingView: ProfileImageSettingView = ProfileImageSettingView(selectedProfileImageType: self.selectedProfileImageType)
+    lazy var settingView: ProfileImageSettingView = ProfileImageSettingView(selectedProfileImageType: self.selectedProfileImageType)
     
     private let editingView: ProfileImageEditingView = ProfileImageEditingView()
     

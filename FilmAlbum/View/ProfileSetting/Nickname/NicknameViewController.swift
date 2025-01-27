@@ -45,6 +45,9 @@ final class NicknameViewController: CustomBaseViewController {
     
     @objc private func profileImageViewTapped() {
         let vc: ProfileImageViewController = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
+        vc.settingView.closure = { selectedProfileImageType in
+            self.settingView.profileImageView.profileImageType = selectedProfileImageType
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

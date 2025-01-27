@@ -28,10 +28,13 @@ class ProfileImageSettingView: UIView {
         didSet {
             self.selectedProfileImage.profileImageType = self.selectedProfileImageType
             self.profileImageCollectionView.reloadData()
+            closure?(self.selectedProfileImageType)
         }
     }
     
     private let profileImageList: [ProfileImage] = ProfileImage.allCases
+    
+    var closure: ((ProfileImage) -> ())?
     
     init(selectedProfileImageType: ProfileImage) {
         super.init(frame: .zero)
