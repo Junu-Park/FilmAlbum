@@ -20,7 +20,7 @@ final class OnboardingView: UIView {
     
     private let titleLabel: UILabel = {
         let lb: UILabel = UILabel()
-        lb.font = UIFont.fa16BoldFont
+        lb.font = UIFont.fa32BoldFont
         lb.textAlignment = .center
         lb.text = "Onboarding"
         return lb
@@ -28,7 +28,7 @@ final class OnboardingView: UIView {
     
     private let subTitleLabel: UILabel = {
         let lb: UILabel = UILabel()
-        lb.font = UIFont.fa14Font
+        lb.font = UIFont.fa16Font
         lb.textAlignment = .center
         lb.text = "당신만의 영화 세상,\nFilmAlbum을 시작해보세요."
         lb.numberOfLines = 2
@@ -62,12 +62,12 @@ final class OnboardingView: UIView {
         }
         
         self.subTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.titleLabel.snp.bottom).offset(32)
+            make.top.equalTo(self.titleLabel.snp.bottom).offset(24)
             make.horizontalEdges.equalToSuperview()
         }
         
         self.startButton.snp.makeConstraints { make in
-            make.top.equalTo(self.subTitleLabel.snp.bottom).offset(32)
+            make.top.equalTo(self.subTitleLabel.snp.bottom).offset(40)
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }

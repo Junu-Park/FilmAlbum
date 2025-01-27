@@ -8,6 +8,9 @@
 import UIKit
 
 extension UIFont {
+    static var fa32BoldFont: UIFont {
+        UIFont.boldSystemFont(ofSize: 32)
+    }
     static var fa16BoldFont: UIFont {
         UIFont.boldSystemFont(ofSize: 16)
     }

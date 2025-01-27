@@ -18,23 +18,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6a4-dz-9Qe">
-                                <rect key="frame" x="78.666666666666671" y="250.66666666666666" width="235.66666666666663" height="350.66666666666674"/>
+                                <rect key="frame" x="78.666666666666671" y="238.66666666666666" width="235.66666666666663" height="374.66666666666674"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="n07-iK-FtU">
-                                        <rect key="frame" x="0.0" y="0.0" width="235.66666666666666" height="235.66666666666666"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="235.66666666666666" height="236"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="n07-iK-FtU" secondAttribute="height" id="qSF-x9-72o"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FilmAlbum" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Yd-NX-jmP">
-                                        <rect key="frame" x="8" y="299.66666666666674" width="219.66666666666666" height="20"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <rect key="frame" x="8" y="300" width="219.66666666666666" height="38.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                         <color key="textColor" name="faWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="박준우" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vk4-jv-pdp">
-                                        <rect key="frame" x="8" y="335.66666666666674" width="219.66666666666666" height="15"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <rect key="frame" x="8" y="354.33333333333337" width="219.66666666666666" height="20.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" name="faLightGray"/>
                                         <nil key="highlightedColor"/>
                                     </label>
