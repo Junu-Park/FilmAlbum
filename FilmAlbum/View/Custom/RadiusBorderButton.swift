@@ -15,7 +15,7 @@ final class RadiusBorderButton: UIButton {
         self.layer.cornerRadius = radius
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.accent.cgColor
-        
+        self.titleLabel?.textColor = UIColor.faGray
         let attributedNormalString: NSAttributedString = NSAttributedString(string: title, attributes: [.font: UIFont.fa14BoldFont, .foregroundColor: UIColor.accent])
         self.setAttributedTitle(attributedNormalString, for: .normal)
         
