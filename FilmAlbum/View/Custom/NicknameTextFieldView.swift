@@ -75,20 +75,6 @@ final class NicknameTextFieldView: UIView {
         }
     }
     
-    private func checkNicknameValidation(nickname: String?) -> NicknameTextFieldState {
-        if let nickname, (2...10).contains(nickname.count) {
-            if nickname.filter(\.isNumber).count > 0 {
-                return NicknameTextFieldState.numberCharError
-            }
-            if nickname.contains(where: { ["@", "#", "$", "%"].contains($0) }) {
-                return NicknameTextFieldState.specialCharError
-            }
-            return NicknameTextFieldState.ok
-        } else {
-            return NicknameTextFieldState.charCountError
-        }
-    }
-    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
