@@ -17,6 +17,10 @@ final class NicknameViewController: CustomBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.viewType == .nicknameEditing {
+            editingView.nicknameTextFieldView.nicknameTextField.delegate = self
+        }
         self.configureHierarchy()
         self.configureProfileImageViewTapGesture()
         self.configureNavigationItem()
@@ -67,5 +71,12 @@ final class NicknameViewController: CustomBaseViewController {
     
     @objc private func saveButtonTapped() {
         self.dismiss(animated: true)
+    }
+}
+
+extension NicknameViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        self.editingView.nicknameState = self.editingView.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
+        self.navigationItem.rightBarButtonItem?.isEnabled = self.editingView.nicknameState == NicknameTextFieldState.ok
     }
 }
