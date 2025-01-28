@@ -12,6 +12,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case nickname = "Nickname"
     case profileImage = "ProfileImage"
     case createdDate = "CreatedDate"
+    case likeMovieIDList = "likeMovieIDList"
 }
 
 class UserDataManager {
@@ -51,6 +52,17 @@ class UserDataManager {
             return createdDate.convertToCreatedDateString()
         } else {
             return UserDefaults.standard.string(forKey: UserDefaultsKey.createdDate.rawValue) ?? Date().convertToCreatedDateString()
+        }
+    }
+    
+    @discardableResult static func getSetLikeMovieList(newLikeMovieID: Int? = nil) -> [Int] {
+        if let newLikeMovieID {
+            var list: [Int] = UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
+            list.append(newLikeMovieID)
+            UserDefaults.standard.set(list, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
+            return list
+        } else {
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
         }
     }
     
