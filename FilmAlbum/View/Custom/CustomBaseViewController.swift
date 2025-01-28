@@ -17,6 +17,7 @@ enum ViewType: Equatable {
     case search
     case searchDetail(movieTitle: String)
     case setting
+    case error
     
     var navigationItemTitle: String {
         switch self {
@@ -38,6 +39,8 @@ enum ViewType: Equatable {
             return movieTitle
         case .setting:
             return "설정"
+        case .error:
+            return "오류"
         }
     }
 }
