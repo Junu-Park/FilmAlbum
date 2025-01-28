@@ -23,7 +23,11 @@ final class NicknameSettingView: UIView {
         return btn
     }()
     
-    private var profileImageType: ProfileImage!
+    var profileImageType: ProfileImage! {
+        didSet {
+            self.profileImageView.profileImageType = self.profileImageType
+        }
+    }
     
     private var nicknameState: NicknameTextFieldState! {
         didSet {
