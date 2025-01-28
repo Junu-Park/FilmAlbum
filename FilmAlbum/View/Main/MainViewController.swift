@@ -16,6 +16,7 @@ final class MainViewController: CustomBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureNavigationItem()
+        self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
         
         self.view.addSubview(profileBannerView)
         
@@ -29,7 +30,14 @@ final class MainViewController: CustomBaseViewController {
         self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
     }
     
+    // TODO: 찾기 화면으로 이동 로직 추가
     @objc private func searchButtonTapped() {
         
+    }
+    
+    @objc private func profileBannerTapped() {
+        let nc = UINavigationController(rootViewController: NicknameViewController(viewType: .nicknameEditing))
+        nc.sheetPresentationController?.prefersGrabberVisible = true
+        self.present(nc, animated: true)
     }
 }
