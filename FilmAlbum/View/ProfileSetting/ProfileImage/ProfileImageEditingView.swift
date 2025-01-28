@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileImageEditingView: UIView {
+final class ProfileImageEditingView: UIView {
     
     private lazy var selectedProfileImage: ProfileImageView = ProfileImageView(profileImageType: self.selectedProfileImageType, isSelected: true, showCamera: true, canTap: false)
     

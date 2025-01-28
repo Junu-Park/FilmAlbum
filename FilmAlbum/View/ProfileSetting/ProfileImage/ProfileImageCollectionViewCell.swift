@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileImageCollectionViewCell: UICollectionViewCell {
+final class ProfileImageCollectionViewCell: UICollectionViewCell {
     static let id: String = "ProfileImageCollectionViewCell"
     
     let profileImageView: ProfileImageView = ProfileImageView(profileImageType: ProfileImage.profile1, isSelected: false, showCamera: false, canTap: false)

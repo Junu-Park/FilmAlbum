@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class NicknameEditingView: UIView {
+final class NicknameEditingView: UIView {
     
     lazy var profileImageView: ProfileImageView = ProfileImageView(profileImageType: self.profileImageType, isSelected: true, showCamera: true, canTap: true)
     

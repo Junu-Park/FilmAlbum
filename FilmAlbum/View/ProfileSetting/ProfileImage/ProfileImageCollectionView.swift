@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileImageCollectionView: UICollectionView {
+final class ProfileImageCollectionView: UICollectionView {
     
     init(layout: UICollectionViewFlowLayout) {
         super.init(frame: .zero, collectionViewLayout: layout)
