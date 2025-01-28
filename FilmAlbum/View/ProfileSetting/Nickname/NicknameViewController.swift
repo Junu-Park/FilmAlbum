@@ -19,6 +19,7 @@ final class NicknameViewController: CustomBaseViewController {
         super.viewDidLoad()
         self.configureHierarchy()
         self.configureProfileImageViewTapGesture()
+        self.configureNavigationItem()
     }
     
     private func configureHierarchy() {
@@ -42,11 +43,29 @@ final class NicknameViewController: CustomBaseViewController {
         }
     }
     
+    private func configureNavigationItem() {
+        if self.viewType == .nicknameSetting {
+            return
+        } else if self.viewType == .nicknameEditing {
+            self.navigationItem.setLeftBarButton(UIBarButtonItem(image: UIImage.faXmark, style: .plain, target: self, action: #selector(closeButtonTapped)), animated: true)
+            self.navigationItem.setRightBarButton(UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped)), animated: true)
+        } else {
+            print(#function, "viewType error")
+        }
+    }
+    
     @objc private func profileImageViewTapped() {
         let vc: ProfileImageViewController = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
         vc.settingView.closure = { selectedProfileImageType in
             self.settingView.profileImageType = selectedProfileImageType
         }
-        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func closeButtonTapped() {
+        self.dismiss(animated: true)
+    }
+    
+    @objc private func saveButtonTapped() {
+        self.dismiss(animated: true)
     }
 }
