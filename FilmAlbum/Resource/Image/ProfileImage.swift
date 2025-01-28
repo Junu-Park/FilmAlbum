@@ -8,7 +8,8 @@
 import Foundation
 
 enum ProfileImage: Int, CaseIterable {
-    case profile1 = 1
+    case profile0 = 0
+    case profile1
     case profile2
     case profile3
     case profile4
@@ -21,7 +22,7 @@ enum ProfileImage: Int, CaseIterable {
     case profile11
     
     static var randomCase: ProfileImage {
-        return ProfileImage.allCases.randomElement() ?? ProfileImage.profile1
+        return ProfileImage.allCases.randomElement() ?? ProfileImage.profile0
     }
     
     func getImageName() -> String {
