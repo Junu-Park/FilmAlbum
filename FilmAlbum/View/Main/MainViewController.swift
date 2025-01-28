@@ -11,7 +11,7 @@ import SnapKit
 
 final class MainViewController: CustomBaseViewController {
 
-    private let userDataBannerView: UserDataBannerView = UserDataBannerView()
+    private let profileBannerView: ProfileBannerView = ProfileBannerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
