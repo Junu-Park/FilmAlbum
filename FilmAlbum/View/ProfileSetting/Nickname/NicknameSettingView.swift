@@ -66,6 +66,7 @@ final class NicknameSettingView: UIView {
     }
     
     @objc private func completeButtonTapped() {
+        UserDataManager.getSetOnboardingComplete(newOnboardingComplete: true)
         UserDataManager.getSetNickname(newNickname: self.nicknameTextFieldView.nicknameTextField.text)
         UserDataManager.getSetProfileImage(newProfileImageType: self.profileImageType)
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
