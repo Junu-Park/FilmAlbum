@@ -11,7 +11,7 @@ import SnapKit
 
 final class NicknameViewController: CustomBaseViewController {
     
-    private let settingView: NicknameSettingView = NicknameSettingView(profileImageType: UserDataManager.getSetProfileImage())
+    private let settingView: NicknameSettingView = NicknameSettingView(profileImageType: ProfileImage.randomCase)
     
     private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
     
