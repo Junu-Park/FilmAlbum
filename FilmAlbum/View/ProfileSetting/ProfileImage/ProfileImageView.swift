@@ -33,7 +33,7 @@ final class ProfileImageView: UIView {
         btn.isUserInteractionEnabled = false
         btn.imageView?.backgroundColor = UIColor.clear
         btn.clipsToBounds = true
-        btn.backgroundColor = UIColor.accent
+        btn.backgroundColor = UIColor.faAccent
         btn.tintColor = UIColor.faWhite
         btn.setImage(.faCameraFill, for: .normal)
         if showCamera {

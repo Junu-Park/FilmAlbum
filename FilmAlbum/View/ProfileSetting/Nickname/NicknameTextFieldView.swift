@@ -42,7 +42,7 @@ final class NicknameTextFieldView: UIView {
         
         lb.text = nicknameTextField.text.checkNicknameValidation().rawValue
         lb.font = UIFont.fa12Font
-        lb.textColor = UIColor.accent
+        lb.textColor = UIColor.faAccent
         
         return lb
     }()
