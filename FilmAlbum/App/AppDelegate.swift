@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UILabel.appearance().textColor = UIColor.faWhite
-        UINavigationBar.appearance().tintColor = UIColor.accent
+        UINavigationBar.appearance().tintColor = UIColor.faAccent
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.faWhite, .font: UIFont.fa16BoldFont]
         sleep(2)
         return true

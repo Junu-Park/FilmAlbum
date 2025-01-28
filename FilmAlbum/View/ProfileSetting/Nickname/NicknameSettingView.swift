@@ -69,6 +69,7 @@ final class NicknameSettingView: UIView {
         UserDataManager.getSetOnboardingComplete(newOnboardingComplete: true)
         UserDataManager.getSetNickname(newNickname: self.nicknameTextFieldView.nicknameTextField.text)
         UserDataManager.getSetProfileImage(newProfileImageType: self.profileImageType)
+        UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
         window.rootViewController = UINavigationController(rootViewController: MainViewController(viewType: .main))
         window.makeKeyAndVisible()

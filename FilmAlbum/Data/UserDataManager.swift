@@ -11,6 +11,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case onBoardingComplete = "OnBoardingComplete"
     case nickname = "Nickname"
     case profileImage = "ProfileImage"
+    case createdDate = "CreatedDate"
 }
 
 class UserDataManager {
@@ -41,6 +42,15 @@ class UserDataManager {
             return profileImageType
         } else {
             return ProfileImage(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) ?? ProfileImage.randomCase
+        }
+    }
+    
+    @discardableResult static func getSetCreatedDateString(newCreatedDate createdDate: Date? = nil) -> String {
+        if let createdDate {
+            UserDefaults.standard.set(createdDate.convertToCreatedDateString(), forKey: UserDefaultsKey.createdDate.rawValue)
+            return createdDate.convertToCreatedDateString()
+        } else {
+            return UserDefaults.standard.string(forKey: UserDefaultsKey.createdDate.rawValue) ?? Date().convertToCreatedDateString()
         }
     }
     
