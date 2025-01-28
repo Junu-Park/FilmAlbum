@@ -11,10 +11,9 @@ import SnapKit
 
 final class NicknameViewController: CustomBaseViewController {
     
-    private let settingView: NicknameSettingView = NicknameSettingView(profileImageType: ProfileImage.randomCase)
+    private let settingView: NicknameSettingView = NicknameSettingView(profileImageType: UserDataManager.getSetProfileImage())
     
-    // TODO: profileImageType User 정보와 동기화
-    private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: ProfileImage.randomCase)
+    private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
     
     override func viewDidLoad() {
         super.viewDidLoad()
