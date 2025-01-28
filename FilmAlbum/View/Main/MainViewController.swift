@@ -17,9 +17,9 @@ final class MainViewController: CustomBaseViewController {
         super.viewDidLoad()
         self.configureNavigationItem()
         
-        self.view.addSubview(userDataBannerView)
+        self.view.addSubview(profileBannerView)
         
-        self.userDataBannerView.snp.makeConstraints { make in
+        self.profileBannerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(150)
         }
