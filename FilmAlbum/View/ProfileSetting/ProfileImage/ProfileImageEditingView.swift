@@ -38,6 +38,7 @@ class ProfileImageEditingView: UIView {
     
     init(selectedProfileImageType: ProfileImage) {
         super.init(frame: .zero)
+        
         self.configureCollectionViewConnection()
         self.selectedProfileImageType = selectedProfileImageType
         

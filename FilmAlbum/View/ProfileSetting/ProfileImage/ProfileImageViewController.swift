@@ -13,7 +13,7 @@ final class ProfileImageViewController: CustomBaseViewController {
     
     lazy var editingView: ProfileImageEditingView = ProfileImageEditingView(selectedProfileImageType: self.selectedProfileImageType)
     
-    private var selectedProfileImageType: ProfileImage = ProfileImage.profile1 {
+    private lazy var selectedProfileImageType: ProfileImage = ProfileImage.profile0 {
         didSet {
             if self.viewType == .imageSetting {
                 self.settingView.selectedProfileImageType = self.selectedProfileImageType
