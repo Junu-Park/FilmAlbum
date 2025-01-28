@@ -41,7 +41,8 @@ final class NicknameViewController: CustomBaseViewController {
             let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped))
             self.settingView.profileImageView.addGestureRecognizer(gestureRecognizer)
         } else if self.viewType == .nicknameEditing {
-            
+            let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped))
+            self.editingView.profileImageView.addGestureRecognizer(gestureRecognizer)
         } else {
             print(#function, "viewType error")
         }
@@ -59,10 +60,22 @@ final class NicknameViewController: CustomBaseViewController {
     }
     
     @objc private func profileImageViewTapped() {
-        let vc: ProfileImageViewController = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
-        vc.settingView.closure = { selectedProfileImageType in
-            self.settingView.profileImageType = selectedProfileImageType
+        let vc: ProfileImageViewController
+        if self.viewType == .nicknameSetting {
+            vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
+            vc.settingView.closure = { selectedProfileImageType in
+                self.settingView.profileImageType = selectedProfileImageType
+            }
+        } else if self.viewType == .nicknameEditing {
+            vc = ProfileImageViewController(viewType: .imageEditing, selectedProfileImageType: self.editingView.profileImageView.profileImageType)
+            vc.editingView.closure = { selectedProfileImageType in
+                self.editingView.profileImageType = selectedProfileImageType
+            }
+        } else {
+            vc = ProfileImageViewController(viewType: .error, selectedProfileImageType: .profile0)
+            print(#function, "viewType error")
         }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func closeButtonTapped() {
