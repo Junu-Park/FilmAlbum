@@ -85,6 +85,7 @@ final class NicknameViewController: CustomBaseViewController {
     @objc private func saveButtonTapped() {
         UserDataManager.getSetNickname(newNickname: editingView.nicknameTextFieldView.nicknameTextField.text)
         UserDataManager.getSetProfileImage(newProfileImageType: editingView.profileImageType)
+        NotificationCenter.default.post(name: NSNotification.Name("ProfileEditing"), object: nil)
         self.dismiss(animated: true)
     }
 }

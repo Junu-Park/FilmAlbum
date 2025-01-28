@@ -51,6 +51,7 @@ class ProfileBannerView: UIView {
         self.isUserInteractionEnabled = true
         self.backgroundColor = UIColor.faDarkGray
         self.layer.cornerRadius = 15
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedProfileEditingNotification), name: NSNotification.Name("ProfileEditing"), object: nil)
         
         self.addSubview(self.profileImageView)
         self.addSubview(self.nicknameLabel)
@@ -78,6 +79,11 @@ class ProfileBannerView: UIView {
             make.top.equalTo(self.profileImageView.snp.bottom).offset(16)
             make.horizontalEdges.bottom.equalToSuperview().inset(16)
         }
+    }
+    
+    @objc private func receivedProfileEditingNotification() {
+        self.profileImageView.profileImageType = UserDataManager.getSetProfileImage()
+        self.nicknameLabel.text = UserDataManager.getSetNickname()
     }
     
     @available(*, unavailable)
