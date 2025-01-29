@@ -9,11 +9,6 @@ import UIKit
 
 import SnapKit
 
-enum MainHeaderType: String, CaseIterable {
-    case recentSearchTerm = "최근검색어"
-    case todayMovie = "오늘의 영화"
-}
-
 final class MainCollectionReusableHeaderView: UICollectionReusableView {
     
     static let id: String = "MainCollectionReusableHeaderView"

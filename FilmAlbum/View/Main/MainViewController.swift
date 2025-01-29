@@ -9,6 +9,11 @@ import UIKit
 
 import SnapKit
 
+enum MainCollectionCellType: String, CaseIterable {
+    case recentSearchTerm = "최근검색어"
+    case todayMovie = "오늘의 영화"
+}
+
 final class MainViewController: CustomBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private let profileBannerView: ProfileBannerView = ProfileBannerView()
