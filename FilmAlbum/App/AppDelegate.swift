@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UILabel.appearance().textColor = UIColor.faWhite
         UINavigationBar.appearance().tintColor = UIColor.faAccent
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.faWhite, .font: UIFont.fa16BoldFont]
+        UICollectionView.appearance().backgroundColor = UIColor.clear
         sleep(2)
         return true
     }
