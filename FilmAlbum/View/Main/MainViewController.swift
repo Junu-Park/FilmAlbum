@@ -62,7 +62,7 @@ final class MainViewController: CustomBaseViewController, UICollectionViewDelega
 // CollectionView Header
 extension MainViewController {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return MainHeaderType.allCases.count
+        return MainCollectionCellType.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -115,7 +115,7 @@ extension MainViewController {
         if indexPath.section == 0 {
             size.height = MainCollectionViewCell.recentSearchTermCellHeight
         } else {
-            size.height = collectionView.frame.height - MainCollectionViewCell.recentSearchTermCellHeight - (MainCollectionReusableHeaderView.height * CGFloat(MainHeaderType.allCases.count))
+            size.height = collectionView.frame.height - MainCollectionViewCell.recentSearchTermCellHeight - (MainCollectionReusableHeaderView.height * CGFloat(MainCollectionCellType.allCases.count))
         }
         return size
     }

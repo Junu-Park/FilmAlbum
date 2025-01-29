@@ -28,7 +28,7 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
         return btn
     }()
     
-    var headerType: MainHeaderType = .recentSearchTerm {
+    var headerType: MainCollectionCellType = .recentSearchTerm {
         didSet {
             self.titleLabel.text = self.headerType.rawValue
             
