@@ -7,14 +7,22 @@
 
 import UIKit
 
-class MainCollectionView: UICollectionView {
+final class MainCollectionView: UICollectionView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    init(layout: UICollectionViewFlowLayout) {
+        super.init(frame: .zero, collectionViewLayout: layout)
+        
+        self.isScrollEnabled = false
+        self.collectionViewLayout = layout
+        
+        self.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.id)
+        self.register(RecentSearchTermCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchTermCollectionViewCell.id)
+        self.register(TodayMovieCollectionViewCell.self, forCellWithReuseIdentifier: TodayMovieCollectionViewCell.id)
+        self.register(MainCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainCollectionReusableHeaderView.id)
     }
-    */
-
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
