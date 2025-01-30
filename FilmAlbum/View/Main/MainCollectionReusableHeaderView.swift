@@ -29,6 +29,8 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
         return btn
     }()
     
+    var allDeleteButtonClosure: (() -> ())?
+    
     var headerType: MainCollectionCellType = .recentSearchTerm {
         didSet {
             self.titleLabel.text = self.headerType.rawValue
@@ -56,7 +58,7 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
     }
     
     @objc private func allDeleteButtonTapped() {
-        UserDataManager.resetSearchTermList()
+        allDeleteButtonClosure?()
     }
     
     @available(*, unavailable)

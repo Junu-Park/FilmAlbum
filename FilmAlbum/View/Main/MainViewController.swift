@@ -69,6 +69,10 @@ extension MainViewController {
         if let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainCollectionReusableHeaderView.id, for: indexPath) as? MainCollectionReusableHeaderView {
             if indexPath.section == 0 {
                 header.headerType = .recentSearchTerm
+                header.allDeleteButtonClosure = {
+                    UserDataManager.resetSearchTermList()
+                    self.mainCollectionView.reloadSections(IndexSet(integer: 0))
+                }
             } else {
                 header.headerType = .todayMovie
             }
