@@ -10,6 +10,7 @@
 		510A05262D435990008D6C70 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 510A05252D435990008D6C70 /* .gitignore */; };
 		510A07202D438F44008D6C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 510A071F2D438F44008D6C70 /* SnapKit */; };
 		5163237D2D4BF06C0026AA1E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5163237C2D4BF06C0026AA1E /* Alamofire */; };
+		516324BB2D4C18150026AA1E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 516324BA2D4C18150026AA1E /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				516324BB2D4C18150026AA1E /* Kingfisher in Frameworks */,
 				510A07202D438F44008D6C70 /* SnapKit in Frameworks */,
 				5163237D2D4BF06C0026AA1E /* Alamofire in Frameworks */,
 			);
@@ -90,6 +92,7 @@
 			packageProductDependencies = (
 				510A071F2D438F44008D6C70 /* SnapKit */,
 				5163237C2D4BF06C0026AA1E /* Alamofire */,
+				516324BA2D4C18150026AA1E /* Kingfisher */,
 			);
 			productName = FilmAlbum;
 			productReference = 510A050D2D435836008D6C70 /* FilmAlbum.app */;
@@ -122,6 +125,7 @@
 			packageReferences = (
 				510A071E2D438F44008D6C70 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				5163237B2D4BF06C0026AA1E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				516324B92D4C18150026AA1E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 510A050E2D435836008D6C70 /* Products */;
@@ -380,6 +384,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		516324B92D4C18150026AA1E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -392,6 +404,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5163237B2D4BF06C0026AA1E /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		516324BA2D4C18150026AA1E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 516324B92D4C18150026AA1E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
