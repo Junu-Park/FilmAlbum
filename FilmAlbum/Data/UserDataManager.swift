@@ -66,11 +66,11 @@ class UserDataManager {
     }
     
     @discardableResult static func getSetSearchTermList(newSearchTermList: [String] = []) -> [String] {
-        if newSearchTermList.isEmpty {
-            UserDefaults.standard.set(newSearchTermList, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
+        if !newSearchTermList.isEmpty {
+            UserDefaults.standard.set(newSearchTermList, forKey: UserDefaultsKey.searchTermList.rawValue)
             return newSearchTermList
         } else {
-            return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [String] ?? []
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.searchTermList.rawValue) as? [String] ?? []
         }
     }
     
