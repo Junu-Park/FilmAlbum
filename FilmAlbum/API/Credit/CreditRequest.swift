@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct CreditRequest {
+struct CreditRequest: Encodable {
     var language: String = "ko-KR"
 }

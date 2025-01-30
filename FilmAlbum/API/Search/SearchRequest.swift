@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchRequest {
+struct SearchRequest: Encodable {
     var query: String
     var include_adult: Bool = false
     var language: String = "ko-KR"

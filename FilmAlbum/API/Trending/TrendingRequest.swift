@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TrendingRequest {
+struct TrendingRequest: Encodable {
     var language: String = "ko-KR"
     var page: Int = 1
 }
