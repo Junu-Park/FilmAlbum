@@ -58,10 +58,8 @@ class UserDataManager {
     
     @discardableResult static func getSetLikeMovieList(newLikeMovieIDList: [Int] = []) -> [Int] {
         if newLikeMovieIDList.isEmpty {
-            var list: [Int] = UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
-            list.append(contentsOf: newLikeMovieIDList)
-            UserDefaults.standard.set(list, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
-            return list
+            UserDefaults.standard.set(newLikeMovieIDList, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
+            return newLikeMovieIDList
         } else {
             return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
         }
@@ -69,10 +67,8 @@ class UserDataManager {
     
     @discardableResult static func getSetSearchTermList(newSearchTermList: [String] = []) -> [String] {
         if newSearchTermList.isEmpty {
-            var list: [String] = UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [String] ?? []
-            list.append(contentsOf: newSearchTermList)
-            UserDefaults.standard.set(list, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
-            return list
+            UserDefaults.standard.set(newSearchTermList, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
+            return newSearchTermList
         } else {
             return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [String] ?? []
         }
@@ -82,5 +78,9 @@ class UserDataManager {
         UserDefaultsKey.allCases.forEach { key in
             UserDefaults.standard.removeObject(forKey: key.rawValue)
         }
+    }
+    
+    static func resetSearchTermList() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.searchTermList.rawValue)
     }
 }

@@ -21,10 +21,11 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
         return lb
     }()
     
-    private let allDeleteButton: UIButton = {
+    private lazy var allDeleteButton: UIButton = {
         let btn: UIButton = UIButton()
         btn.setAttributedTitle(NSAttributedString(string: "전체 삭제", attributes: [.foregroundColor: UIColor.faAccent, .font: UIFont.fa16BoldFont]), for: .normal)
         btn.setAttributedTitle(NSAttributedString(string: "전체 삭제", attributes: [.foregroundColor: UIColor.faLightGray, .font: UIFont.fa16BoldFont]), for: .highlighted)
+        btn.addTarget(self, action: #selector(self.allDeleteButtonTapped), for: .touchUpInside)
         return btn
     }()
     
@@ -52,6 +53,10 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
         }
+    }
+    
+    @objc private func allDeleteButtonTapped() {
+        UserDataManager.resetSearchTermList()
     }
     
     @available(*, unavailable)
