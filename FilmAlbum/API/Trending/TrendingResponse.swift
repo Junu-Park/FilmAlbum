@@ -16,11 +16,11 @@ struct TrendingResponse: Decodable {
 
 struct TrendingResult: Decodable {
     let id: Int
-    let backdropPath: String
+    let backdrop_path: String
     let title: String
     let overview: String
-    let posterPath: String
-    let genreIDs: [Int]
-    let releaseDate: String
-    let voteAverage: Double
+    let poster_path: String
+    let genre_ids: [Int]
+    let release_date: String
+    let vote_average: Double
 }
