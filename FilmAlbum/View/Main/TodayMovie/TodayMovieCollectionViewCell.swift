@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TodayMovieCollectionViewCell: UICollectionViewCell {
+final class TodayMovieCollectionViewCell: UICollectionViewCell {
     static let id: String = "TodayMovieCollectionViewCell"
     
     private let moviePoster: UIImageView = {

@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class ProfileBannerView: UIView {
+final class ProfileBannerView: UIView {
     
     private let profileImageView: ProfileImageView = ProfileImageView(profileImageType: UserDataManager.getSetProfileImage(), isSelected: true)
     

@@ -16,7 +16,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case searchTermList = "SearchTermList"
 }
 
-class UserDataManager {
+final class UserDataManager {
     
     private init() {}
     
