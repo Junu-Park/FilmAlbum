@@ -12,7 +12,8 @@ enum UserDefaultsKey: String, CaseIterable {
     case nickname = "Nickname"
     case profileImage = "ProfileImage"
     case createdDate = "CreatedDate"
-    case likeMovieIDList = "likeMovieIDList"
+    case likeMovieIDList = "LikeMovieIDList"
+    case searchTermList = "SearchTermList"
 }
 
 class UserDataManager {
@@ -55,14 +56,25 @@ class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetLikeMovieList(newLikeMovieID: Int? = nil) -> [Int] {
-        if let newLikeMovieID {
+    @discardableResult static func getSetLikeMovieList(newLikeMovieIDList: [Int] = []) -> [Int] {
+        if newLikeMovieIDList.isEmpty {
             var list: [Int] = UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
-            list.append(newLikeMovieID)
+            list.append(contentsOf: newLikeMovieIDList)
             UserDefaults.standard.set(list, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
             return list
         } else {
             return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
+        }
+    }
+    
+    @discardableResult static func getSetSearchTermList(newSearchTermList: [String] = []) -> [String] {
+        if newSearchTermList.isEmpty {
+            var list: [String] = UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [String] ?? []
+            list.append(contentsOf: newSearchTermList)
+            UserDefaults.standard.set(list, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
+            return list
+        } else {
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [String] ?? []
         }
     }
     
