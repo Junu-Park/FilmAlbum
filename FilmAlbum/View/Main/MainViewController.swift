@@ -99,9 +99,9 @@ extension MainViewController {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as? MainCollectionViewCell {
             
             if indexPath.section == 0 {
-                
+                cell.collectionCellType = .recentSearchTerm
             } else {
-                
+                cell.collectionCellType = .todayMovie
             }
             
             return cell

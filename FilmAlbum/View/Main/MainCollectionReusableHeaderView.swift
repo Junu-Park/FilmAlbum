@@ -33,7 +33,7 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
             self.titleLabel.text = self.headerType.rawValue
             
             if self.headerType == .recentSearchTerm {
-                addSubview(self.allDeleteButton)
+                self.addSubview(self.allDeleteButton)
                 
                 self.allDeleteButton.snp.makeConstraints { make in
                     make.trailing.equalToSuperview().offset(-16)
@@ -45,6 +45,7 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         self.addSubview(self.titleLabel)
         
         self.titleLabel.snp.makeConstraints { make in

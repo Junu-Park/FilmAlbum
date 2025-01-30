@@ -16,8 +16,6 @@ final class MainCollectionView: UICollectionView {
         self.collectionViewLayout = layout
         
         self.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.id)
-        self.register(RecentSearchTermCollectionViewCell.self, forCellWithReuseIdentifier: RecentSearchTermCollectionViewCell.id)
-        self.register(TodayMovieCollectionViewCell.self, forCellWithReuseIdentifier: TodayMovieCollectionViewCell.id)
         self.register(MainCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainCollectionReusableHeaderView.id)
     }
     
