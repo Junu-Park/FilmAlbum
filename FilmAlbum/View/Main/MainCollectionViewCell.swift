@@ -38,6 +38,8 @@ final class MainCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var trendingDataList: [TrendingResult] = []
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.recentSearchTermView.setNoRecentSearchTermLabelHidden()
@@ -53,8 +55,7 @@ extension MainCollectionViewCell: UICollectionViewDelegate, UICollectionViewData
         if self.collectionCellType == .recentSearchTerm {
             return UserDataManager.getSetSearchTermList().count
         } else if self.collectionCellType == .todayMovie {
-            //TODO: 실제 데이터 연결
-            return 10
+            return trendingDataList.count
         } else {
             return 0
         }
@@ -70,6 +71,9 @@ extension MainCollectionViewCell: UICollectionViewDelegate, UICollectionViewData
             }
         } else if self.collectionCellType == .todayMovie {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as? TodayMovieCollectionViewCell {
+                cell.movieTitle.text = trendingDataList[indexPath.item].title
+                cell.movieDescription.text = trendingDataList[indexPath.item].overview
+                cell.moviePoster.kf.setImage(with: URL(string: TMDBAPI.imageBase + trendingDataList[indexPath.item].poster_path))
                 return cell
             } else {
                 return UICollectionViewCell()

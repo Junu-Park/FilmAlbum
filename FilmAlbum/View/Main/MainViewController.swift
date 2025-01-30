@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 
 enum MainCollectionCellType: String, CaseIterable {
@@ -24,8 +25,14 @@ final class MainViewController: CustomBaseViewController, UICollectionViewDelega
         return cv
     }()
     
+    private var trendingDataList: [TrendingResult] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        NetworkManager.requestTMDB(type: TMDBAPI.trending(params: TrendingRequest())) { (response: TrendingResponse) in
+            self.trendingDataList = response.results
+            self.mainCollectionView.reloadSections([1])
+        }
         self.configureNavigationItem()
         self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
         self.configureConnectionCollectionView()
@@ -106,6 +113,7 @@ extension MainViewController {
                 cell.collectionCellType = .recentSearchTerm
             } else {
                 cell.collectionCellType = .todayMovie
+                cell.trendingDataList = self.trendingDataList
             }
             
             return cell

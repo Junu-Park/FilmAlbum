@@ -10,7 +10,7 @@ import UIKit
 final class TodayMovieCollectionViewCell: UICollectionViewCell {
     static let id: String = "TodayMovieCollectionViewCell"
     
-    private let moviePoster: UIImageView = {
+    let moviePoster: UIImageView = {
         let iv: UIImageView = UIImageView()
         iv.backgroundColor = UIColor.faGray
         iv.contentMode = .scaleAspectFill
@@ -19,14 +19,14 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    private let movieTitle: UILabel = {
+    let movieTitle: UILabel = {
         let lb: UILabel = UILabel()
         lb.font = UIFont.fa16BoldFont
         lb.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return lb
     }()
     
-    private let movieDescription: UILabel = {
+    let movieDescription: UILabel = {
         let lb: UILabel = UILabel()
         lb.font = UIFont.fa12Font
         lb.numberOfLines = 2
@@ -47,10 +47,6 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        // TODO: 테스트용 하드코딩 제거 및 실 데이터 연결
-        self.movieTitle.text = "TESTTESTTESTTESTTESTTESTTEST"
-        self.movieDescription.text = "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasfasdfasfasdfasdfasfasdfasdfasfasdfasfdasdfasdfasdf"
         
         self.contentView.addSubview(moviePoster)
         self.contentView.addSubview(movieTitle)
