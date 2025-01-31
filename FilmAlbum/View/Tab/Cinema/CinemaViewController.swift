@@ -54,9 +54,8 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
         self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
     }
     
-    // TODO: 찾기 화면으로 이동 로직 추가
     @objc private func searchButtonTapped() {
-        UserDataManager.resetUserData()
+        self.navigationController?.pushViewController(SearchViewController(viewType: .search), animated: true)
     }
     
     @objc private func profileBannerTapped() {
