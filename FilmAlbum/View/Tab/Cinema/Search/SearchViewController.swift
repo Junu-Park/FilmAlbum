@@ -16,7 +16,7 @@ final class SearchViewController: CustomBaseViewController {
     
     private var searchRequest: SearchRequest = SearchRequest(query: "")
     
-    private var searchResult: [SearchResult] = []
+    private var searchResponse: SearchResponse = SearchResponse(page: 0, results: [], total_pages: 0, total_results: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ final class SearchViewController: CustomBaseViewController {
         self.navigationItem.searchController?.searchBar.text = searchTerm
         self.searchRequest.query = searchTerm
         NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
-            self.searchResult = response.results
+            self.searchResponse = response
             self.searchCollectionView.reloadData()
         }
     }
@@ -56,10 +56,11 @@ extension SearchViewController: UISearchBarDelegate {
                 UserDataManager.getSetSearchTermList(newSearchTermList: list)
                 NotificationCenter.default.post(name: NSNotification.Name("searchBarEnterTapped"), object: nil)
             }
+            self.searchResponse = SearchResponse(page: 0, results: [], total_pages: 0, total_results: 0)
             self.searchRequest.page = 1
             self.searchRequest.query = searchTerm
             NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
-                self.searchResult = response.results
+                self.searchResponse = response
                 self.searchCollectionView.reloadData()
             }
             return true
@@ -70,13 +71,12 @@ extension SearchViewController: UISearchBarDelegate {
     
     @objc private func likeButtonTapped(_ sender: UIButton) {
         var list: [Int] = UserDataManager.getSetLikeMovieList()
-        if let order = list.firstIndex(of: self.searchResult[sender.tag].id) {
+        if let order = list.firstIndex(of: self.searchResponse.results[sender.tag].id) {
             list.remove(at: order)
         } else {
-            list.append(self.searchResult[sender.tag].id)
+            list.append(self.searchResponse.results[sender.tag].id)
         }
         UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
-        print(UserDataManager.getSetLikeMovieList())
         NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isCinemaCollectionViewReload": true])
         UIView.performWithoutAnimation {
             self.searchCollectionView.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
@@ -92,21 +92,21 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.searchResult.count
+        return self.searchResponse.results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell {
             
-            if UserDataManager.getSetLikeMovieList().contains(self.searchResult[indexPath.row].id) {
+            if UserDataManager.getSetLikeMovieList().contains(self.searchResponse.results[indexPath.row].id) {
                 cell.likeButton.setImage(UIImage.faHeartFill, for: .normal)
             } else {
                 cell.likeButton.setImage(UIImage.faHeart, for: .normal)
             }
             cell.tag = indexPath.row
-            cell.titleLabel.text = self.searchResult[indexPath.row].title
-            cell.dateLabel.text = self.searchResult[indexPath.row].release_date.replaceLineWithPoint()
-            cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + searchResult[indexPath.row].poster_path))
+            cell.titleLabel.text = self.searchResponse.results[indexPath.row].title
+            cell.dateLabel.text = self.searchResponse.results[indexPath.row].release_date.replaceLineWithPoint()
+            cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.searchResponse.results[indexPath.row].poster_path ?? "")))
             cell.likeButton.addTarget(self, action: #selector(self.likeButtonTapped), for: .touchUpInside)
             cell.likeButton.tag = indexPath.row
             return cell
@@ -121,5 +121,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         return 
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (indexPath.item + 2 == self.searchResponse.results.count) && self.searchResponse.results.count < self.searchResponse.total_results {
+            self.searchRequest.page += 1
+            NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
+                self.searchResponse.results += response.results
+                self.searchCollectionView.reloadData()
+            }
+        }
     }
 }

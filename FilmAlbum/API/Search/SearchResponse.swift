@@ -8,8 +8,8 @@
 import Foundation
 
 struct SearchResponse: Decodable {
-    let page: Int
-    let results: [SearchResult]
+    var page: Int
+    var results: [SearchResult]
     let total_pages: Int
     let total_results: Int
 }
