@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchCollectionView: UICollectionView {
+final class SearchCollectionView: UICollectionView {
     
     init(layout: UICollectionViewFlowLayout) {
         super.init(frame: .zero, collectionViewLayout: layout)
