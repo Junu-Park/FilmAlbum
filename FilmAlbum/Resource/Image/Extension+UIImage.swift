@@ -8,9 +8,6 @@
 import UIKit
 
 extension UIImage {
-    static var faCameraFill: UIImage {
-        return UIImage(systemName: "camera.fill") ?? UIImage()
-    }
     static var faMagnifyingglass: UIImage {
         return UIImage(systemName: "magnifyingglass") ?? UIImage()
     }
@@ -23,6 +20,18 @@ extension UIImage {
     static var faHeart: UIImage {
         return UIImage(systemName: "heart") ?? UIImage()
     }
+    static var faPopcorn: UIImage {
+        return UIImage(systemName: "popcorn") ?? UIImage()
+    }
+    static var faFilm: UIImage {
+        return UIImage(systemName: "film") ?? UIImage()
+    }
+    static var faProfile: UIImage {
+        return UIImage(systemName: "person.crop.circle") ?? UIImage()
+    }
+    static var faCameraFill: UIImage {
+        return UIImage(systemName: "camera.fill") ?? UIImage()
+    }
     static var faHeartFill: UIImage {
         return UIImage(systemName: "heart.fill") ?? UIImage()
     }
@@ -31,6 +40,12 @@ extension UIImage {
     }
     static var faFilmFill: UIImage {
         return UIImage(systemName: "film.fill") ?? UIImage()
+    }
+    static var faPopcornFill: UIImage {
+        return UIImage(systemName: "Popcorn.fill") ?? UIImage()
+    }
+    static var faProfileFill: UIImage {
+        return UIImage(systemName: "person.crop.circle.fill") ?? UIImage()
     }
     
     static func getProfileImageWithRawValue(number num : Int) -> UIImage {
