@@ -54,7 +54,9 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func receivedLikeButtonTappedNotification(value: NSNotification) {
-        if let info = value.userInfo?["isCinemaCollectionViewReload"] as? Bool, info {
+        if let info = value.userInfo?["isSearch"] as? Bool, info {
+            self.todayMovieView.reloadData()
+        } else if let info = value.userInfo?["isSearchDetail"] as? Bool, info {
             self.todayMovieView.reloadData()
         }
     }

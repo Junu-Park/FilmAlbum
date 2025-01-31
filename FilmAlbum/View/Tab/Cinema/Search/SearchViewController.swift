@@ -90,6 +90,7 @@ final class SearchViewController: CustomBaseViewController {
         self.setNavigationItemSearchBar()
         self.configureConnectionSearchBar()
         self.configureConnectionCollectionView()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedLikeButtonTappedNotification), name: NSNotification.Name("LikeButtonTapped"), object: nil)
         
         self.view.addSubview(self.searchCollectionView)
         
@@ -103,6 +104,12 @@ final class SearchViewController: CustomBaseViewController {
         self.searchRequest.query = searchTerm
         NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
             self.searchResponse = response
+            self.searchCollectionView.reloadData()
+        }
+    }
+    
+    @objc private func receivedLikeButtonTappedNotification(value: NSNotification) {
+        if let info = value.userInfo?["isSearchDetail"] as? Bool, info {
             self.searchCollectionView.reloadData()
         }
     }
@@ -143,7 +150,7 @@ extension SearchViewController: UISearchBarDelegate {
             list.append(self.searchResponse.results[sender.tag].id)
         }
         UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
-        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isCinemaCollectionViewReload": true])
+        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearch": true])
         UIView.performWithoutAnimation {
             self.searchCollectionView.reloadItems(at: [IndexPath(item: sender.tag, section: 0)])
         }
