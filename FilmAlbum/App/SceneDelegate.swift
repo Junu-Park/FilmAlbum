@@ -19,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: scene)
         self.window?.backgroundColor = UIColor.faDarkGray
-        let vc = UserDataManager.getSetOnboardingComplete() ? CinemaViewController(viewType: .main) : OnboardingViewController(viewType: .onboarding)
-        self.window?.rootViewController = UINavigationController(rootViewController: vc)
+        let vc = UserDataManager.getSetOnboardingComplete() ? MainTabBarController() : OnboardingViewController(viewType: .onboarding)
+        self.window?.rootViewController = vc
         self.window?.makeKeyAndVisible()
     }
 
