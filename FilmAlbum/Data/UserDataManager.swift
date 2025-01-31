@@ -56,8 +56,8 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetLikeMovieList(newLikeMovieIDList: [Int] = []) -> [Int] {
-        if newLikeMovieIDList.isEmpty {
+    @discardableResult static func getSetLikeMovieList(newLikeMovieIDList: [Int]? = nil) -> [Int] {
+        if let newLikeMovieIDList {
             UserDefaults.standard.set(newLikeMovieIDList, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
             return newLikeMovieIDList
         } else {
@@ -65,8 +65,8 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetSearchTermList(newSearchTermList: [String] = []) -> [String] {
-        if !newSearchTermList.isEmpty {
+    @discardableResult static func getSetSearchTermList(newSearchTermList: [String]? = nil) -> [String] {
+        if let newSearchTermList {
             UserDefaults.standard.set(newSearchTermList, forKey: UserDefaultsKey.searchTermList.rawValue)
             return newSearchTermList
         } else {
