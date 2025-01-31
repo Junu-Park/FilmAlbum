@@ -35,7 +35,7 @@ extension UIViewController {
         DispatchQueue.main.async {
             sc.searchBar.searchTextField.textColor = UIColor.faWhite
         }
-        
+        self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = sc
     }
 }
