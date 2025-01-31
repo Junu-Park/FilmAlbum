@@ -84,7 +84,7 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
                 cell.tag = indexPath.item
                 cell.movieTitle.text = trendingDataList[indexPath.item].title
                 cell.movieDescription.text = trendingDataList[indexPath.item].overview
-                cell.moviePoster.kf.setImage(with: URL(string: TMDBAPI.imageBase + trendingDataList[indexPath.item].poster_path))
+                cell.moviePoster.kf.setImage(with: URL(string: TMDBAPI.image400Base + trendingDataList[indexPath.item].poster_path))
                 return cell
             } else {
                 return UICollectionViewCell()
