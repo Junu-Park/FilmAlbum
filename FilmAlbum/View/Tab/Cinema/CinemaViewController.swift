@@ -15,6 +15,11 @@ enum CinemaCollectionCellType: String, CaseIterable {
     case todayMovie = "오늘의 영화"
 }
 
+protocol SearchCollectionViewButtonDelegate: AnyObject {
+    func searchTermTapped(searchTerm: String)
+    func searchTermDeleteTapped(index: Int)
+}
+
 final class CinemaViewController: CustomBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private let profileBannerView: ProfileBannerView = ProfileBannerView()
@@ -110,6 +115,7 @@ extension CinemaViewController {
             
             if indexPath.section == 0 {
                 cell.collectionCellType = .recentSearchTerm
+                cell.delegate = self
             } else {
                 cell.collectionCellType = .todayMovie
                 cell.trendingDataList = self.trendingDataList
@@ -129,5 +135,20 @@ extension CinemaViewController {
             size.height = collectionView.frame.height - CinemaCollectionViewCell.recentSearchTermCellHeight - (CinemaCollectionReusableHeaderView.height * CGFloat(CinemaCollectionCellType.allCases.count))
         }
         return size
+    }
+}
+
+extension CinemaViewController: SearchCollectionViewButtonDelegate {
+    func searchTermTapped(searchTerm: String) {
+        let vc: SearchViewController = SearchViewController(viewType: .search)
+        vc.searchingWithSearchTerm(searchTerm)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func searchTermDeleteTapped(index: Int) {
+        var list = UserDataManager.getSetSearchTermList()
+        list.remove(at: index)
+        UserDataManager.getSetSearchTermList(newSearchTermList: list)
+        self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
     }
 }

@@ -23,7 +23,7 @@ final class RecentSearchTermCollectionViewCell: UICollectionViewCell {
         return lb
     }()
     
-    private let removeButton: UIButton = {
+    let removeButton: UIButton = {
         let btn: UIButton = UIButton()
         btn.setImage(UIImage.faXmark, for: .normal)
         btn.tintColor = UIColor.faBlack

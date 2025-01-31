@@ -22,6 +22,8 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
     
     private let todayMovieView: TodayMovieCollectionView = TodayMovieCollectionView(layout: UICollectionViewFlowLayout())
     
+    var delegate: SearchCollectionViewButtonDelegate?
+    
     var collectionCellType: CinemaCollectionCellType = .recentSearchTerm {
         didSet {
             if self.collectionCellType == .recentSearchTerm {
@@ -69,6 +71,11 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
         if self.collectionCellType == .recentSearchTerm {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchTermCollectionViewCell.id, for: indexPath) as? RecentSearchTermCollectionViewCell {
                 cell.titleLabel.text = UserDataManager.getSetSearchTermList()[indexPath.item]
+                
+                cell.titleLabel.tag = indexPath.item
+                cell.titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.searchTermTapped)))
+                cell.removeButton.tag = indexPath.item
+                cell.removeButton.addTarget(self, action: #selector(self.searchTermDeleteTapped), for: .touchUpInside)
                 return cell
             } else {
                 return UICollectionViewCell()
@@ -102,6 +109,16 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
         } else {
             return CGSize()
         }
+    }
+    
+    @objc func searchTermTapped(_ sender: UITapGestureRecognizer) {
+        if let index = sender.view?.tag {
+            self.delegate?.searchTermTapped(searchTerm: UserDataManager.getSetSearchTermList()[index])
+        }
+    }
+    
+    @objc func searchTermDeleteTapped(_ sender: UIButton) {
+        self.delegate?.searchTermDeleteTapped(index: sender.tag)
     }
 }
 
