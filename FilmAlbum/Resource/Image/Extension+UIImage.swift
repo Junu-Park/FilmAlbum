@@ -42,7 +42,7 @@ extension UIImage {
         return UIImage(systemName: "film.fill") ?? UIImage()
     }
     static var faPopcornFill: UIImage {
-        return UIImage(systemName: "Popcorn.fill") ?? UIImage()
+        return UIImage(systemName: "popcorn.fill") ?? UIImage()
     }
     static var faProfileFill: UIImage {
         return UIImage(systemName: "person.crop.circle.fill") ?? UIImage()
