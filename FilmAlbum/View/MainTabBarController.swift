@@ -30,12 +30,15 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         let tab1: UINavigationController = UINavigationController(rootViewController: CinemaViewController(viewType: .cinema))
+        tab1.view.backgroundColor = UIColor.faBlack
         tab1.tabBarItem = TabBar.cinema.getTabBarItem()
         
         let tab2: UINavigationController = UINavigationController(rootViewController: UpcomingViewController(viewType: .upcoming))
+        tab2.view.backgroundColor = UIColor.faBlack
         tab2.tabBarItem = TabBar.upcoming.getTabBarItem()
         
         let tab3: UINavigationController = UINavigationController(rootViewController: ProfileViewController(viewType: .setting))
+        tab3.view.backgroundColor = UIColor.faBlack
         tab3.tabBarItem = TabBar.profile.getTabBarItem()
         
         self.setViewControllers([tab1, tab2, tab3], animated: false)
