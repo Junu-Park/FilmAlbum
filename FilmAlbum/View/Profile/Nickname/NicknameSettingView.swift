@@ -71,7 +71,7 @@ final class NicknameSettingView: UIView {
         UserDataManager.getSetProfileImage(newProfileImageType: self.profileImageType)
         UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
-        window.rootViewController = UINavigationController(rootViewController: CinemaViewController(viewType: .cinema))
+        window.rootViewController = MainTabBarController()
         window.makeKeyAndVisible()
     }
     
