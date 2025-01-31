@@ -30,6 +30,11 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         let tab1: UINavigationController = UINavigationController(rootViewController: CinemaViewController(viewType: .cinema))
+        let appearance: UINavigationBarAppearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .faBlack
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.faWhite, .font: UIFont.fa16BoldFont]
+        tab1.navigationBar.standardAppearance = appearance
+        tab1.navigationBar.scrollEdgeAppearance = appearance
         tab1.view.backgroundColor = UIColor.faBlack
         tab1.tabBarItem = TabBar.cinema.getTabBarItem()
         
@@ -46,5 +51,6 @@ final class MainTabBarController: UITabBarController {
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = UIColor.faBlack
         self.tabBar.scrollEdgeAppearance = tabBarAppearance
+        self.tabBar.standardAppearance = tabBarAppearance
     }
 }
