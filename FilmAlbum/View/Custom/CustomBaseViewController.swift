@@ -9,13 +9,14 @@ import UIKit
 
 enum ViewType: Equatable {
     case onboarding
-    case main
+    case cinema
     case nicknameSetting
     case nicknameEditing
     case imageSetting
     case imageEditing
     case search
     case searchDetail(movieTitle: String)
+    case upcoming
     case setting
     case error
     
@@ -23,7 +24,7 @@ enum ViewType: Equatable {
         switch self {
         case .onboarding:
             return ""
-        case .main:
+        case .cinema:
             return "FilmAlbum"
         case .nicknameSetting:
             return "프로필 설정"
@@ -37,6 +38,8 @@ enum ViewType: Equatable {
             return "영화 검색"
         case .searchDetail(let movieTitle):
             return movieTitle
+        case .upcoming:
+            return "UPCOMING"
         case .setting:
             return "설정"
         case .error:
