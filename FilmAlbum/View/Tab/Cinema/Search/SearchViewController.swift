@@ -195,7 +195,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(SearchDetailViewController(viewType: .searchDetail(movieTitle: self.searchResponse.results[indexPath.item].title)), animated: true)
+        let vc: SearchDetailViewController = SearchDetailViewController(movieData: self.searchResponse.results[indexPath.item], viewType: .searchDetail(movieTitle: self.searchResponse.results[indexPath.item].title))
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
