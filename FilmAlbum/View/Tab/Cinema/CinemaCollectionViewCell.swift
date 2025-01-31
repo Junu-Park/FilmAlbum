@@ -49,6 +49,19 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.recentSearchTermView.setNoRecentSearchTermLabelHidden()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedLikeButtonTappedNotification), name: NSNotification.Name("LikeButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedSearchBarEnterTappedNotification), name: NSNotification.Name("searchBarEnterTapped"), object: nil)
+    }
+    
+    @objc private func receivedLikeButtonTappedNotification(value: NSNotification) {
+        if let info = value.userInfo?["isCinemaCollectionViewReload"] as? Bool, info {
+            self.todayMovieView.reloadData()
+        }
+    }
+    
+    @objc private func receivedSearchBarEnterTappedNotification() {
+        self.recentSearchTermView.setNoRecentSearchTermLabelHidden()
+        self.recentSearchTermView.reloadData()
     }
     
     required init?(coder: NSCoder) {
