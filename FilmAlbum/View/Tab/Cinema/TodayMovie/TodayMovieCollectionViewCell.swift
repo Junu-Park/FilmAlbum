@@ -34,7 +34,7 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell {
     }()
     
     // TODO: 좋아요 기능 연결
-    private let likeButton: UIButton = {
+    lazy var likeButton: UIButton = {
         let btn: UIButton = UIButton()
         btn.tintColor = UIColor.faAccent
         btn.contentVerticalAlignment = .fill
@@ -42,8 +42,11 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell {
         btn.imageView?.contentMode = .scaleAspectFill
         btn.setImage(UIImage.faHeart, for: .normal)
         btn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        btn.addTarget(self, action: #selector(self.likeButtonTapped), for: .touchUpInside)
         return btn
     }()
+    
+    var delegate: LikeButtonDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,6 +73,10 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(self.movieTitle.snp.bottom).offset(4)
             make.horizontalEdges.equalToSuperview().offset(4)
         }
+    }
+    
+    @objc private func likeButtonTapped() {
+        delegate?.likeButtonTapped(index: self.tag)
     }
     
     @available(*, unavailable)

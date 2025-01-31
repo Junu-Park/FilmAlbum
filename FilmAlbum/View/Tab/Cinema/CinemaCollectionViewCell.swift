@@ -9,6 +9,9 @@ import UIKit
 
 import SnapKit
 
+protocol LikeButtonDelegate: AnyObject {
+    func likeButtonTapped(index: Int)
+}
 
 final class CinemaCollectionViewCell: UICollectionViewCell {
     static let id: String = "CinemaCollectionViewCell"
@@ -72,6 +75,13 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
             }
         } else if self.collectionCellType == .todayMovie {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as? TodayMovieCollectionViewCell {
+                if UserDataManager.getSetLikeMovieList().contains(self.trendingDataList[indexPath.item].id) {
+                    cell.likeButton.setImage(UIImage.faHeartFill, for: .normal)
+                } else {
+                    cell.likeButton.setImage(UIImage.faHeart, for: .normal)
+                }
+                cell.delegate = self
+                cell.tag = indexPath.item
                 cell.movieTitle.text = trendingDataList[indexPath.item].title
                 cell.movieDescription.text = trendingDataList[indexPath.item].overview
                 cell.moviePoster.kf.setImage(with: URL(string: TMDBAPI.imageBase + trendingDataList[indexPath.item].poster_path))
@@ -91,6 +101,22 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
             return CGSize(width: self.frame.width * 0.6, height: self.frame.height)
         } else {
             return CGSize()
+        }
+    }
+}
+
+extension CinemaCollectionViewCell: LikeButtonDelegate {
+    func likeButtonTapped(index: Int) {
+        var list = UserDataManager.getSetLikeMovieList()
+        if let order = list.firstIndex(of: self.trendingDataList[index].id) {
+            list.remove(at: order)
+        } else {
+            list.append(self.trendingDataList[index].id)
+        }
+        UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
+        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil)
+        UIView.performWithoutAnimation {
+            self.todayMovieView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
 }

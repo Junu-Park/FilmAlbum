@@ -52,6 +52,7 @@ final class ProfileBannerView: UIView {
         self.backgroundColor = UIColor.faDarkGray
         self.layer.cornerRadius = 15
         NotificationCenter.default.addObserver(self, selector: #selector(self.receivedProfileEditingNotification), name: NSNotification.Name("ProfileEditing"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedLikeButtonTappedNotification), name: NSNotification.Name("LikeButtonTapped"), object: nil)
         
         self.addSubview(self.profileImageView)
         self.addSubview(self.nicknameLabel)
@@ -84,6 +85,10 @@ final class ProfileBannerView: UIView {
     @objc private func receivedProfileEditingNotification() {
         self.profileImageView.profileImageType = UserDataManager.getSetProfileImage()
         self.nicknameLabel.text = UserDataManager.getSetNickname()
+    }
+    
+    @objc private func receivedLikeButtonTappedNotification() {
+        self.movieCountLabel.text = "\(UserDataManager.getSetLikeMovieList().count) 개의 무비박스 보관중"
     }
     
     @available(*, unavailable)
