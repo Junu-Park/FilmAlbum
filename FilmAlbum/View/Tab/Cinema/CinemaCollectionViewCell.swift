@@ -1,5 +1,5 @@
 //
-//  MainCollectionViewCell.swift
+//  CinemaCollectionViewCell.swift
 //  FilmAlbum
 //
 //  Created by 박준우 on 1/29/25.
@@ -9,8 +9,9 @@ import UIKit
 
 import SnapKit
 
-final class MainCollectionViewCell: UICollectionViewCell {
-    static let id: String = "MainCollectionViewCell"
+
+final class CinemaCollectionViewCell: UICollectionViewCell {
+    static let id: String = "CinemaCollectionViewCell"
     
     static let recentSearchTermCellHeight: CGFloat = 50
     
@@ -18,7 +19,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
     
     private let todayMovieView: TodayMovieCollectionView = TodayMovieCollectionView(layout: UICollectionViewFlowLayout())
     
-    var collectionCellType: MainCollectionCellType = .recentSearchTerm {
+    var collectionCellType: CinemaCollectionCellType = .recentSearchTerm {
         didSet {
             if self.collectionCellType == .recentSearchTerm {
                 self.recentSearchTermView.delegate = self
@@ -50,7 +51,7 @@ final class MainCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension MainCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.collectionCellType == .recentSearchTerm {
             return UserDataManager.getSetSearchTermList().count

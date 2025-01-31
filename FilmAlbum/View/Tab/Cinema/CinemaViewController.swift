@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  CinemaViewController.swift
 //  FilmAlbum
 //
 //  Created by 박준우 on 1/24/25.
@@ -10,18 +10,18 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-enum MainCollectionCellType: String, CaseIterable {
+enum CinemaCollectionCellType: String, CaseIterable {
     case recentSearchTerm = "최근검색어"
     case todayMovie = "오늘의 영화"
 }
 
-final class MainViewController: CustomBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class CinemaViewController: CustomBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private let profileBannerView: ProfileBannerView = ProfileBannerView()
     
-    private let mainCollectionView: MainCollectionView = {
+    private let cinemaCollectionView: CinemaCollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        let cv: MainCollectionView = MainCollectionView(layout: layout)
+        let cv: CinemaCollectionView = CinemaCollectionView(layout: layout)
         return cv
     }()
     
@@ -31,20 +31,20 @@ final class MainViewController: CustomBaseViewController, UICollectionViewDelega
         super.viewDidLoad()
         NetworkManager.requestTMDB(type: TMDBAPI.trending(params: TrendingRequest())) { (response: TrendingResponse) in
             self.trendingDataList = response.results
-            self.mainCollectionView.reloadSections([1])
+            self.cinemaCollectionView.reloadSections([1])
         }
         self.configureNavigationItem()
         self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
         self.configureConnectionCollectionView()
         
         self.view.addSubview(profileBannerView)
-        self.view.addSubview(mainCollectionView)
+        self.view.addSubview(cinemaCollectionView)
         
         self.profileBannerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(150)
         }
-        self.mainCollectionView.snp.makeConstraints { make in
+        self.cinemaCollectionView.snp.makeConstraints { make in
             make.top.equalTo(self.profileBannerView.snp.bottom)
             make.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -67,18 +67,18 @@ final class MainViewController: CustomBaseViewController, UICollectionViewDelega
 }
 
 // CollectionView Header
-extension MainViewController {
+extension CinemaViewController {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return MainCollectionCellType.allCases.count
+        return CinemaCollectionCellType.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainCollectionReusableHeaderView.id, for: indexPath) as? MainCollectionReusableHeaderView {
+        if let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaCollectionReusableHeaderView.id, for: indexPath) as? CinemaCollectionReusableHeaderView {
             if indexPath.section == 0 {
                 header.headerType = .recentSearchTerm
                 header.allDeleteButtonClosure = {
                     UserDataManager.resetSearchTermList()
-                    self.mainCollectionView.reloadSections(IndexSet(integer: 0))
+                    self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
                 }
             } else {
                 header.headerType = .todayMovie
@@ -90,16 +90,16 @@ extension MainViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: MainCollectionReusableHeaderView.height)
+        return CGSize(width: collectionView.frame.width, height: CinemaCollectionReusableHeaderView.height)
     }
 }
 
 // CollectionView Cell
-extension MainViewController {
+extension CinemaViewController {
     
     private func configureConnectionCollectionView() {
-        self.mainCollectionView.delegate = self
-        self.mainCollectionView.dataSource = self
+        self.cinemaCollectionView.delegate = self
+        self.cinemaCollectionView.dataSource = self
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -107,7 +107,7 @@ extension MainViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.id, for: indexPath) as? MainCollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CinemaCollectionViewCell.id, for: indexPath) as? CinemaCollectionViewCell {
             
             if indexPath.section == 0 {
                 cell.collectionCellType = .recentSearchTerm
@@ -125,9 +125,9 @@ extension MainViewController {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var size: CGSize = CGSize(width: collectionView.frame.width, height: .zero)
         if indexPath.section == 0 {
-            size.height = MainCollectionViewCell.recentSearchTermCellHeight
+            size.height = CinemaCollectionViewCell.recentSearchTermCellHeight
         } else {
-            size.height = collectionView.frame.height - MainCollectionViewCell.recentSearchTermCellHeight - (MainCollectionReusableHeaderView.height * CGFloat(MainCollectionCellType.allCases.count))
+            size.height = collectionView.frame.height - CinemaCollectionViewCell.recentSearchTermCellHeight - (CinemaCollectionReusableHeaderView.height * CGFloat(CinemaCollectionCellType.allCases.count))
         }
         return size
     }

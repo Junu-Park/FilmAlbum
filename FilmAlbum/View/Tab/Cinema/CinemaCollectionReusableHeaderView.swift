@@ -1,5 +1,5 @@
 //
-//  MainCollectionReusableHeaderView.swift
+//  CinemaCollectionReusableHeaderView.swift
 //  FilmAlbum
 //
 //  Created by 박준우 on 1/29/25.
@@ -9,9 +9,9 @@ import UIKit
 
 import SnapKit
 
-final class MainCollectionReusableHeaderView: UICollectionReusableView {
+final class CinemaCollectionReusableHeaderView: UICollectionReusableView {
     
-    static let id: String = "MainCollectionReusableHeaderView"
+    static let id: String = "CinemaCollectionReusableHeaderView"
     
     static let height: CGFloat = 50
     
@@ -31,7 +31,7 @@ final class MainCollectionReusableHeaderView: UICollectionReusableView {
     
     var allDeleteButtonClosure: (() -> ())?
     
-    var headerType: MainCollectionCellType = .recentSearchTerm {
+    var headerType: CinemaCollectionCellType = .recentSearchTerm {
         didSet {
             self.titleLabel.text = self.headerType.rawValue
             

@@ -1,5 +1,5 @@
 //
-//  MainCollectionView.swift
+//  CinemaCollectionView.swift
 //  FilmAlbum
 //
 //  Created by 박준우 on 1/28/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainCollectionView: UICollectionView {
+final class CinemaCollectionView: UICollectionView {
 
     init(layout: UICollectionViewFlowLayout) {
         super.init(frame: .zero, collectionViewLayout: layout)
@@ -15,8 +15,8 @@ final class MainCollectionView: UICollectionView {
         self.isScrollEnabled = false
         self.collectionViewLayout = layout
         
-        self.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: MainCollectionViewCell.id)
-        self.register(MainCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainCollectionReusableHeaderView.id)
+        self.register(CinemaCollectionViewCell.self, forCellWithReuseIdentifier: CinemaCollectionViewCell.id)
+        self.register(CinemaCollectionReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CinemaCollectionReusableHeaderView.id)
     }
     
     @available(*, unavailable)
