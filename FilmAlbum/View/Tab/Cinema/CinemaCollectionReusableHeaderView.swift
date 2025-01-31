@@ -23,6 +23,7 @@ final class CinemaCollectionReusableHeaderView: UICollectionReusableView {
     
     private lazy var allDeleteButton: UIButton = {
         let btn: UIButton = UIButton()
+        btn.titleLabel?.textColor = UIColor.faAccent
         btn.setAttributedTitle(NSAttributedString(string: "전체 삭제", attributes: [.foregroundColor: UIColor.faAccent, .font: UIFont.fa16BoldFont]), for: .normal)
         btn.setAttributedTitle(NSAttributedString(string: "전체 삭제", attributes: [.foregroundColor: UIColor.faLightGray, .font: UIFont.fa16BoldFont]), for: .highlighted)
         btn.addTarget(self, action: #selector(self.allDeleteButtonTapped), for: .touchUpInside)
