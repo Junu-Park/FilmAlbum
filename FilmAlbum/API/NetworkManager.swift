@@ -55,7 +55,7 @@ enum TMDBAPI {
     }
 }
 
-class NetworkManager {
+final class NetworkManager {
 
     private init() {}
     
