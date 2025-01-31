@@ -33,7 +33,6 @@ final class TodayMovieCollectionViewCell: UICollectionViewCell {
         return lb
     }()
     
-    // TODO: 좋아요 기능 연결
     lazy var likeButton: UIButton = {
         let btn: UIButton = UIButton()
         btn.tintColor = UIColor.faAccent
