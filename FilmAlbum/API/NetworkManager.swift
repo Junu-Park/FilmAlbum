@@ -12,6 +12,8 @@ import Alamofire
 enum TMDBAPI {
     static let base: String = "https://api.themoviedb.org/3"
     
+    static let image100Base: String = "https://image.tmdb.org/t/p/w100"
+    
     static let image200Base: String = "https://image.tmdb.org/t/p/w200"
     
     static let image400Base: String = "https://image.tmdb.org/t/p/w400"
