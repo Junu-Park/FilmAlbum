@@ -24,11 +24,7 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
 
     private let profileBannerView: ProfileBannerView = ProfileBannerView()
     
-    private let cinemaCollectionView: CinemaCollectionView = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        let cv: CinemaCollectionView = CinemaCollectionView(layout: layout)
-        return cv
-    }()
+    private let cinemaCollectionView: CinemaCollectionView = CinemaCollectionView(layout: UICollectionViewFlowLayout())
     
     private var trendingDataList: [TrendingResult] = []
     
@@ -36,7 +32,7 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
         super.viewDidLoad()
         NetworkManager.requestTMDB(type: TMDBAPI.trending(params: TrendingRequest())) { (response: TrendingResponse) in
             self.trendingDataList = response.results
-            self.cinemaCollectionView.reloadSections([1])
+            self.cinemaCollectionView.reloadSections(IndexSet(integer: 1))
         }
         self.configureNavigationItem()
         self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
@@ -82,6 +78,7 @@ extension CinemaViewController {
                 header.headerType = .recentSearchTerm
                 header.allDeleteButtonClosure = {
                     UserDataManager.resetSearchTermList()
+                    NotificationCenter.default.post(name: NSNotification.Name("deleteButtonTapped"), object: nil)
                     self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
                 }
             } else {
@@ -149,6 +146,7 @@ extension CinemaViewController: SearchCollectionViewButtonDelegate {
         var list = UserDataManager.getSetSearchTermList()
         list.remove(at: index)
         UserDataManager.getSetSearchTermList(newSearchTermList: list)
+        NotificationCenter.default.post(name: NSNotification.Name("deleteButtonTapped"), object: nil)
         self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
     }
 }

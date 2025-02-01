@@ -51,6 +51,7 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
         self.recentSearchTermView.setNoRecentSearchTermLabelHidden()
         NotificationCenter.default.addObserver(self, selector: #selector(self.receivedLikeButtonTappedNotification), name: NSNotification.Name("LikeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.receivedSearchBarEnterTappedNotification), name: NSNotification.Name("searchBarEnterTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedSearchBarEnterTappedNotification), name: NSNotification.Name("deleteButtonTapped"), object: nil)
     }
     
     @objc private func receivedLikeButtonTappedNotification(value: NSNotification) {
