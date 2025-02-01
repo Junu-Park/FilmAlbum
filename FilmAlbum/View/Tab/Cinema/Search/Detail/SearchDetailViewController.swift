@@ -45,12 +45,13 @@ final class SearchDetailViewController: CustomBaseViewController {
         return lb
     }()
     private let castCollectionView: CastCollectionView = CastCollectionView(layout: UICollectionViewFlowLayout())
-    private let posterLabel: UILabel = {
+    private let posterTitle: UILabel = {
         let lb: UILabel = UILabel()
         lb.font = UIFont.fa14BoldFont
         lb.text = "Poster"
         return lb
     }()
+    private let posterCollectionView: PosterCollectionView = PosterCollectionView(layout: UICollectionViewFlowLayout())
     
     var movieData: SearchResult = SearchResult(id: 0, backdrop_path: "", title: "", overview: "", poster_path: "", genre_ids: [], release_date: "", vote_average: 0)
     var movieImage: ImageResponse = ImageResponse(id: 0, backdrops: [], posters: [])
@@ -84,6 +85,8 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.mainScrollView.addSubview(self.synopsisLabel)
         self.mainScrollView.addSubview(self.castTitle)
         self.mainScrollView.addSubview(self.castCollectionView)
+        self.mainScrollView.addSubview(self.posterTitle)
+        self.mainScrollView.addSubview(self.posterCollectionView)
         
         self.mainScrollView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
@@ -116,6 +119,16 @@ final class SearchDetailViewController: CustomBaseViewController {
             make.top.equalTo(self.castTitle.snp.bottom)
             make.width.equalToSuperview()
             make.height.equalTo(132)
+        }
+        self.posterTitle.snp.makeConstraints { make in
+            make.top.equalTo(self.castCollectionView.snp.bottom).offset(32)
+            make.leading.equalToSuperview().offset(16)
+        }
+        self.posterCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.posterTitle.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(166)
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -157,21 +170,44 @@ final class SearchDetailViewController: CustomBaseViewController {
 extension SearchDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func configureConnectionCollectionView() {
+        self.castCollectionView.tag = 2
         self.castCollectionView.delegate = self
         self.castCollectionView.dataSource = self
+        self.posterCollectionView.tag = 3
+        self.posterCollectionView.delegate = self
+        self.posterCollectionView.dataSource = self
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.movieCredit.casts.count
+        if collectionView.tag == 2{
+            return self.movieCredit.casts.count
+        } else if collectionView.tag == 3 {
+            return self.movieImage.posters.count
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CastCollectionViewCell", for: indexPath) as? CastCollectionViewCell {
-            cell.castImage.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieCredit.casts[indexPath.item].profile_path ?? "")))
-            cell.castKoName.text = self.movieCredit.casts[indexPath.item].name
-            cell.castCharacterName.text = self.movieCredit.casts[indexPath.item].character
-            return cell
+        
+        if collectionView.tag == 2{
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CastCollectionViewCell", for: indexPath) as? CastCollectionViewCell {
+                cell.castImage.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieCredit.casts[indexPath.item].profile_path ?? "")))
+                cell.castKoName.text = self.movieCredit.casts[indexPath.item].name
+                cell.castCharacterName.text = self.movieCredit.casts[indexPath.item].character
+                return cell
+            } else {
+                return UICollectionViewCell()
+            }
+        } else if collectionView.tag == 3 {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCollectionViewCell", for: indexPath) as? PosterCollectionViewCell {
+                cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieImage.posters[indexPath.item].file_path)))
+                return cell
+            } else {
+                return UICollectionViewCell()
+            }
+        } else {
+            return UICollectionViewCell()
         }
-        return UICollectionViewCell()
     }
 }
