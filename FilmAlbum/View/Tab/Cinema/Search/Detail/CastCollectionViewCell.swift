@@ -35,11 +35,6 @@ final class CastCollectionViewCell: UICollectionViewCell {
         return lb
     }()
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -53,12 +48,12 @@ final class CastCollectionViewCell: UICollectionViewCell {
         }
         self.castKoName.snp.makeConstraints { make in
             make.leading.equalTo(self.castImage.snp.trailing).offset(8)
-            make.centerY.equalTo(self.castImage.snp.centerY).offset(-16)
+            make.centerY.equalTo(self.castImage.snp.centerY).offset(-8)
             make.trailing.equalToSuperview()
         }
         self.castCharacterName.snp.makeConstraints { make in
             make.leading.equalTo(self.castImage.snp.trailing).offset(8)
-            make.centerY.equalTo(self.castImage.snp.centerY).offset(16)
+            make.centerY.equalTo(self.castImage.snp.centerY).offset(8)
             make.trailing.equalToSuperview()
         }
     }
