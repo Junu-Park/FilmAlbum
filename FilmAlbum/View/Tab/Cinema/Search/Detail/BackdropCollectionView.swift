@@ -1,5 +1,5 @@
 //
-//  PosterCollectionView.swift
+//  BackdropCollectionView.swift
 //  FilmAlbum
 //
 //  Created by 박준우 on 2/1/25.
@@ -7,15 +7,17 @@
 
 import UIKit
 
-final class PosterCollectionView: UICollectionView {
+final class BackdropCollectionView: UICollectionView {
     
     init(layout: UICollectionViewFlowLayout) {
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
-        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         super.init(frame: .zero, collectionViewLayout: layout)
         self.collectionViewLayout = layout
-        self.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.id)
+        self.isPagingEnabled = true
+        self.showsHorizontalScrollIndicator = false
+        self.register(BackdropCollectionViewCell.self, forCellWithReuseIdentifier: BackdropCollectionViewCell.id)
     }
     
     @available(*, unavailable)

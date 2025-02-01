@@ -13,11 +13,8 @@ import SnapKit
 final class SearchDetailViewController: CustomBaseViewController {
 
     private let mainScrollView: UIScrollView = UIScrollView()
-    private let backdropScrollView: UIScrollView = {
-        let sv: UIScrollView = UIScrollView()
-        sv.isPagingEnabled = true
-        return sv
-    }()
+    private let backdropPageControl: UIPageControl = UIPageControl()
+    private let backdropCollectionView: BackdropCollectionView = BackdropCollectionView(layout: UICollectionViewFlowLayout())
     private lazy var detailDataView: SearchDetailDataView = SearchDetailDataView(data: self.movieData)
     private let synopsisTitle: UILabel = {
         let lb: UILabel = UILabel()
@@ -64,6 +61,8 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.configureNavigationItem()
         NetworkManager.requestTMDB(type: .image(movieID: self.movieData.id)) { (response: ImageResponse) in
             self.movieImage = response
+            self.posterCollectionView.reloadData()
+            self.backdropCollectionView.reloadData()
         }
         NetworkManager.requestTMDB(type: .credit(movieID: self.movieData.id, params: CreditRequest())) { (response: CreditResponse) in
             self.movieCredit = response
@@ -78,7 +77,8 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.configureConnectionCollectionView()
         
         self.view.addSubview(self.mainScrollView)
-        self.mainScrollView.addSubview(self.backdropScrollView)
+        self.mainScrollView.addSubview(self.backdropCollectionView)
+//        self.backdropCollectionView.addSubview(self.backdropPageControl)
         self.mainScrollView.addSubview(self.detailDataView)
         self.mainScrollView.addSubview(self.synopsisTitle)
         self.mainScrollView.addSubview(self.synopsisButton)
@@ -91,12 +91,15 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.mainScrollView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
-        self.backdropScrollView.snp.makeConstraints { make in
+        self.backdropCollectionView.snp.makeConstraints { make in
             make.top.horizontalEdges.centerX.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.4)
         }
+//        self.backdropPageControl.snp.makeConstraints { make in
+//            make.centerX.bottom.equalToSuperview()
+//        }
         self.detailDataView.snp.makeConstraints { make in
-            make.top.equalTo(self.backdropScrollView.snp.bottom).offset(16)
+            make.top.equalTo(self.backdropCollectionView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
         }
         self.synopsisTitle.snp.makeConstraints { make in
@@ -167,9 +170,12 @@ final class SearchDetailViewController: CustomBaseViewController {
     }
 }
 
-extension SearchDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension SearchDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func configureConnectionCollectionView() {
+        self.backdropCollectionView.tag = 1
+        self.backdropCollectionView.delegate = self
+        self.backdropCollectionView.dataSource = self
         self.castCollectionView.tag = 2
         self.castCollectionView.delegate = self
         self.castCollectionView.dataSource = self
@@ -179,7 +185,14 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView.tag == 2{
+        
+        if collectionView.tag == 1 {
+            if self.movieImage.backdrops.count < 5 {
+                return self.movieImage.backdrops.count
+            } else {
+                return 5
+            }
+        } else if collectionView.tag == 2 {
             return self.movieCredit.casts.count
         } else if collectionView.tag == 3 {
             return self.movieImage.posters.count
@@ -189,8 +202,14 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if collectionView.tag == 2{
+        if collectionView.tag == 1 {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BackdropCollectionViewCell.id, for: indexPath) as? BackdropCollectionViewCell {
+                cell.backdropImageView.kf.setImage(with: URL(string: TMDBAPI.image400Base + (self.movieImage.backdrops[indexPath.item].file_path)))
+                return cell
+            } else {
+                return UICollectionViewCell()
+            }
+        } else if collectionView.tag == 2 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CastCollectionViewCell", for: indexPath) as? CastCollectionViewCell {
                 cell.castImage.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieCredit.casts[indexPath.item].profile_path ?? "")))
                 cell.castKoName.text = self.movieCredit.casts[indexPath.item].name
@@ -208,6 +227,18 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
             }
         } else {
             return UICollectionViewCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView.tag == 1 {
+            return collectionView.frame.size
+        } else if collectionView.tag == 2 {
+            return CGSize(width: 132, height: 50)
+        } else if collectionView.tag == 3 {
+            return CGSize(width: 100, height: 150)
+        } else {
+            return .zero
         }
     }
 }
