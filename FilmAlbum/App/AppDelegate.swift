@@ -18,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.faAccent
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.faWhite, .font: UIFont.fa16BoldFont]
         UICollectionView.appearance().backgroundColor = UIColor.clear
-//         TODO: 주석처리 제거하기
-//        sleep(2)
+        sleep(2)
         return true
     }
 
