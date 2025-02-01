@@ -86,7 +86,7 @@ final class SearchViewController: CustomBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.searchCollectionView.checkNoSearchData(count: self.searchResponse.results.count)
         self.setNavigationItemSearchBar()
         self.configureConnectionSearchBar()
         self.configureConnectionCollectionView()
@@ -113,6 +113,20 @@ final class SearchViewController: CustomBaseViewController {
             self.searchCollectionView.reloadData()
         }
     }
+    
+    @objc private func likeButtonTapped(_ sender: UIButton) {
+        var list: [Int] = UserDataManager.getSetLikeMovieList()
+        if let order = list.firstIndex(of: self.searchResponse.results[sender.tag].id) {
+            list.remove(at: order)
+        } else {
+            list.append(self.searchResponse.results[sender.tag].id)
+        }
+        UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
+        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearch": true])
+        UIView.performWithoutAnimation {
+            self.searchCollectionView.reloadItems(at: [IndexPath(item: sender.tag, section: 0)])
+        }
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -134,25 +148,12 @@ extension SearchViewController: UISearchBarDelegate {
             self.searchRequest.query = searchTerm
             NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
                 self.searchResponse = response
+                self.searchCollectionView.checkNoSearchData(count: self.searchResponse.results.count)
                 self.searchCollectionView.reloadData()
             }
             return true
         } else {
             return false
-        }
-    }
-    
-    @objc private func likeButtonTapped(_ sender: UIButton) {
-        var list: [Int] = UserDataManager.getSetLikeMovieList()
-        if let order = list.firstIndex(of: self.searchResponse.results[sender.tag].id) {
-            list.remove(at: order)
-        } else {
-            list.append(self.searchResponse.results[sender.tag].id)
-        }
-        UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
-        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearch": true])
-        UIView.performWithoutAnimation {
-            self.searchCollectionView.reloadItems(at: [IndexPath(item: sender.tag, section: 0)])
         }
     }
 }
