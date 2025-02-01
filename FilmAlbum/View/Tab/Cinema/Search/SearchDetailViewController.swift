@@ -7,9 +7,17 @@
 
 import UIKit
 
+import SnapKit
+
 final class SearchDetailViewController: CustomBaseViewController {
 
-    private let scrollView: UIScrollView = UIScrollView()
+    private let mainScrollView: UIScrollView = UIScrollView()
+    private let backdropScrollView: UIScrollView = {
+        let sv: UIScrollView = UIScrollView()
+        sv.isPagingEnabled = true
+        return sv
+    }()
+    private lazy var detailDataView: SearchDetailDataView = SearchDetailDataView(data: self.movieData)
     
     var movieData: SearchResult = SearchResult(id: 0, backdrop_path: "", title: "", overview: "", poster_path: "", genre_ids: [], release_date: "", vote_average: 0)
     var movieImage: ImageResponse = ImageResponse(id: 0, backdrops: [], posters: [])
@@ -18,11 +26,28 @@ final class SearchDetailViewController: CustomBaseViewController {
     init(movieData: SearchResult, viewType: ViewType) {
         super.init(viewType: viewType)
         self.movieData = movieData
+        self.detailDataView.data = self.movieData
         self.configureNavigationItem()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.addSubview(self.mainScrollView)
+        self.mainScrollView.addSubview(self.backdropScrollView)
+        self.mainScrollView.addSubview(self.detailDataView)
+        
+        self.mainScrollView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        self.backdropScrollView.snp.makeConstraints { make in
+            make.top.horizontalEdges.centerX.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.4)
+        }
+        self.detailDataView.snp.makeConstraints { make in
+            make.top.equalTo(self.backdropScrollView.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
     }
     
     private func configureNavigationItem() {
