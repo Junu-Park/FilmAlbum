@@ -20,8 +20,8 @@ enum TMDBAPI {
     
     case trending(params: TrendingRequest)
     case search(params: SearchRequest)
-    case image(movieID: String)
-    case credit(movieID: String, params: CreditRequest)
+    case image(movieID: Int)
+    case credit(movieID: Int, params: CreditRequest)
     
     var path: String {
         switch self {

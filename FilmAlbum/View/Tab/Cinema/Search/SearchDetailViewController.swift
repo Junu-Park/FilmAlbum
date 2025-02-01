@@ -28,6 +28,12 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.movieData = movieData
         self.detailDataView.data = self.movieData
         self.configureNavigationItem()
+        NetworkManager.requestTMDB(type: .image(movieID: self.movieData.id)) { (response: ImageResponse) in
+            self.movieImage = response
+        }
+        NetworkManager.requestTMDB(type: .credit(movieID: self.movieData.id, params: CreditRequest())) { (response: CreditResponse) in
+            self.movieCredit = response
+        }
     }
     
     override func viewDidLoad() {

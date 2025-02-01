@@ -19,5 +19,5 @@ struct CreditResponse: Decodable {
 struct Cast: Decodable {
     var name: String
     var character: String
-    var profile_path: String
+    var profile_path: String?
 }
