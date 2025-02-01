@@ -86,7 +86,6 @@ final class SearchViewController: CustomBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.searchCollectionView.checkNoSearchData(count: self.searchResponse.results.count)
         self.setNavigationItemSearchBar()
         self.configureConnectionSearchBar()
         self.configureConnectionCollectionView()
@@ -104,6 +103,7 @@ final class SearchViewController: CustomBaseViewController {
         self.searchRequest.query = searchTerm
         NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
             self.searchResponse = response
+            self.searchCollectionView.checkNoSearchData(count: self.searchResponse.results.count)
             self.searchCollectionView.reloadData()
         }
     }
