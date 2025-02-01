@@ -94,7 +94,7 @@ final class SearchDetailViewController: CustomBaseViewController {
             make.leading.equalToSuperview().offset(16)
         }
         self.synopsisButton.snp.makeConstraints { make in
-            make.top.equalTo(self.detailDataView.snp.bottom).offset(32)
+            make.centerY.equalTo(self.synopsisTitle)
             make.trailing.equalToSuperview().inset(16)
         }
         self.synopsisLabel.snp.makeConstraints { make in
