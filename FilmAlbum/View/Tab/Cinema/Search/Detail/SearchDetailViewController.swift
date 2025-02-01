@@ -13,7 +13,15 @@ import SnapKit
 final class SearchDetailViewController: CustomBaseViewController {
 
     private let mainScrollView: UIScrollView = UIScrollView()
-    private let backdropPageControl: UIPageControl = UIPageControl()
+    private let backdropPageControl: UIPageControl = {
+        let pc: UIPageControl = UIPageControl()
+        pc.layer.cornerRadius = 15
+        pc.clipsToBounds = true
+        pc.backgroundColor = UIColor.faDarkGray.withAlphaComponent(0.5)
+        pc.currentPage = 0
+        pc.isUserInteractionEnabled = false
+        return pc
+    }()
     private let backdropCollectionView: BackdropCollectionView = BackdropCollectionView(layout: UICollectionViewFlowLayout())
     private lazy var detailDataView: SearchDetailDataView = SearchDetailDataView(data: self.movieData)
     private let synopsisTitle: UILabel = {
@@ -78,7 +86,7 @@ final class SearchDetailViewController: CustomBaseViewController {
         
         self.view.addSubview(self.mainScrollView)
         self.mainScrollView.addSubview(self.backdropCollectionView)
-//        self.backdropCollectionView.addSubview(self.backdropPageControl)
+        self.mainScrollView.addSubview(self.backdropPageControl)
         self.mainScrollView.addSubview(self.detailDataView)
         self.mainScrollView.addSubview(self.synopsisTitle)
         self.mainScrollView.addSubview(self.synopsisButton)
@@ -95,9 +103,12 @@ final class SearchDetailViewController: CustomBaseViewController {
             make.top.horizontalEdges.centerX.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.4)
         }
-//        self.backdropPageControl.snp.makeConstraints { make in
-//            make.centerX.bottom.equalToSuperview()
-//        }
+        self.backdropPageControl.snp.makeConstraints { make in
+            make.centerX.bottom.equalTo(self.backdropCollectionView)
+            make.bottom.equalTo(self.backdropCollectionView).offset(-16)
+            make.width.equalToSuperview().multipliedBy(0.4)
+            make.height.equalTo(30)
+        }
         self.detailDataView.snp.makeConstraints { make in
             make.top.equalTo(self.backdropCollectionView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
@@ -188,8 +199,10 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
         
         if collectionView.tag == 1 {
             if self.movieImage.backdrops.count < 5 {
+                self.backdropPageControl.numberOfPages = self.movieImage.backdrops.count
                 return self.movieImage.backdrops.count
             } else {
+                self.backdropPageControl.numberOfPages = 5
                 return 5
             }
         } else if collectionView.tag == 2 {
@@ -239,6 +252,12 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
             return CGSize(width: 100, height: 150)
         } else {
             return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView.tag == 1 {
+            self.backdropPageControl.currentPage = indexPath.item
         }
     }
 }
