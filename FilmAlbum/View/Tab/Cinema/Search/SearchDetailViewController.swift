@@ -37,12 +37,13 @@ final class SearchDetailViewController: CustomBaseViewController {
         lb.numberOfLines = 3
         return lb
     }()
-    private let castLabel: UILabel = {
+    private let castTitle: UILabel = {
         let lb: UILabel = UILabel()
         lb.font = UIFont.fa14BoldFont
         lb.text = "Cast"
         return lb
     }()
+    private let castCollectionView: CastCollectionView = CastCollectionView(layout: UICollectionViewFlowLayout())
     private let posterLabel: UILabel = {
         let lb: UILabel = UILabel()
         lb.font = UIFont.fa14BoldFont
@@ -64,6 +65,7 @@ final class SearchDetailViewController: CustomBaseViewController {
         }
         NetworkManager.requestTMDB(type: .credit(movieID: self.movieData.id, params: CreditRequest())) { (response: CreditResponse) in
             self.movieCredit = response
+            self.castCollectionView.reloadData()
         }
         self.synopsisLabel.text = self.movieData.overview
     }
@@ -71,12 +73,16 @@ final class SearchDetailViewController: CustomBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureConnectionCollectionView()
+        
         self.view.addSubview(self.mainScrollView)
         self.mainScrollView.addSubview(self.backdropScrollView)
         self.mainScrollView.addSubview(self.detailDataView)
         self.mainScrollView.addSubview(self.synopsisTitle)
         self.mainScrollView.addSubview(self.synopsisButton)
         self.mainScrollView.addSubview(self.synopsisLabel)
+        self.mainScrollView.addSubview(self.castTitle)
+        self.mainScrollView.addSubview(self.castCollectionView)
         
         self.mainScrollView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
@@ -100,6 +106,15 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.synopsisLabel.snp.makeConstraints { make in
             make.top.equalTo(self.synopsisTitle.snp.bottom).offset(8)
             make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        self.castTitle.snp.makeConstraints { make in
+            make.top.equalTo(self.synopsisLabel.snp.bottom).offset(32)
+            make.leading.equalToSuperview().offset(16)
+        }
+        self.castCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.castTitle.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(132)
         }
     }
     
@@ -135,5 +150,27 @@ final class SearchDetailViewController: CustomBaseViewController {
             self.synopsisButton.setAttributedTitle(NSAttributedString(string: "More", attributes: [.foregroundColor: UIColor.faAccent, .font: UIFont.fa14BoldFont]), for: .normal)
             self.synopsisButton.setAttributedTitle(NSAttributedString(string: "More", attributes: [.foregroundColor: UIColor.faLightGray, .font: UIFont.fa14BoldFont]), for: .highlighted)
         }
+    }
+}
+
+extension SearchDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func configureConnectionCollectionView() {
+        self.castCollectionView.delegate = self
+        self.castCollectionView.dataSource = self
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.movieCredit.casts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CastCollectionViewCell", for: indexPath) as? CastCollectionViewCell {
+            cell.castImage.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieCredit.casts[indexPath.item].profile_path ?? "")))
+            cell.castKoName.text = self.movieCredit.casts[indexPath.item].name
+            cell.castCharacterName.text = self.movieCredit.casts[indexPath.item].character
+            return cell
+        }
+        return UICollectionViewCell()
     }
 }
