@@ -27,6 +27,7 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
     var collectionCellType: CinemaCollectionCellType = .recentSearchTerm {
         didSet {
             if self.collectionCellType == .recentSearchTerm {
+                self.recentSearchTermView.tag = 1
                 self.recentSearchTermView.delegate = self
                 self.recentSearchTermView.dataSource = self
                 self.contentView.addSubview(recentSearchTermView)
@@ -34,6 +35,7 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
                     make.edges.equalToSuperview()
                 }
             } else {
+                self.todayMovieView.tag = 2
                 self.todayMovieView.delegate = self
                 self.todayMovieView.dataSource = self
                 self.contentView.addSubview(todayMovieView)
@@ -74,9 +76,9 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
 
 extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.collectionCellType == .recentSearchTerm {
+        if collectionView.tag == 1 {
             return UserDataManager.getSetSearchTermList().count
-        } else if self.collectionCellType == .todayMovie {
+        } else if collectionView.tag == 2 {
             return trendingDataList.count
         } else {
             return 0
@@ -84,7 +86,7 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if self.collectionCellType == .recentSearchTerm {
+        if collectionView.tag == 1 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchTermCollectionViewCell.id, for: indexPath) as? RecentSearchTermCollectionViewCell {
                 cell.titleLabel.text = UserDataManager.getSetSearchTermList()[indexPath.item]
                 
@@ -96,7 +98,7 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
             } else {
                 return UICollectionViewCell()
             }
-        } else if self.collectionCellType == .todayMovie {
+        } else if collectionView.tag == 2 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as? TodayMovieCollectionViewCell {
                 if UserDataManager.getSetLikeMovieList().contains(self.trendingDataList[indexPath.item].id) {
                     cell.likeButton.setImage(UIImage.faHeartFill, for: .normal)
