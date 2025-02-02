@@ -85,4 +85,12 @@ extension NicknameSettingView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         self.nicknameState = textField.text.checkNicknameValidation()
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.nicknameState = textField.text.checkNicknameValidation()
+        if self.nicknameState == .ok {
+            self.endEditing(true)
+        }
+        return true
+    }
 }

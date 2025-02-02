@@ -95,4 +95,12 @@ extension NicknameViewController: UITextFieldDelegate {
         self.editingView.nicknameState = self.editingView.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
         self.navigationItem.rightBarButtonItem?.isEnabled = self.editingView.nicknameState == NicknameTextFieldState.ok
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.editingView.nicknameState = textField.text.checkNicknameValidation()
+        if self.editingView.nicknameState == .ok {
+            self.view.endEditing(true)
+        }
+        return true
+    }
 }
