@@ -40,12 +40,12 @@ final class RecentSearchTermCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(removeButton)
         
         self.titleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
             make.leading.equalToSuperview().offset(8)
         }
         self.removeButton.snp.makeConstraints { make in
             make.leading.equalTo(self.titleLabel.snp.trailing)
-            make.centerY.equalToSuperview()
+            make.verticalEdges.equalToSuperview()
             make.trailing.equalToSuperview().inset(8)
         }
     }
