@@ -22,7 +22,8 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
     
     private let todayMovieView: TodayMovieCollectionView = TodayMovieCollectionView(layout: UICollectionViewFlowLayout())
     
-    var delegate: SearchCollectionViewButtonDelegate?
+    var searchDelegate: SearchCollectionViewButtonDelegate?
+    var todayMovieDelegate: TodayMovieCollectionViewDelegate?
     
     var collectionCellType: CinemaCollectionCellType = .recentSearchTerm {
         didSet {
@@ -129,14 +130,24 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView.tag == 2 {
+            
+            // TODO: TrendingResult과 SearchResult 통합하기
+            let data: TrendingResult = self.trendingDataList[indexPath.row]
+            let newData: SearchResult = SearchResult(id: data.id, backdrop_path: data.backdrop_path, title: data.title, overview: data.overview, poster_path: data.poster_path, genre_ids: data.genre_ids, release_date: data.release_date, vote_average: data.vote_average)
+            self.todayMovieDelegate?.todayMovieTapped(data: newData)
+        }
+    }
+    
     @objc func searchTermTapped(_ sender: UITapGestureRecognizer) {
         if let index = sender.view?.tag {
-            self.delegate?.searchTermTapped(searchTerm: UserDataManager.getSetSearchTermList()[index])
+            self.searchDelegate?.searchTermTapped(searchTerm: UserDataManager.getSetSearchTermList()[index])
         }
     }
     
     @objc func searchTermDeleteTapped(_ sender: UIButton) {
-        self.delegate?.searchTermDeleteTapped(index: sender.tag)
+        self.searchDelegate?.searchTermDeleteTapped(index: sender.tag)
     }
 }
 

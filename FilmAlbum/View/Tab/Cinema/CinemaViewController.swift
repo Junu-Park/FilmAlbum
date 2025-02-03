@@ -20,6 +20,10 @@ protocol SearchCollectionViewButtonDelegate: AnyObject {
     func searchTermDeleteTapped(index: Int)
 }
 
+protocol TodayMovieCollectionViewDelegate: AnyObject {
+    func todayMovieTapped(data: SearchResult)
+}
+
 final class CinemaViewController: CustomBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     private let profileBannerView: ProfileBannerView = ProfileBannerView()
@@ -112,10 +116,11 @@ extension CinemaViewController {
             
             if indexPath.section == 0 {
                 cell.collectionCellType = .recentSearchTerm
-                cell.delegate = self
+                cell.searchDelegate = self
             } else {
                 cell.collectionCellType = .todayMovie
                 cell.trendingDataList = self.trendingDataList
+                cell.todayMovieDelegate = self
             }
             
             return cell
@@ -148,5 +153,11 @@ extension CinemaViewController: SearchCollectionViewButtonDelegate {
         UserDataManager.getSetSearchTermList(newSearchTermList: list)
         NotificationCenter.default.post(name: NSNotification.Name("deleteButtonTapped"), object: nil)
         self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
+    }
+}
+
+extension CinemaViewController: TodayMovieCollectionViewDelegate {
+    func todayMovieTapped(data: SearchResult) {
+        self.navigationController?.pushViewController(SearchDetailViewController(movieData: data, viewType: .searchDetail(movieTitle: data.title)), animated: true)
     }
 }
