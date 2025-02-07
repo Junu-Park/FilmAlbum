@@ -15,6 +15,8 @@ final class NicknameViewController: CustomBaseViewController {
     
     private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
     
+    private let viewModel: ProfileSettingViewModel = ProfileSettingViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,22 +62,21 @@ final class NicknameViewController: CustomBaseViewController {
     }
     
     @objc private func profileImageViewTapped() {
-        let vc: ProfileImageViewController
         if self.viewType == .nicknameSetting {
-            vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
-            vc.settingView.closure = { selectedProfileImageType in
-                self.settingView.profileImageType = selectedProfileImageType
-            }
+            self.viewModel.profileImageViewTappedIn.value = ()
         } else if self.viewType == .nicknameEditing {
+            let vc: ProfileImageViewController
             vc = ProfileImageViewController(viewType: .imageEditing, selectedProfileImageType: self.editingView.profileImageView.profileImageType)
             vc.editingView.closure = { selectedProfileImageType in
                 self.editingView.profileImageType = selectedProfileImageType
             }
+            self.navigationController?.pushViewController(vc, animated: true)
         } else {
+            let vc: ProfileImageViewController
             vc = ProfileImageViewController(viewType: .error, selectedProfileImageType: .profile0)
             print(#function, "viewType error")
+            self.navigationController?.pushViewController(vc, animated: true)
         }
-        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func closeButtonTapped() {
@@ -87,6 +88,17 @@ final class NicknameViewController: CustomBaseViewController {
         UserDataManager.getSetProfileImage(newProfileImageType: editingView.profileImageType)
         NotificationCenter.default.post(name: NSNotification.Name("ProfileEditing"), object: nil)
         self.dismiss(animated: true)
+    }
+    
+    override func binding() {
+        self.viewModel.profileImageViewTappedOut.closure = { _, _ in
+            let vc: ProfileImageViewController
+            vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
+            vc.settingView.closure = { selectedProfileImageType in
+                self.settingView.profileImageType = selectedProfileImageType
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 

@@ -8,5 +8,12 @@
 import Foundation
 
 final class ProfileSettingViewModel {
+    let profileImageViewTappedIn: Observer<Void> = Observer(value: ())
+    let profileImageViewTappedOut: Observer<Void> = Observer(value: ())
     
+    init() {
+        self.profileImageViewTappedIn.closure = { _, _ in
+            self.profileImageViewTappedOut.value = ()
+        }
+    }
 }
