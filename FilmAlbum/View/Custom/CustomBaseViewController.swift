@@ -50,7 +50,7 @@ enum ViewType: Equatable {
 
 class CustomBaseViewController: UIViewController {
 
-    var viewType: ViewType
+    let viewType: ViewType
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +60,11 @@ class CustomBaseViewController: UIViewController {
         self.viewType = viewType
         super.init(nibName: nil, bundle: nil)
         self.view.backgroundColor = UIColor.faBlack
-        setNavigationItem()
+        self.setNavigationItem()
+        self.binding()
     }
+    
+    func binding() { }
     
     private func setNavigationItem() {
         self.navigationItem.backButtonDisplayMode = .minimal
