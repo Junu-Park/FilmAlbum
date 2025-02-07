@@ -10,7 +10,7 @@ import UIKit
 final class ProfileImageCollectionViewCell: UICollectionViewCell {
     static let id: String = "ProfileImageCollectionViewCell"
     
-    let profileImageView: ProfileImageView = ProfileImageView(profileImageType: ProfileImage.profile1, isSelected: false, showCamera: false, canTap: false)
+    let profileImageView: ProfileImageView = ProfileImageView(profileImageType: ProfileImageType.profile1, isSelected: false, showCamera: false, canTap: false)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -38,12 +38,12 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetProfileImage(newProfileImageType profileImageType: ProfileImage? = nil) -> ProfileImage {
+    @discardableResult static func getSetProfileImage(newProfileImageType profileImageType: ProfileImageType? = nil) -> ProfileImageType {
         if let profileImageType {
             UserDefaults.standard.set(profileImageType.rawValue, forKey: UserDefaultsKey.profileImage.rawValue)
             return profileImageType
         } else {
-            return ProfileImage(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) ?? ProfileImage.randomCase
+            return ProfileImageType(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) ?? ProfileImageType.getRandomCase()
         }
     }
     

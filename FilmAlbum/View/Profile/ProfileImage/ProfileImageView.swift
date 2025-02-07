@@ -17,7 +17,7 @@ final class ProfileImageView: UIView {
         iv.backgroundColor = UIColor.clear
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage.getProfileImageWithName(name: self.profileImageType.getImageName())
+        iv.image = UIImage.getProfileImageWithName(name: self.profileImageType.imageName)
         if self.isSelected {
             iv.selectedProfileImage()
         } else {
@@ -45,9 +45,9 @@ final class ProfileImageView: UIView {
         return btn
     }()
     
-    var profileImageType: ProfileImage! {
+    var profileImageType: ProfileImageType! {
         didSet {
-            self.profileImage.image = UIImage.getProfileImageWithName(name: self.profileImageType.getImageName())
+            self.profileImage.image = UIImage.getProfileImageWithName(name: self.profileImageType.imageName)
         }
     }
     
@@ -88,7 +88,7 @@ final class ProfileImageView: UIView {
         self.cameraImage.layer.cornerRadius = self.cameraImage.frame.width / 2
     }
     
-    init(profileImageType: ProfileImage, isSelected: Bool = false, showCamera: Bool = false, canTap: Bool = false) {
+    init(profileImageType: ProfileImageType, isSelected: Bool = false, showCamera: Bool = false, canTap: Bool = false) {
         super.init(frame: .zero)
         
         self.profileImageType = profileImageType

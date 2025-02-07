@@ -13,7 +13,7 @@ final class ProfileImageViewController: CustomBaseViewController {
     
     lazy var editingView: ProfileImageEditingView = ProfileImageEditingView(selectedProfileImageType: self.selectedProfileImageType)
     
-    private lazy var selectedProfileImageType: ProfileImage = ProfileImage.profile0 {
+    private lazy var selectedProfileImageType: ProfileImageType = ProfileImageType.profile0 {
         didSet {
             if self.viewType == .imageSetting {
                 self.settingView.selectedProfileImageType = self.selectedProfileImageType
@@ -25,7 +25,7 @@ final class ProfileImageViewController: CustomBaseViewController {
         }
     }
     
-    init(viewType: ViewType , selectedProfileImageType: ProfileImage) {
+    init(viewType: ViewType , selectedProfileImageType: ProfileImageType) {
         super.init(viewType: viewType)
         self.selectedProfileImageType = selectedProfileImageType
         self.settingView.selectedProfileImageType = self.selectedProfileImageType

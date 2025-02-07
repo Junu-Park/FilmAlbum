@@ -15,7 +15,7 @@ final class NicknameEditingView: UIView {
     
     let nicknameTextFieldView: NicknameTextFieldView = NicknameTextFieldView()
     
-    var profileImageType: ProfileImage! {
+    var profileImageType: ProfileImageType! {
         didSet {
             self.profileImageView.profileImageType = self.profileImageType
         }
@@ -27,7 +27,7 @@ final class NicknameEditingView: UIView {
         }
     }
     
-    init(profileImageType: ProfileImage) {
+    init(profileImageType: ProfileImageType) {
         super.init(frame: .zero)
         
         self.profileImageType = profileImageType

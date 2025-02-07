@@ -1,5 +1,5 @@
 //
-//  ProfileImage.swift
+//  ProfileImageType.swift
 //  FilmAlbum
 //
 //  Created by 박준우 on 1/24/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ProfileImage: Int, CaseIterable {
+enum ProfileImageType: Int, CaseIterable {
     case profile0 = 0
     case profile1
     case profile2
@@ -21,11 +21,11 @@ enum ProfileImage: Int, CaseIterable {
     case profile10
     case profile11
     
-    static var randomCase: ProfileImage {
-        return ProfileImage.allCases.randomElement() ?? ProfileImage.profile0
+    var imageName: String {
+        return "profile_\(self.rawValue)"
     }
     
-    func getImageName() -> String {
-        return "profile_\(self.rawValue)"
+    static func getRandomCase() -> ProfileImageType {
+        return ProfileImageType.allCases.randomElement() ?? ProfileImageType.profile0
     }
 }

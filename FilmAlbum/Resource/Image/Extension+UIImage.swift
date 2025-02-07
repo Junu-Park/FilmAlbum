@@ -49,7 +49,7 @@ extension UIImage {
     }
     
     static func getProfileImageWithRawValue(number num : Int) -> UIImage {
-        return UIImage(named: ProfileImage(rawValue: num)?.getImageName() ?? "") ?? UIImage()
+        return UIImage(named: ProfileImageType(rawValue: num)?.imageName ?? "") ?? UIImage()
     }
     
     static func getProfileImageWithName(name: String) -> UIImage {

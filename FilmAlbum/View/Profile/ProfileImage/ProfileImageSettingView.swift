@@ -24,7 +24,7 @@ final class ProfileImageSettingView: UIView {
         return cv
     }()
     
-    var selectedProfileImageType: ProfileImage! {
+    var selectedProfileImageType: ProfileImageType! {
         didSet {
             self.selectedProfileImage.profileImageType = self.selectedProfileImageType
             self.profileImageCollectionView.reloadData()
@@ -32,11 +32,11 @@ final class ProfileImageSettingView: UIView {
         }
     }
     
-    private let profileImageList: [ProfileImage] = ProfileImage.allCases
+    private let profileImageList: [ProfileImageType] = ProfileImageType.allCases
     
-    var closure: ((ProfileImage) -> ())?
+    var closure: ((ProfileImageType) -> ())?
     
-    init(selectedProfileImageType: ProfileImage) {
+    init(selectedProfileImageType: ProfileImageType) {
         super.init(frame: .zero)
         
         self.configureCollectionViewConnection()

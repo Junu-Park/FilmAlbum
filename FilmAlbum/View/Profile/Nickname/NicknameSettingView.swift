@@ -23,7 +23,7 @@ final class NicknameSettingView: UIView {
         return btn
     }()
     
-    var profileImageType: ProfileImage! {
+    var profileImageType: ProfileImageType! {
         didSet {
             self.profileImageView.profileImageType = self.profileImageType
         }
@@ -36,7 +36,7 @@ final class NicknameSettingView: UIView {
         }
     }
     
-    init(profileImageType: ProfileImage) {
+    init(profileImageType: ProfileImageType) {
         super.init(frame: .zero)
         
         self.profileImageType = profileImageType
