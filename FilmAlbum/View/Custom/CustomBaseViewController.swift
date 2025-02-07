@@ -68,6 +68,10 @@ class CustomBaseViewController: UIViewController {
         self.navigationItem.title = self.viewType.navigationItemTitle
     }
     
+    deinit {
+        print(self, #function)
+    }
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
