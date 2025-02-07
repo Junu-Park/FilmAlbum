@@ -50,15 +50,15 @@ enum ViewType: Equatable {
 
 class CustomBaseViewController: UIViewController {
 
-    var viewType: ViewType!
+    var viewType: ViewType
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     init(viewType: ViewType) {
-        super.init(nibName: nil, bundle: nil)
         self.viewType = viewType
+        super.init(nibName: nil, bundle: nil)
         self.view.backgroundColor = UIColor.faBlack
         setNavigationItem()
     }
