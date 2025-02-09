@@ -26,6 +26,7 @@ enum ProfileImageType: Int, CaseIterable {
     }
     
     static func getRandomCase() -> ProfileImageType {
+        print(#function)
         return ProfileImageType.allCases.randomElement() ?? ProfileImageType.profile0
     }
 }
