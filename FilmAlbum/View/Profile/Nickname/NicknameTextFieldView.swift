@@ -22,7 +22,7 @@ final class NicknameTextFieldView: UIView {
         let tf: UITextField = UITextField()
         
         tf.attributedText = NSAttributedString(string: "", attributes: [.font: UIFont.fa16Font])
-        tf.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요.", attributes: [.foregroundColor: UIColor.faGray, .font: UIFont.fa16Font])
+        tf.attributedPlaceholder = NSAttributedString(string: "닉네임을 입력해주세요 :)", attributes: [.foregroundColor: UIColor.faGray, .font: UIFont.fa16Font])
         tf.textColor = UIColor.faWhite
         tf.tintColor = UIColor.faWhite
         
