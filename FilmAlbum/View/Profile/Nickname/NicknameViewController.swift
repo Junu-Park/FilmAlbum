@@ -115,6 +115,7 @@ final class NicknameViewController: CustomBaseViewController {
             vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: nV)
             vc.settingView.closure = { selectedProfileImageType in
                 self?.settingView.profileImageType = selectedProfileImageType
+                self?.viewModel.profileImageDataIn.value = selectedProfileImageType
             }
             self?.navigationController?.pushViewController(vc, animated: true)
         }

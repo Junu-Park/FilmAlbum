@@ -37,8 +37,7 @@ enum MBTIType: String, CaseIterable {
 
 final class ProfileSettingViewModel {
     
-    let profileImageDataIn: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
-    lazy var profileImageDataOut: Observer<ProfileImageType> = Observer(value: self.profileImageDataIn.value)
+    let profileImageDataIn: Observer<ProfileImageType> = Observer(value: ProfileImageType.getRandomCase())
     
     let profileImageViewTappedIn: Observer<Void> = Observer(value: ())
     lazy var profileImageViewTappedOut: Observer<ProfileImageType> = Observer(value: self.profileImageDataIn.value)
