@@ -17,6 +17,16 @@ final class NicknameSettingView: UIView {
     
     let completeButton: RadiusBorderButton = RadiusBorderButton(title: "완료", radius: 25, isBorder: false)
     
+    let mbtiTitleLabel: UILabel = {
+        let lb: UILabel = UILabel()
+        lb.font = UIFont.fa14BoldFont
+        lb.textColor = UIColor.faWhite
+        lb.text = "MBTI"
+        return lb
+    }()
+    
+    let mbtiCollectionView: MBTICollectionView = MBTICollectionView(layout: UICollectionViewFlowLayout())
+    
     var profileImageType: ProfileImageType! {
         didSet {
             self.profileImageView.profileImageType = self.profileImageType
@@ -39,7 +49,9 @@ final class NicknameSettingView: UIView {
         
         self.addSubview(self.profileImageView)
         self.addSubview(self.nicknameTextFieldView)
+        self.addSubview(self.mbtiCollectionView)
         self.addSubview(self.completeButton)
+        self.addSubview(self.mbtiTitleLabel)
         
         self.profileImageView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(16)
@@ -50,9 +62,18 @@ final class NicknameSettingView: UIView {
             make.top.equalTo(self.profileImageView.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
+        self.mbtiTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.nicknameTextFieldView.snp.bottom).offset(64)
+            make.leading.equalToSuperview().inset(16)
+        }
+        self.mbtiCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.nicknameTextFieldView.snp.bottom).offset(64)
+            make.width.equalTo(248)
+            make.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(116)
+        }
         self.completeButton.snp.makeConstraints { make in
-            make.top.equalTo(self.nicknameTextFieldView.textFieldStateLabel.snp.bottom).offset(24)
-            make.horizontalEdges.equalToSuperview().inset(16)
+            make.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(50)
         }
     }
