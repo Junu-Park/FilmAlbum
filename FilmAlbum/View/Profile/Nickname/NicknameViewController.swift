@@ -63,6 +63,8 @@ final class NicknameViewController: CustomBaseViewController {
     private func configureDelegate() {
         if self.viewType == .nicknameSetting {
             self.settingView.nicknameTextFieldView.nicknameTextField.delegate = self
+            self.settingView.mbtiCollectionView.delegate = self
+            self.settingView.mbtiCollectionView.dataSource = self
         } else {
             self.editingView.nicknameTextFieldView.nicknameTextField.delegate = self
         }
@@ -155,3 +157,48 @@ extension NicknameViewController: UITextFieldDelegate {
         }
     }
 }
+
+extension NicknameViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return MBTIType.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MBTICollectionViewCell.id, for: indexPath) as? MBTICollectionViewCell {
+            let list = MBTIType.allCases
+            cell.firstButton.tag = indexPath.item
+            cell.firstButton.setTitle(String(list[indexPath.item].getMBTIStringList[0]), for: [])
+            cell.firstButton.addTarget(self, action: #selector(self.mbtiButtonTapped), for: .touchUpInside)
+            cell.secondButton.tag = indexPath.item
+            cell.secondButton.setTitle(String(list[indexPath.item].getMBTIStringList[1]), for: [])
+            cell.secondButton.addTarget(self, action: #selector(self.mbtiButtonTapped), for: .touchUpInside)
+            if let mbti = self.viewModel.mbtiDataIn.value[indexPath.item] {
+                if String(list[indexPath.item].getMBTIStringList[0]) == mbti {
+                    cell.firstButton.setSelectedMBTI()
+                    cell.secondButton.setUnselectedMBTI()
+                } else {
+                    cell.firstButton.setUnselectedMBTI()
+                    cell.secondButton.setSelectedMBTI()
+                }
+            } else {
+                cell.firstButton.setUnselectedMBTI()
+                cell.secondButton.setUnselectedMBTI()
+            }
+            return cell
+        } else {
+            return UICollectionViewCell()
+        }
+    }
+    
+    @objc private func mbtiButtonTapped(_ sender: MBTIButton) {
+        var mbtiList = self.viewModel.mbtiDataIn.value
+        if mbtiList[sender.tag] == sender.title(for: []) {
+            mbtiList[sender.tag] = nil
+        } else {
+            mbtiList[sender.tag] = sender.title(for: [])
+        }
+        self.viewModel.mbtiDataIn.value = mbtiList
+        self.settingView.mbtiCollectionView.reloadItems(at: [IndexPath(item: sender.tag, section: 0)])
+    }
+}
+
