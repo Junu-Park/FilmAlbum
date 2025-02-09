@@ -20,12 +20,11 @@ final class NicknameViewController: CustomBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.viewType == .nicknameEditing {
-            editingView.nicknameTextFieldView.nicknameTextField.delegate = self
-        }
         self.configureHierarchy()
         self.configureProfileImageViewTapGesture()
         self.configureNavigationItem()
+        self.configureDelegate()
+        self.configureAddTarget()
     }
     
     private func configureHierarchy() {
@@ -58,6 +57,20 @@ final class NicknameViewController: CustomBaseViewController {
             self.navigationItem.setRightBarButton(UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped)), animated: true)
         } else {
             print(#function, "viewType error")
+        }
+    }
+    
+    private func configureDelegate() {
+        if self.viewType == .nicknameSetting {
+            self.settingView.nicknameTextFieldView.nicknameTextField.delegate = self
+        } else {
+            self.editingView.nicknameTextFieldView.nicknameTextField.delegate = self
+        }
+    }
+    
+    private func configureAddTarget() {
+        if self.viewType == .nicknameSetting {
+            self.settingView.completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
         }
     }
     
