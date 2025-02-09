@@ -15,7 +15,12 @@ final class NicknameSettingView: UIView {
     
     let nicknameTextFieldView: NicknameTextFieldView = NicknameTextFieldView()
     
-    let completeButton: RadiusBorderButton = RadiusBorderButton(title: "완료", radius: 25, isBorder: false)
+    let completeButton: RadiusBorderButton = {
+        let btn: RadiusBorderButton = RadiusBorderButton(title: "완료", radius: 25, isBorder: false)
+        btn.isEnabled = false
+        btn.backgroundColor = UIColor.faInvalidButton
+        return btn
+    }()
     
     let mbtiTitleLabel: UILabel = {
         let lb: UILabel = UILabel()

@@ -39,8 +39,6 @@ final class NicknameTextFieldView: UIView {
     
     lazy var textFieldStateLabel: UILabel = {
         let lb: UILabel = UILabel()
-        
-        lb.text = nicknameTextField.text.checkNicknameValidation().rawValue
         lb.font = UIFont.fa12Font
         lb.textColor = UIColor.faAccent
         

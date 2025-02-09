@@ -11,7 +11,7 @@ import SnapKit
 
 final class NicknameViewController: CustomBaseViewController {
     
-    private let settingView: NicknameSettingView = NicknameSettingView(profileImageType: ProfileImageType.getRandomCase())
+    private lazy var settingView: NicknameSettingView = NicknameSettingView(profileImageType: self.viewModel.profileImageDataIn.value)
     
     private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
     
@@ -118,11 +118,15 @@ final class NicknameViewController: CustomBaseViewController {
             }
             self?.navigationController?.pushViewController(vc, animated: true)
         }
-        self.viewModel.profileNicknameCheckOut.bind { [weak self] _, nV in
+        self.viewModel.profileNicknameCheckOut.closure = { [weak self] _, nV in
             self?.settingView.nicknameTextFieldView.textFieldStateLabel.text = nV.rawValue
             self?.settingView.nicknameTextFieldView.textFieldStateLabel.textColor = nV.isValid ? UIColor.faValidLabel : UIColor.faInvalidLabel
             self?.settingView.completeButton.isEnabled = nV.isValid
             self?.settingView.completeButton.backgroundColor = nV.isValid ? UIColor.faValidButton : UIColor.faInvalidButton
+        }
+        self.viewModel.profileSaveButtonStateOut.closure = { [weak self] _ , nV in
+            self?.settingView.completeButton.isEnabled = nV
+            self?.settingView.completeButton.backgroundColor = nV ? UIColor.faValidButton : UIColor.faInvalidButton
         }
         self.viewModel.profileSaveOut.closure = { _, _ in
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
