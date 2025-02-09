@@ -15,13 +15,7 @@ final class NicknameSettingView: UIView {
     
     private let nicknameTextFieldView: NicknameTextFieldView = NicknameTextFieldView()
     
-    private lazy var completeButton: RadiusBorderButton = {
-        let btn = RadiusBorderButton(title: "완료", radius: 25)
-        
-        btn.isEnabled = self.nicknameState == NicknameTextFieldState.ok
-        
-        return btn
-    }()
+    let completeButton: RadiusBorderButton = RadiusBorderButton(title: "완료", radius: 25, isBorder: false)
     
     var profileImageType: ProfileImageType! {
         didSet {

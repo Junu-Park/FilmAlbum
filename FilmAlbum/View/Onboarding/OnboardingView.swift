@@ -35,7 +35,7 @@ final class OnboardingView: UIView {
         return lb
     }()
     
-    let startButton: UIButton = RadiusBorderButton(title: "시작하기", radius: 25)
+    let startButton: UIButton = RadiusBorderButton(title: "시작하기", radius: 25, isBorder: true)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
