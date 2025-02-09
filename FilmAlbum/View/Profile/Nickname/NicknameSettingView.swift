@@ -13,7 +13,7 @@ final class NicknameSettingView: UIView {
 
     lazy var profileImageView: ProfileImageView = ProfileImageView(profileImageType: self.profileImageType, isSelected: true, showCamera: true, canTap: true)
     
-    private let nicknameTextFieldView: NicknameTextFieldView = NicknameTextFieldView()
+    let nicknameTextFieldView: NicknameTextFieldView = NicknameTextFieldView()
     
     let completeButton: RadiusBorderButton = RadiusBorderButton(title: "완료", radius: 25, isBorder: false)
     
@@ -36,8 +36,6 @@ final class NicknameSettingView: UIView {
         self.profileImageType = profileImageType
         self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.getSetNickname()
         self.nicknameState = self.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
-        self.nicknameTextFieldView.nicknameTextField.delegate = self
-        self.completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
         
         self.addSubview(self.profileImageView)
         self.addSubview(self.nicknameTextFieldView)
@@ -59,32 +57,8 @@ final class NicknameSettingView: UIView {
         }
     }
     
-    @objc private func completeButtonTapped() {
-        UserDataManager.getSetOnboardingComplete(newOnboardingComplete: true)
-        UserDataManager.getSetNickname(newNickname: self.nicknameTextFieldView.nicknameTextField.text)
-        UserDataManager.getSetProfileImage(newProfileImageType: self.profileImageType)
-        UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
-        window.rootViewController = MainTabBarController()
-        window.makeKeyAndVisible()
-    }
-    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension NicknameSettingView: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        self.nicknameState = textField.text.checkNicknameValidation()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.nicknameState = textField.text.checkNicknameValidation()
-        if self.nicknameState == .ok {
-            self.endEditing(true)
-        }
-        return true
     }
 }

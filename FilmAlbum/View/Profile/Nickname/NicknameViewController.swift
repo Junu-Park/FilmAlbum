@@ -90,29 +90,55 @@ final class NicknameViewController: CustomBaseViewController {
         self.dismiss(animated: true)
     }
     
+    @objc private func completeButtonTapped() {
+        self.viewModel.profileSaveIn.value = ()
+    }
+    
     override func binding() {
-        self.viewModel.profileImageViewTappedOut.closure = { _, _ in
+        self.viewModel.profileImageViewTappedOut.closure = { [weak self] _, nV in
             let vc: ProfileImageViewController
-            vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: self.settingView.profileImageView.profileImageType)
+            vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: nV)
             vc.settingView.closure = { selectedProfileImageType in
-                self.settingView.profileImageType = selectedProfileImageType
+                self?.settingView.profileImageType = selectedProfileImageType
             }
-            self.navigationController?.pushViewController(vc, animated: true)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        self.viewModel.profileNicknameCheckOut.bind { [weak self] _, nV in
+            self?.settingView.nicknameTextFieldView.textFieldStateLabel.text = nV.rawValue
+            self?.settingView.nicknameTextFieldView.textFieldStateLabel.textColor = nV.isValid ? UIColor.faValidLabel : UIColor.faInvalidLabel
+            self?.settingView.completeButton.isEnabled = nV.isValid
+            self?.settingView.completeButton.backgroundColor = nV.isValid ? UIColor.faValidButton : UIColor.faInvalidButton
+        }
+        self.viewModel.profileSaveOut.closure = { _, _ in
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
+            window.rootViewController = MainTabBarController()
+            window.makeKeyAndVisible()
         }
     }
 }
 
 extension NicknameViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        self.editingView.nicknameState = self.editingView.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
-        self.navigationItem.rightBarButtonItem?.isEnabled = self.editingView.nicknameState == NicknameTextFieldState.ok
+        if self.viewType == .nicknameSetting {
+            self.viewModel.profileNicknameCheckIn.value = textField.text
+        } else if self.viewType == .nicknameEditing {
+            self.editingView.nicknameState = self.editingView.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
+            self.navigationItem.rightBarButtonItem?.isEnabled = self.editingView.nicknameState == NicknameTextFieldState.ok
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.editingView.nicknameState = textField.text.checkNicknameValidation()
-        if self.editingView.nicknameState == .ok {
+        if self.viewType == .nicknameSetting && self.viewModel.profileNicknameCheckOut.value.isValid {
             self.view.endEditing(true)
+            return true
+        } else if self.viewType == .nicknameEditing {
+            self.editingView.nicknameState = textField.text.checkNicknameValidation()
+            if self.editingView.nicknameState == .ok {
+                self.view.endEditing(true)
+            }
+            return true
+        } else {
+            return false
         }
-        return true
     }
 }
