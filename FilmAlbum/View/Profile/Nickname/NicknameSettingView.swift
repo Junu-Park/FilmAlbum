@@ -32,7 +32,7 @@ final class NicknameSettingView: UIView {
     
     let mbtiCollectionView: MBTICollectionView = MBTICollectionView(layout: UICollectionViewFlowLayout())
     
-    var profileImageType: ProfileImageType! {
+    var profileImageType: ProfileImageType {
         didSet {
             self.profileImageView.profileImageType = self.profileImageType
         }
@@ -46,9 +46,10 @@ final class NicknameSettingView: UIView {
     }
     
     init(profileImageType: ProfileImageType) {
+        self.profileImageType = profileImageType
+        
         super.init(frame: .zero)
         
-        self.profileImageType = profileImageType
         self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.getSetNickname()
         self.nicknameState = self.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
         
