@@ -11,7 +11,7 @@ import SnapKit
 
 final class NicknameViewController: CustomBaseViewController {
     
-    private lazy var settingView: NicknameSettingView = NicknameSettingView(profileImageType: self.viewModel.profileImageDataOut.value)
+    private lazy var settingView: NicknameSettingView = NicknameSettingView(profileImageType: self.viewModel.output.profileImageData.value)
     
     private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
     
@@ -78,7 +78,7 @@ final class NicknameViewController: CustomBaseViewController {
     
     @objc private func profileImageViewTapped() {
         if self.viewType == .nicknameSetting {
-            self.viewModel.profileImageViewTappedIn.value = ()
+            self.viewModel.input.profileImageViewTapped.value = ()
         } else if self.viewType == .nicknameEditing {
             let vc: ProfileImageViewController
             vc = ProfileImageViewController(viewType: .imageEditing, selectedProfileImageType: self.editingView.profileImageView.profileImageType)
@@ -106,32 +106,32 @@ final class NicknameViewController: CustomBaseViewController {
     }
     
     @objc private func completeButtonTapped() {
-        self.viewModel.profileSaveIn.value = ()
+        self.viewModel.input.profileSave.value = ()
     }
     
     override func binding() {
-        self.viewModel.profileImageDataOut.closure = { [weak self] _, nV in
+        self.viewModel.output.profileImageData.closure = { [weak self] _, nV in
             self?.settingView.profileImageType = nV
         }
-        self.viewModel.profileImageViewTappedOut.closure = { [weak self] _, nV in
+        self.viewModel.output.profileImageViewTapped.closure = { [weak self] _, nV in
             let vc: ProfileImageViewController
             vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: nV)
             vc.settingView.closure = { selectedProfileImageType in
-                self?.viewModel.profileImageDataIn.value = selectedProfileImageType
+                self?.viewModel.input.profileImageData.value = selectedProfileImageType
             }
             self?.navigationController?.pushViewController(vc, animated: true)
         }
-        self.viewModel.profileNicknameCheckOut.closure = { [weak self] _, nV in
+        self.viewModel.output.profileNicknameCheck.closure = { [weak self] _, nV in
             self?.settingView.nicknameTextFieldView.textFieldStateLabel.text = nV.rawValue
             self?.settingView.nicknameTextFieldView.textFieldStateLabel.textColor = nV.isValid ? UIColor.faValidLabel : UIColor.faInvalidLabel
             self?.settingView.completeButton.isEnabled = nV.isValid
             self?.settingView.completeButton.backgroundColor = nV.isValid ? UIColor.faValidButton : UIColor.faInvalidButton
         }
-        self.viewModel.profileSaveButtonStateOut.closure = { [weak self] _ , nV in
+        self.viewModel.output.profileSaveButtonState.closure = { [weak self] _ , nV in
             self?.settingView.completeButton.isEnabled = nV
             self?.settingView.completeButton.backgroundColor = nV ? UIColor.faValidButton : UIColor.faInvalidButton
         }
-        self.viewModel.profileSaveOut.closure = { _, _ in
+        self.viewModel.output.profileSave.closure = { _, _ in
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
             window.rootViewController = MainTabBarController()
             window.makeKeyAndVisible()
@@ -142,7 +142,7 @@ final class NicknameViewController: CustomBaseViewController {
 extension NicknameViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if self.viewType == .nicknameSetting {
-            self.viewModel.profileNicknameCheckIn.value = textField.text
+            self.viewModel.input.profileNicknameCheck.value = textField.text
         } else if self.viewType == .nicknameEditing {
             self.editingView.nicknameState = self.editingView.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
             self.navigationItem.rightBarButtonItem?.isEnabled = self.editingView.nicknameState == NicknameTextFieldState.ok
@@ -150,7 +150,7 @@ extension NicknameViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if self.viewType == .nicknameSetting && self.viewModel.profileNicknameCheckOut.value.isValid {
+        if self.viewType == .nicknameSetting && self.viewModel.output.profileNicknameCheck.value.isValid {
             self.view.endEditing(true)
             return true
         } else if self.viewType == .nicknameEditing {
@@ -179,7 +179,7 @@ extension NicknameViewController: UICollectionViewDelegate, UICollectionViewData
             cell.secondButton.tag = indexPath.item
             cell.secondButton.setTitle(String(list[indexPath.item].getMBTIStringList[1]), for: [])
             cell.secondButton.addTarget(self, action: #selector(self.mbtiButtonTapped), for: .touchUpInside)
-            if let mbti = self.viewModel.mbtiDataOut.value[indexPath.item] {
+            if let mbti = self.viewModel.output.mbtiData.value[indexPath.item] {
                 if String(list[indexPath.item].getMBTIStringList[0]) == mbti {
                     cell.firstButton.setSelectedMBTI()
                     cell.secondButton.setUnselectedMBTI()
@@ -198,13 +198,13 @@ extension NicknameViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     @objc private func mbtiButtonTapped(_ sender: MBTIButton) {
-        var mbtiList = self.viewModel.mbtiDataIn.value
+        var mbtiList = self.viewModel.output.mbtiData.value
         if mbtiList[sender.tag] == sender.title(for: []) {
             mbtiList[sender.tag] = nil
         } else {
             mbtiList[sender.tag] = sender.title(for: [])
         }
-        self.viewModel.mbtiDataIn.value = mbtiList
+        self.viewModel.input.mbtiData.value = mbtiList
         self.settingView.mbtiCollectionView.reloadItems(at: [IndexPath(item: sender.tag, section: 0)])
     }
 }
