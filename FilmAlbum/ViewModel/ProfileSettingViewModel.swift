@@ -35,46 +35,59 @@ enum MBTIType: String, CaseIterable {
     }
 }
 
-final class ProfileSettingViewModel {
+protocol BaseViewModel {
+    associatedtype Input
+    associatedtype Output
     
-    let profileImageDataIn: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
-    lazy var profileImageDataOut: Observer<ProfileImageType> = Observer(value: self.profileImageDataIn.value)
-    
-    let profileImageViewTappedIn: Observer<Void> = Observer(value: ())
-    lazy var profileImageViewTappedOut: Observer<ProfileImageType> = Observer(value: self.profileImageDataIn.value)
-    
-    let profileNicknameCheckIn: Observer<String?> = Observer(value: UserDataManager.getSetNickname())
-    let profileNicknameCheckOut: Observer<NicknameCheckState> = Observer(value: NicknameCheckState.charCountError)
-    
-    let mbtiDataIn: Observer<Array<String?>> = Observer(value: Array(repeating: nil, count: 4))
-    lazy var mbtiDataOut: Observer<Array<String?>> = Observer(value: self.mbtiDataIn.value)
-    
-    let profileSaveButtonStateOut: Observer<Bool> = Observer(value: false)
-    
-    let profileSaveIn: Observer<Void> = Observer(value: ())
-    let profileSaveOut: Observer<Void> = Observer(value: ())
+    func transform()
+}
+
+final class ProfileSettingViewModel: BaseViewModel {
+    struct Input {
+        let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
+        let profileImageViewTapped: Observer<Void> = Observer(value: ())
+        let profileNicknameCheck: Observer<String?> = Observer(value: UserDataManager.getSetNickname())
+        let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
+        let profileSave: Observer<Void> = Observer(value: ())
+    }
+    struct Output {
+        let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
+        let profileImageViewTapped: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
+        let profileNicknameCheck: Observer<NicknameCheckState> = Observer(value: NicknameCheckState.charCountError)
+        let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
+        let profileSaveButtonState: Observer<Bool> = Observer(value: false)
+        let profileSave: Observer<Void> = Observer(value: ())
+    }
+
+    private(set) var input: Input = Input()
+    private(set) var output: Output = Output()
     
     init() {
-        self.profileImageDataIn.closure = { [weak self] _, nV in
-            self?.profileImageDataOut.value = nV
+        self.transform()
+    }
+    
+    func transform() {
+        self.input.profileImageData.bind { [weak self] _, nV in
+            self?.output.profileImageData.value = nV
         }
-        self.profileImageViewTappedIn.closure = { [weak self] _, _ in
-            self?.profileImageViewTappedOut.value = self?.profileImageDataIn.value ?? UserDataManager.getSetProfileImage()
+        self.input.profileImageViewTapped.closure = { [weak self] _, _ in
+            self?.output.profileImageViewTapped.value = self?.input.profileImageData.value ?? UserDataManager.getSetProfileImage()
         }
-        self.profileNicknameCheckIn.closure = { [weak self] _, nV in
-            self?.profileNicknameCheckOut.value = self?.checkProfileNickname(text: nV) ?? NicknameCheckState.charCountError
+        self.input.profileNicknameCheck.closure = { [weak self] _, nV in
+            self?.output.profileNicknameCheck.value = self?.checkProfileNickname(text: nV) ?? NicknameCheckState.charCountError
             self?.checkProfileSaveButtonState()
         }
-        self.mbtiDataIn.closure = { [weak self] _, nV in
-            self?.mbtiDataOut.value = nV
+        self.input.mbtiData.closure = { [weak self] _, nV in
+            self?.output.mbtiData.value = nV
             self?.checkProfileSaveButtonState()
         }
-        self.profileSaveIn.closure = { [weak self] _, _ in
+        self.input.profileSave.closure = { [weak self] _, _ in
             UserDataManager.getSetOnboardingComplete(newOnboardingComplete: true)
-            UserDataManager.getSetNickname(newNickname: self?.profileNicknameCheckIn.value)
-            UserDataManager.getSetProfileImage(newProfileImageType: self?.profileImageDataIn.value)
+            UserDataManager.getSetNickname(newNickname: self?.input.profileNicknameCheck.value)
+            UserDataManager.getSetProfileImage(newProfileImageType: self?.input.profileImageData.value)
             UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
-            self?.profileSaveOut.value = ()
+            UserDataManager.getSetMBTI(newMBTI: self?.input.mbtiData.value ?? [])
+            self?.output.profileSave.value = ()
         }
     }
     
@@ -93,7 +106,7 @@ final class ProfileSettingViewModel {
     }
     
     private func checkMBTI() -> Bool {
-        if self.mbtiDataIn.value.contains(nil) {
+        if self.input.mbtiData.value.contains(nil) {
             return false
         } else {
             return true
@@ -101,10 +114,10 @@ final class ProfileSettingViewModel {
     }
     
     private func checkProfileSaveButtonState() {
-        if self.checkMBTI() && self.profileNicknameCheckOut.value == .ok {
-            self.profileSaveButtonStateOut.value = true
+        if self.checkMBTI() && self.checkProfileNickname(text: self.input.profileNicknameCheck.value) == .ok {
+            self.output.profileSaveButtonState.value = true
         } else {
-            self.profileSaveButtonStateOut.value = false
+            self.output.profileSaveButtonState.value = false
         }
     }
 }
