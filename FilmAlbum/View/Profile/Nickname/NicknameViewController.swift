@@ -110,6 +110,9 @@ final class NicknameViewController: CustomBaseViewController {
     }
     
     override func binding() {
+        self.viewModel.profileImageDataOut.closure = { [weak self] _, nV in
+            self?.settingView.profileImageType = nV
+        }
         self.viewModel.profileImageViewTappedOut.closure = { [weak self] _, nV in
             let vc: ProfileImageViewController
             vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: nV)
