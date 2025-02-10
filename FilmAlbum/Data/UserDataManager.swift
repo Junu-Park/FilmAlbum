@@ -14,6 +14,7 @@ enum UserDefaultsKey: String, CaseIterable {
     case createdDate = "CreatedDate"
     case likeMovieIDList = "LikeMovieIDList"
     case searchTermList = "SearchTermList"
+    case mbTI = "MBTI"
 }
 
 final class UserDataManager {
@@ -71,6 +72,18 @@ final class UserDataManager {
             return newSearchTermList
         } else {
             return UserDefaults.standard.array(forKey: UserDefaultsKey.searchTermList.rawValue) as? [String] ?? []
+        }
+    }
+    
+    @discardableResult static func geSetMBTI(newMBTI: Array<String?> = []) -> Array<String> {
+        if !newMBTI.isEmpty {
+            if let mbit = newMBTI as? Array<String> {
+                UserDefaults.standard.set(newMBTI, forKey: UserDefaultsKey.searchTermList.rawValue)
+            }
+            UserDefaults.standard.set(newMBTI, forKey: UserDefaultsKey.searchTermList.rawValue)
+            return ["E", "N", "T", "P"]
+        } else {
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.mbTI.rawValue) as? [String] ?? ["E", "N", "T", "P"]
         }
     }
     
