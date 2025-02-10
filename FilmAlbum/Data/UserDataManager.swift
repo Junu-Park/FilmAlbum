@@ -44,7 +44,11 @@ final class UserDataManager {
             UserDefaults.standard.set(profileImageType.rawValue, forKey: UserDefaultsKey.profileImage.rawValue)
             return profileImageType
         } else {
-            return ProfileImageType(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) ?? ProfileImageType.getRandomCase()
+            if UserDefaults.standard.bool(forKey: UserDefaultsKey.onBoardingComplete.rawValue) {
+                return ProfileImageType(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) ?? ProfileImageType.getRandomCase()
+            } else {
+                return ProfileImageType.getRandomCase()
+            }
         }
     }
     
