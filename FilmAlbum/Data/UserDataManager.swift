@@ -79,14 +79,14 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetMBTI(newMBTI: Array<String?> = []) -> Array<String> {
+    @discardableResult static func getSetMBTI(newMBTI: Array<String?> = []) -> Array<String?> {
         if !newMBTI.isEmpty {
             if let mbit = newMBTI as? Array<String> {
                 UserDefaults.standard.set(mbit, forKey: UserDefaultsKey.mbti.rawValue)
             }
-            return ["E", "N", "T", "P"]
+            return Array(repeating: nil, count: 4)
         } else {
-            return UserDefaults.standard.array(forKey: UserDefaultsKey.mbti.rawValue) as? [String] ?? ["E", "N", "T", "P"]
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.mbti.rawValue) as? [String] ?? Array(repeating: nil, count: 4)
         }
     }
     
