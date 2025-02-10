@@ -19,4 +19,9 @@ final class Observer<T> {
     init(value: T) {
         self.value = value
     }
+    
+    func bind(_ closure: @escaping (T, T) -> ()) {
+        closure(self.value, self.value)
+        self.closure = closure
+    }
 }
