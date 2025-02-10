@@ -11,7 +11,7 @@ import SnapKit
 
 final class NicknameViewController: CustomBaseViewController {
     
-    private lazy var settingView: NicknameSettingView = NicknameSettingView(profileImageType: self.viewModel.profileImageDataIn.value)
+    private lazy var settingView: NicknameSettingView = NicknameSettingView(profileImageType: self.viewModel.profileImageDataOut.value)
     
     private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
     
@@ -176,7 +176,7 @@ extension NicknameViewController: UICollectionViewDelegate, UICollectionViewData
             cell.secondButton.tag = indexPath.item
             cell.secondButton.setTitle(String(list[indexPath.item].getMBTIStringList[1]), for: [])
             cell.secondButton.addTarget(self, action: #selector(self.mbtiButtonTapped), for: .touchUpInside)
-            if let mbti = self.viewModel.mbtiDataIn.value[indexPath.item] {
+            if let mbti = self.viewModel.mbtiDataOut.value[indexPath.item] {
                 if String(list[indexPath.item].getMBTIStringList[0]) == mbti {
                     cell.firstButton.setSelectedMBTI()
                     cell.secondButton.setUnselectedMBTI()
