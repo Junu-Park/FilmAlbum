@@ -36,7 +36,6 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
         super.viewDidLoad()
         
         self.configureNavigationItem()
-        self.configureBinding()
         self.configureConnectionCollectionView()
         self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
         
@@ -57,7 +56,7 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
         self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
     }
     
-    private func configureBinding() {
+    override func binding() {
         self.viewModel.output.trendData.bind { [weak self] _, nV in
             self?.cinemaCollectionView.reloadSections(IndexSet(integer: 1))
         }
