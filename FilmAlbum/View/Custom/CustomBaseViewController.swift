@@ -60,11 +60,23 @@ class CustomBaseViewController: UIViewController {
         self.viewType = viewType
         super.init(nibName: nil, bundle: nil)
         self.view.backgroundColor = UIColor.faBlack
+        self.configureNavigationItem()
+        self.configureView()
+        self.configureHierarchy()
+        self.configureLayout()
         self.setNavigationItem()
         self.binding()
     }
     
-    func binding() { }
+    func configureNavigationItem() { return }
+    
+    func configureView() { return }
+    
+    func configureHierarchy() { return }
+    
+    func configureLayout() { return }
+    
+    func binding() { return }
     
     private func setNavigationItem() {
         self.navigationItem.backButtonDisplayMode = .minimal
