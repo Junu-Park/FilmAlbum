@@ -37,7 +37,6 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
         
         self.configureConnectionCollectionView()
         self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
-        
     }
     
     override func configureNavigationItem() {
