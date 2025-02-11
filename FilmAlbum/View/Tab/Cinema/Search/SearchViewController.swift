@@ -80,52 +80,46 @@ final class SearchViewController: CustomBaseViewController {
 
     private let searchCollectionView: SearchCollectionView = SearchCollectionView(layout: UICollectionViewFlowLayout())
     
-    private var searchRequest: SearchRequest = SearchRequest(query: "")
-    
-    private var searchResponse: SearchResponse = SearchResponse(page: 0, results: [], total_pages: 0, total_results: 0)
+    let viewModel: SearchViewModel = SearchViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.setNavigationItemSearchBar()
         self.configureConnectionSearchBar()
         self.configureConnectionCollectionView()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.receivedLikeButtonTappedNotification), name: NSNotification.Name("LikeButtonTapped"), object: nil)
-        
+    }
+    
+    override func configureHierarchy() {
         self.view.addSubview(self.searchCollectionView)
-        
+    }
+    
+    override func configureLayout() {
         self.searchCollectionView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
-    func searchingWithSearchTerm(_ searchTerm: String) {
-        self.navigationItem.searchController?.searchBar.text = searchTerm
-        self.searchRequest.query = searchTerm
-        NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
-            self.searchResponse = response
-            self.searchCollectionView.checkNoSearchData(count: self.searchResponse.results.count)
-            self.searchCollectionView.reloadData()
+    override func binding() {
+        self.viewModel.output.searchResult.bind { [weak self] oV, nV in
+            self?.searchCollectionView.checkNoSearchData(count: nV.count)
         }
-    }
-    
-    @objc private func receivedLikeButtonTappedNotification(value: NSNotification) {
-        if let info = value.userInfo?["isSearchDetail"] as? Bool, info {
-            self.searchCollectionView.reloadData()
+        self.viewModel.output.scrollToTop.bind { [weak self] _, _ in
+            self?.searchCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        }
+        self.viewModel.output.reload.bind { [weak self] _, nV in
+            if let nV {
+                UIView.performWithoutAnimation {
+                    self?.searchCollectionView.reloadItems(at: [IndexPath(row: nV, section: 0)])
+                }
+            } else {
+                self?.searchCollectionView.reloadData()
+            }
         }
     }
     
     @objc private func likeButtonTapped(_ sender: UIButton) {
-        var list: [Int] = UserDataManager.getSetLikeMovieList()
-        if let order = list.firstIndex(of: self.searchResponse.results[sender.tag].id) {
-            list.remove(at: order)
-        } else {
-            list.append(self.searchResponse.results[sender.tag].id)
-        }
-        UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
-        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearch": true])
-        UIView.performWithoutAnimation {
-            self.searchCollectionView.reloadItems(at: [IndexPath(item: sender.tag, section: 0)])
-        }
+        self.viewModel.input.likeButtonTapped.value = sender.tag
     }
 }
 
@@ -136,25 +130,11 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        if let searchTerm = searchBar.text, !searchTerm.isEmpty, searchTerm != self.searchRequest.query {
-            if !UserDataManager.getSetSearchTermList().contains(searchTerm) {
-                var list: [String] = UserDataManager.getSetSearchTermList()
-                list.insert(searchTerm, at: 0)
-                UserDataManager.getSetSearchTermList(newSearchTermList: list)
-                NotificationCenter.default.post(name: NSNotification.Name("searchBarEnterTapped"), object: nil)
-            }
-            self.searchResponse = SearchResponse(page: 0, results: [], total_pages: 0, total_results: 0)
-            self.searchRequest.page = 1
-            self.searchRequest.query = searchTerm
-            NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
-                self.searchResponse = response
-                self.searchCollectionView.checkNoSearchData(count: self.searchResponse.results.count)
-                self.searchCollectionView.reloadData()
-            }
+        if !(searchBar.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            self.viewModel.input.searchQuery.value = searchBar.text
             return true
-        } else {
-            return false
         }
+        return false
     }
 }
 
@@ -166,21 +146,21 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.searchResponse.results.count
+        return self.viewModel.output.searchResult.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell {
             
-            if UserDataManager.getSetLikeMovieList().contains(self.searchResponse.results[indexPath.item].id) {
+            if UserDataManager.getSetLikeMovieList().contains(self.viewModel.output.searchResult.value[indexPath.item].id) {
                 cell.likeButton.setImage(UIImage.faHeartFill, for: .normal)
             } else {
                 cell.likeButton.setImage(UIImage.faHeart, for: .normal)
             }
             cell.tag = indexPath.item
-            cell.titleLabel.text = self.searchResponse.results[indexPath.item].title
-            cell.dateLabel.text = self.searchResponse.results[indexPath.item].release_date.replaceLineWithPoint()
-            cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.searchResponse.results[indexPath.item].poster_path ?? "")))
+            cell.titleLabel.text = self.viewModel.output.searchResult.value[indexPath.item].title
+            cell.dateLabel.text = self.viewModel.output.searchResult.value[indexPath.item].release_date.replaceLineWithPoint()
+            cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.viewModel.output.searchResult.value[indexPath.item].poster_path ?? "")))
             
             if let genre1 = self.searchResponse.results[indexPath.item].genre_ids.first {
                 cell.genre1Label.text = Genre.init(rawValue: genre1)?.title
@@ -203,17 +183,11 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc: SearchDetailViewController = SearchDetailViewController(movieData: self.searchResponse.results[indexPath.item], viewType: .searchDetail(movieTitle: self.searchResponse.results[indexPath.item].title))
+        let vc: SearchDetailViewController = SearchDetailViewController(movieData: self.viewModel.output.searchResult.value[indexPath.item], viewType: .searchDetail(movieTitle: self.viewModel.output.searchResult.value[indexPath.item].title))
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.item + 2 == self.searchResponse.results.count) && self.searchResponse.results.count < self.searchResponse.total_results {
-            self.searchRequest.page += 1
-            NetworkManager.requestTMDB(type: .search(params: self.searchRequest)) { (response: SearchResponse) in
-                self.searchResponse.results += response.results
-                self.searchCollectionView.reloadData()
-            }
-        }
+        self.viewModel.input.searchQueryPagination.value = indexPath.item
     }
 }

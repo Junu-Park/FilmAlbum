@@ -149,7 +149,8 @@ extension CinemaViewController {
 extension CinemaViewController: SearchCollectionViewButtonDelegate {
     func searchTermTapped(searchTerm: String) {
         let vc: SearchViewController = SearchViewController(viewType: .search)
-        vc.searchingWithSearchTerm(searchTerm)
+        vc.navigationItem.searchController?.searchBar.text = searchTerm
+        vc.viewModel.input.searchQuery.value = searchTerm
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
