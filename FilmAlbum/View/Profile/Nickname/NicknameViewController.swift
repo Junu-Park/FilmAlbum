@@ -20,14 +20,12 @@ final class NicknameViewController: CustomBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureHierarchy()
         self.configureProfileImageViewTapGesture()
-        self.configureNavigationItem()
         self.configureDelegate()
         self.configureAddTarget()
     }
     
-    private func configureHierarchy() {
+    override func configureHierarchy() {
         if self.viewType == .nicknameSetting {
             self.view = self.settingView
         } else if self.viewType == .nicknameEditing {
@@ -49,7 +47,7 @@ final class NicknameViewController: CustomBaseViewController {
         }
     }
     
-    private func configureNavigationItem() {
+    override func configureNavigationItem() {
         if self.viewType == .nicknameSetting {
             return
         } else if self.viewType == .nicknameEditing {

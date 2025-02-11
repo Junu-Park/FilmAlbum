@@ -33,10 +33,9 @@ final class ProfileImageViewController: CustomBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureHierarchy()
     }
     
-    private func configureHierarchy() {
+    override func configureHierarchy() {
         if self.viewType == .imageSetting {
             self.view = self.settingView
         } else if self.viewType == .imageEditing {

@@ -66,7 +66,8 @@ final class SearchDetailViewController: CustomBaseViewController {
         super.init(viewType: viewType)
         self.movieData = movieData
         self.detailDataView.data = self.movieData
-        self.configureNavigationItem()
+        self.synopsisLabel.text = self.movieData.overview
+        
         NetworkManager.requestTMDB(type: .image(movieID: self.movieData.id)) { (response: ImageResponse) in
             self.movieImage = response
             self.posterCollectionView.reloadData()
@@ -76,14 +77,21 @@ final class SearchDetailViewController: CustomBaseViewController {
             self.movieCredit = response
             self.castCollectionView.reloadData()
         }
-        self.synopsisLabel.text = self.movieData.overview
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.configureConnectionCollectionView()
-        
+    }
+    
+    override func configureNavigationItem() {
+        DispatchQueue.main.async {
+            let image: UIImage = UserDataManager.getSetLikeMovieList().contains(self.movieData.id) ? UIImage.faHeartFill : UIImage.faHeart
+            let rightItem: UIBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(self.likeButtonTapped))
+            self.navigationItem.setRightBarButton(rightItem, animated: true)
+        }
+    }
+    
+    override func configureHierarchy() {
         self.view.addSubview(self.mainScrollView)
         self.mainScrollView.addSubview(self.backdropCollectionView)
         self.mainScrollView.addSubview(self.backdropPageControl)
@@ -95,6 +103,10 @@ final class SearchDetailViewController: CustomBaseViewController {
         self.mainScrollView.addSubview(self.castCollectionView)
         self.mainScrollView.addSubview(self.posterTitle)
         self.mainScrollView.addSubview(self.posterCollectionView)
+    }
+    
+    override func configureLayout() {
+        self.configureConnectionCollectionView()
         
         self.mainScrollView.snp.makeConstraints { make in
             make.edges.equalTo(self.view.safeAreaLayoutGuide)
@@ -144,12 +156,6 @@ final class SearchDetailViewController: CustomBaseViewController {
             make.height.equalTo(166)
             make.bottom.equalToSuperview()
         }
-    }
-    
-    private func configureNavigationItem() {
-        let image: UIImage = UserDataManager.getSetLikeMovieList().contains(self.movieData.id) ? UIImage.faHeartFill : UIImage.faHeart
-        let rightItem: UIBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(self.likeButtonTapped))
-        self.navigationItem.setRightBarButton(rightItem, animated: true)
     }
     
     @objc private func likeButtonTapped() {
