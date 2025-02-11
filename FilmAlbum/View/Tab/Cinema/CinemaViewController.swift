@@ -60,8 +60,8 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
     }
     
     override func binding() {
-        self.viewModel.output.trendData.bind { [weak self] _, nV in
-            self?.cinemaCollectionView.reloadSections(IndexSet(integer: 1))
+        self.viewModel.output.reloadSection.bind { [weak self] _, nV in
+            self?.cinemaCollectionView.reloadSections(IndexSet(integer: nV))
         }
     }
     
@@ -87,9 +87,7 @@ extension CinemaViewController {
             if indexPath.section == 0 {
                 header.headerType = .recentSearchTerm
                 header.allDeleteButtonClosure = {
-                    UserDataManager.resetSearchTermList()
-                    NotificationCenter.default.post(name: NSNotification.Name("deleteButtonTapped"), object: nil)
-                    self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
+                    self.viewModel.input.searchTermAllDelete.value = ()
                 }
             } else {
                 header.headerType = .todayMovie
@@ -155,11 +153,7 @@ extension CinemaViewController: SearchCollectionViewButtonDelegate {
     }
     
     func searchTermDeleteTapped(index: Int) {
-        var list = UserDataManager.getSetSearchTermList()
-        list.remove(at: index)
-        UserDataManager.getSetSearchTermList(newSearchTermList: list)
-        NotificationCenter.default.post(name: NSNotification.Name("deleteButtonTapped"), object: nil)
-        self.cinemaCollectionView.reloadSections(IndexSet(integer: 0))
+        self.viewModel.input.searchTermDelete.value = index
     }
 }
 
