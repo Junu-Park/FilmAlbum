@@ -30,17 +30,15 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
     
     private let cinemaCollectionView: CinemaCollectionView = CinemaCollectionView(layout: UICollectionViewFlowLayout())
     
-    private var trendingDataList: [TrendingResult] = []
+    private let viewModel: CinemaViewModel = CinemaViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkManager.requestTMDB(type: TMDBAPI.trending(params: TrendingRequest())) { (response: TrendingResponse) in
-            self.trendingDataList = response.results
-            self.cinemaCollectionView.reloadSections(IndexSet(integer: 1))
-        }
+        
         self.configureNavigationItem()
-        self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
+        self.configureBinding()
         self.configureConnectionCollectionView()
+        self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
         
         self.view.addSubview(profileBannerView)
         self.view.addSubview(cinemaCollectionView)
@@ -57,6 +55,12 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
     
     private func configureNavigationItem() {
         self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
+    }
+    
+    private func configureBinding() {
+        self.viewModel.output.trendData.bind { [weak self] _, nV in
+            self?.cinemaCollectionView.reloadSections(IndexSet(integer: 1))
+        }
     }
     
     @objc private func searchButtonTapped() {
@@ -119,7 +123,7 @@ extension CinemaViewController {
                 cell.searchDelegate = self
             } else {
                 cell.collectionCellType = .todayMovie
-                cell.trendingDataList = self.trendingDataList
+                cell.trendingDataList = self.viewModel.output.trendData.value
                 cell.todayMovieDelegate = self
             }
             
