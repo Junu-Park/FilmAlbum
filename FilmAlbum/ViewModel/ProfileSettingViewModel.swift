@@ -35,14 +35,7 @@ enum MBTIType: String, CaseIterable {
     }
 }
 
-protocol BaseViewModel {
-    associatedtype Input
-    associatedtype Output
-    
-    func transform()
-}
-
-final class ProfileSettingViewModel: BaseViewModel {
+final class ProfileSettingViewModel: ViewModelProtocol {
     struct Input {
         let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
         let profileImageViewTapped: Observer<Void> = Observer(value: ())
