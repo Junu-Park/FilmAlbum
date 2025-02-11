@@ -23,7 +23,7 @@ final class CinemaViewModel: ViewModelProtocol {
     }
     
     func transform() {
-        self.input.viewInit.bindWithInit { _, nV in
+        self.input.viewInit.bindWithExecute { _, nV in
             NetworkManager.requestTMDB(type: .trending(params: TrendingRequest())) { [weak self] (response: TrendingResponse) in
                 self?.output.trendData.value = response.results
             }

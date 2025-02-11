@@ -60,7 +60,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
     }
     
     func transform() {
-        self.input.profileImageData.bindWithInit { [weak self] _, nV in
+        self.input.profileImageData.bindWithExecute { [weak self] _, nV in
             self?.output.profileImageData.value = nV
         }
         self.input.profileImageViewTapped.bind { [weak self] _, _ in

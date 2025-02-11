@@ -20,7 +20,7 @@ final class Observer<T> {
         self.value = value
     }
     
-    func bindWithInit(_ closure: @escaping (T, T) -> ()) {
+    func bindWithExecute(_ closure: @escaping (T, T) -> ()) {
         closure(self.value, self.value)
         self.closure = closure
     }
