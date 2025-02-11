@@ -35,13 +35,21 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureNavigationItem()
         self.configureConnectionCollectionView()
         self.profileBannerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.profileBannerTapped)))
         
+    }
+    
+    override func configureNavigationItem() {
+        self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
+    }
+    
+    override func configureHierarchy() {
         self.view.addSubview(profileBannerView)
         self.view.addSubview(cinemaCollectionView)
-        
+    }
+    
+    override func configureLayout() {
         self.profileBannerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(self.view.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(150)
@@ -50,10 +58,6 @@ final class CinemaViewController: CustomBaseViewController, UICollectionViewDele
             make.top.equalTo(self.profileBannerView.snp.bottom)
             make.horizontalEdges.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
-    }
-    
-    private func configureNavigationItem() {
-        self.navigationItem.setRightBarButton(UIBarButtonItem(image: UIImage.faMagnifyingglass, style: .plain, target: self, action: #selector(self.searchButtonTapped)), animated: true)
     }
     
     override func binding() {
