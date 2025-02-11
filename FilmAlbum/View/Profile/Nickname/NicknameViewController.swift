@@ -110,10 +110,10 @@ final class NicknameViewController: CustomBaseViewController {
     }
     
     override func binding() {
-        self.viewModel.output.profileImageData.closure = { [weak self] _, nV in
+        self.viewModel.output.profileImageData.bind { [weak self] _, nV in
             self?.settingView.profileImageType = nV
         }
-        self.viewModel.output.profileImageViewTapped.closure = { [weak self] _, nV in
+        self.viewModel.output.profileImageViewTapped.bind { [weak self] _, nV in
             let vc: ProfileImageViewController
             vc = ProfileImageViewController(viewType: .imageSetting, selectedProfileImageType: nV)
             vc.settingView.closure = { selectedProfileImageType in
@@ -121,17 +121,17 @@ final class NicknameViewController: CustomBaseViewController {
             }
             self?.navigationController?.pushViewController(vc, animated: true)
         }
-        self.viewModel.output.profileNicknameCheck.closure = { [weak self] _, nV in
+        self.viewModel.output.profileNicknameCheck.bind { [weak self] _, nV in
             self?.settingView.nicknameTextFieldView.textFieldStateLabel.text = nV.rawValue
             self?.settingView.nicknameTextFieldView.textFieldStateLabel.textColor = nV.isValid ? UIColor.faValidLabel : UIColor.faInvalidLabel
             self?.settingView.completeButton.isEnabled = nV.isValid
             self?.settingView.completeButton.backgroundColor = nV.isValid ? UIColor.faValidButton : UIColor.faInvalidButton
         }
-        self.viewModel.output.profileSaveButtonState.closure = { [weak self] _ , nV in
+        self.viewModel.output.profileSaveButtonState.bind { [weak self] _ , nV in
             self?.settingView.completeButton.isEnabled = nV
             self?.settingView.completeButton.backgroundColor = nV ? UIColor.faValidButton : UIColor.faInvalidButton
         }
-        self.viewModel.output.profileSave.closure = { _, _ in
+        self.viewModel.output.profileSave.bind { _, _ in
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first else { return }
             window.rootViewController = MainTabBarController()
             window.makeKeyAndVisible()
