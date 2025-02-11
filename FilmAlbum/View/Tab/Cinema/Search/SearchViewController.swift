@@ -162,12 +162,17 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell.dateLabel.text = self.viewModel.output.searchResult.value[indexPath.item].release_date.replaceLineWithPoint()
             cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.viewModel.output.searchResult.value[indexPath.item].poster_path ?? "")))
             
-            if let genre1 = self.searchResponse.results[indexPath.item].genre_ids.first {
+            if let genre1 = self.viewModel.output.searchResult.value[indexPath.item].genre_ids.first {
+                cell.genre1Label.isHidden = false
                 cell.genre1Label.text = Genre.init(rawValue: genre1)?.title
+            } else {
+                cell.genre1Label.isHidden = true
             }
-            if self.searchResponse.results[indexPath.item].genre_ids.count > 1 {
-                cell.genre2Label.text =
-                Genre.init(rawValue: self.searchResponse.results[indexPath.item].genre_ids[1])?.title
+            if self.viewModel.output.searchResult.value[indexPath.item].genre_ids.count > 1 {
+                cell.genre2Label.isHidden = false
+                cell.genre2Label.text = Genre.init(rawValue: self.viewModel.output.searchResult.value[indexPath.item].genre_ids[1])?.title
+            } else {
+                cell.genre2Label.isHidden = true
             }
             
             cell.likeButton.addTarget(self, action: #selector(self.likeButtonTapped), for: .touchUpInside)
