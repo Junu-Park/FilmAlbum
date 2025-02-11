@@ -60,21 +60,21 @@ final class ProfileSettingViewModel: ViewModelProtocol {
     }
     
     func transform() {
-        self.input.profileImageData.bind { [weak self] _, nV in
+        self.input.profileImageData.bindWithInit { [weak self] _, nV in
             self?.output.profileImageData.value = nV
         }
-        self.input.profileImageViewTapped.closure = { [weak self] _, _ in
+        self.input.profileImageViewTapped.bind { [weak self] _, _ in
             self?.output.profileImageViewTapped.value = self?.input.profileImageData.value ?? UserDataManager.getSetProfileImage()
         }
-        self.input.profileNicknameCheck.closure = { [weak self] _, nV in
+        self.input.profileNicknameCheck.bind { [weak self] _, nV in
             self?.output.profileNicknameCheck.value = self?.checkProfileNickname(text: nV) ?? NicknameCheckState.charCountError
             self?.checkProfileSaveButtonState()
         }
-        self.input.mbtiData.closure = { [weak self] _, nV in
+        self.input.mbtiData.bind { [weak self] _, nV in
             self?.output.mbtiData.value = nV
             self?.checkProfileSaveButtonState()
         }
-        self.input.profileSave.closure = { [weak self] _, _ in
+        self.input.profileSave.bind { [weak self] _, _ in
             UserDataManager.getSetOnboardingComplete(newOnboardingComplete: true)
             UserDataManager.getSetNickname(newNickname: self?.input.profileNicknameCheck.value)
             UserDataManager.getSetProfileImage(newProfileImageType: self?.input.profileImageData.value)
