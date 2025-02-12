@@ -159,6 +159,8 @@ extension CinemaViewController: SearchCollectionViewButtonDelegate {
 
 extension CinemaViewController: TodayMovieCollectionViewDelegate {
     func todayMovieTapped(data: SearchResult) {
-        self.navigationController?.pushViewController(SearchDetailViewController(movieData: data, viewType: .searchDetail(movieTitle: data.title)), animated: true)
+        let vc = SearchDetailViewController(viewType: .searchDetail(movieTitle: data.title))
+        vc.viewModel.input.movieData.value = data
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -23,7 +23,7 @@ final class SearchDetailViewController: CustomBaseViewController {
         return pc
     }()
     private let backdropCollectionView: BackdropCollectionView = BackdropCollectionView(layout: UICollectionViewFlowLayout())
-    private lazy var detailDataView: SearchDetailDataView = SearchDetailDataView(data: self.movieData)
+    private lazy var detailDataView: SearchDetailDataView = SearchDetailDataView(data: self.viewModel.output.movieData.value)
     private let synopsisTitle: UILabel = {
         let lb: UILabel = UILabel()
         lb.font = UIFont.fa14BoldFont
@@ -58,25 +58,10 @@ final class SearchDetailViewController: CustomBaseViewController {
     }()
     private let posterCollectionView: PosterCollectionView = PosterCollectionView(layout: UICollectionViewFlowLayout())
     
-    var movieData: SearchResult = SearchResult(id: 0, backdrop_path: "", title: "", overview: "", poster_path: "", genre_ids: [], release_date: "", vote_average: 0)
-    var movieImage: ImageResponse = ImageResponse(id: 0, backdrops: [], posters: [])
-    var movieCredit: CreditResponse = CreditResponse(id: 0, casts: [])
+    let viewModel: SearchDetailViewModel = SearchDetailViewModel()
     
-    init(movieData: SearchResult, viewType: ViewType) {
+    override init(viewType: ViewType) {
         super.init(viewType: viewType)
-        self.movieData = movieData
-        self.detailDataView.data = self.movieData
-        self.synopsisLabel.text = self.movieData.overview
-        
-        NetworkManager.requestTMDB(type: .image(movieID: self.movieData.id)) { (response: ImageResponse) in
-            self.movieImage = response
-            self.posterCollectionView.reloadData()
-            self.backdropCollectionView.reloadData()
-        }
-        NetworkManager.requestTMDB(type: .credit(movieID: self.movieData.id, params: CreditRequest())) { (response: CreditResponse) in
-            self.movieCredit = response
-            self.castCollectionView.reloadData()
-        }
     }
     
     override func viewDidLoad() {
@@ -84,11 +69,8 @@ final class SearchDetailViewController: CustomBaseViewController {
     }
     
     override func configureNavigationItem() {
-        DispatchQueue.main.async {
-            let image: UIImage = UserDataManager.getSetLikeMovieList().contains(self.movieData.id) ? UIImage.faHeartFill : UIImage.faHeart
-            let rightItem: UIBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(self.likeButtonTapped))
-            self.navigationItem.setRightBarButton(rightItem, animated: true)
-        }
+        let rightItem: UIBarButtonItem = UIBarButtonItem(image: UIImage.faHeart, style: .plain, target: self, action: #selector(self.likeButtonTapped))
+        self.navigationItem.setRightBarButton(rightItem, animated: true)
     }
     
     override func configureHierarchy() {
@@ -158,20 +140,25 @@ final class SearchDetailViewController: CustomBaseViewController {
         }
     }
     
-    @objc private func likeButtonTapped() {
-        
-        var list: [Int] = UserDataManager.getSetLikeMovieList()
-        if let index = list.firstIndex(of: self.movieData.id) {
-            list.remove(at: index)
-        } else {
-            list.append(self.movieData.id)
+    override func binding() {
+        self.viewModel.output.movieData.bind { _, nV in
+            self.detailDataView.data = nV
+            self.synopsisLabel.text = nV.overview
+            self.viewModel.input.movieLike.value = ()
+            self.viewModel.input.initWithMovieID.value = nV.id
         }
-        UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
-        
-        let image: UIImage = UserDataManager.getSetLikeMovieList().contains(self.movieData.id) ? UIImage.faHeartFill : UIImage.faHeart
-        self.navigationItem.rightBarButtonItem?.image = image
-        
-        NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearchDetail": true])
+        self.viewModel.output.movieLike.bind { _ , nV in
+            self.navigationItem.rightBarButtonItem?.image = nV ? UIImage.faHeartFill : UIImage.faHeart
+        }
+        self.viewModel.output.reload.bind { _, _ in
+            self.backdropCollectionView.reloadData()
+            self.castCollectionView.reloadData()
+            self.posterCollectionView.reloadData()
+        }
+    }
+    
+    @objc private func likeButtonTapped() {
+        self.viewModel.input.movieLikeTapped.value = ()
     }
     
     @objc private func synopsisButtonTapped() {
@@ -202,19 +189,18 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         if collectionView.tag == 1 {
-            if self.movieImage.backdrops.count < 5 {
-                self.backdropPageControl.numberOfPages = self.movieImage.backdrops.count
-                return self.movieImage.backdrops.count
+            if self.viewModel.output.movieBackdrops.value.count < 5 {
+                self.backdropPageControl.numberOfPages = self.viewModel.output.movieBackdrops.value.count
+                return self.viewModel.output.movieBackdrops.value.count
             } else {
                 self.backdropPageControl.numberOfPages = 5
                 return 5
             }
         } else if collectionView.tag == 2 {
-            return self.movieCredit.casts.count
+            return self.viewModel.output.movieCredit.value.count
         } else if collectionView.tag == 3 {
-            return self.movieImage.posters.count
+            return self.viewModel.output.moviePosters.value.count
         } else {
             return 0
         }
@@ -223,23 +209,23 @@ extension SearchDetailViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView.tag == 1 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BackdropCollectionViewCell.id, for: indexPath) as? BackdropCollectionViewCell {
-                cell.backdropImageView.kf.setImage(with: URL(string: TMDBAPI.image400Base + (self.movieImage.backdrops[indexPath.item].file_path)))
+                cell.backdropImageView.kf.setImage(with: URL(string: TMDBAPI.image400Base + (self.viewModel.output.movieBackdrops.value[indexPath.item].file_path)))
                 return cell
             } else {
                 return UICollectionViewCell()
             }
         } else if collectionView.tag == 2 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CastCollectionViewCell", for: indexPath) as? CastCollectionViewCell {
-                cell.castImage.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieCredit.casts[indexPath.item].profile_path ?? "")))
-                cell.castKoName.text = self.movieCredit.casts[indexPath.item].name
-                cell.castCharacterName.text = self.movieCredit.casts[indexPath.item].character
+                cell.castImage.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.viewModel.output.movieCredit.value[indexPath.item].profile_path ?? "")))
+                cell.castKoName.text = self.viewModel.output.movieCredit.value[indexPath.item].name
+                cell.castCharacterName.text = self.viewModel.output.movieCredit.value[indexPath.item].character
                 return cell
             } else {
                 return UICollectionViewCell()
             }
         } else if collectionView.tag == 3 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCollectionViewCell", for: indexPath) as? PosterCollectionViewCell {
-                cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.movieImage.posters[indexPath.item].file_path)))
+                cell.posterImageView.kf.setImage(with: URL(string: TMDBAPI.image200Base + (self.viewModel.output.moviePosters.value[indexPath.item].file_path)))
                 return cell
             } else {
                 return UICollectionViewCell()
