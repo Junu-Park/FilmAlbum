@@ -30,6 +30,7 @@ final class NicknameEditingView: UIView {
     init(profileImageType: ProfileImageType) {
         super.init(frame: .zero)
         
+        self.backgroundColor = UIColor.faBlack
         self.profileImageType = profileImageType
         self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.getSetNickname()
         self.nicknameState = self.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()

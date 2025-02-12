@@ -39,6 +39,7 @@ final class ProfileImageEditingView: UIView {
     init(selectedProfileImageType: ProfileImageType) {
         super.init(frame: .zero)
         
+        self.backgroundColor = UIColor.faBlack
         self.configureCollectionViewConnection()
         self.selectedProfileImageType = selectedProfileImageType
         

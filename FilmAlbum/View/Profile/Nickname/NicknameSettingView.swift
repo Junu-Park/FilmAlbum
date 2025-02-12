@@ -50,6 +50,7 @@ final class NicknameSettingView: UIView {
         
         super.init(frame: .zero)
         
+        self.backgroundColor = UIColor.faBlack
         self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.getSetNickname()
         self.nicknameState = self.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
         
