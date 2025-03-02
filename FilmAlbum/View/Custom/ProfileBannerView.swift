@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class ProfileBannerView: UIView {
+final class ProfileBannerView: CustomBaseView {
     
     private let profileImageView: ProfileImageView = ProfileImageView(profileImageType: UserDataManager.getSetProfileImage(), isSelected: true)
     
@@ -45,8 +45,8 @@ final class ProfileBannerView: UIView {
         return lb
     }()
     
-    init() {
-        super.init(frame: .zero)
+    override init() {
+        super.init()
         
         self.isUserInteractionEnabled = true
         self.backgroundColor = UIColor.faDarkGray
@@ -89,10 +89,5 @@ final class ProfileBannerView: UIView {
     
     @objc private func receivedLikeButtonTappedNotification() {
         self.movieCountLabel.text = "\(UserDataManager.getSetLikeMovieList().count) 개의 무비박스 보관중"
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

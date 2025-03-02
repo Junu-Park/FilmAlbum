@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class OnboardingView: UIView {
+final class OnboardingView: CustomBaseView {
     
     private let onboardingImageView: UIImageView = {
         let iv: UIImageView = UIImageView()
@@ -37,8 +37,8 @@ final class OnboardingView: UIView {
     
     let startButton: UIButton = RadiusBorderButton(title: "시작하기", radius: 25, isBorder: true)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init() {
+        super.init()
         configureHierarchy()
         configureLayout()
     }
@@ -71,10 +71,5 @@ final class OnboardingView: UIView {
             make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

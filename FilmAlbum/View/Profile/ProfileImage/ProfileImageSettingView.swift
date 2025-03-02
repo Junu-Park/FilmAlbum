@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileImageSettingView: UIView {
+final class ProfileImageSettingView: CustomBaseView {
     
     private lazy var selectedProfileImage: ProfileImageView = ProfileImageView(profileImageType: self.selectedProfileImageType, isSelected: true, showCamera: true, canTap: false)
     
@@ -37,7 +37,7 @@ final class ProfileImageSettingView: UIView {
     var closure: ((ProfileImageType) -> ())?
     
     init(selectedProfileImageType: ProfileImageType) {
-        super.init(frame: .zero)
+        super.init()
         
         self.backgroundColor = UIColor.faBlack
         self.configureCollectionViewConnection()
@@ -55,11 +55,6 @@ final class ProfileImageSettingView: UIView {
             make.top.equalTo(self.selectedProfileImage.snp.bottom).offset(64)
             make.horizontalEdges.bottom.equalToSuperview()
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 

@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SearchDetailDataView: UIView {
+final class SearchDetailDataView: CustomBaseView {
     
     private lazy var date: UIButton = {
         let btn: UIButton = UIButton()
@@ -62,7 +62,7 @@ final class SearchDetailDataView: UIView {
     }
     
     init(data: SearchResult) {
-        super.init(frame: .zero)
+        super.init()
         
         self.data = data
         self.addSubview(self.date)
@@ -94,10 +94,5 @@ final class SearchDetailDataView: UIView {
             make.centerY.equalToSuperview()
             make.leading.equalTo(self.divider2.snp.trailing).offset(16)
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

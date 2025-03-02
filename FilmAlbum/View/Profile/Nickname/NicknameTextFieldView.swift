@@ -16,7 +16,7 @@ enum NicknameTextFieldState: String {
     case numberCharError = "닉네임에 숫자는 포함할 수 없어요"
 }
 
-final class NicknameTextFieldView: UIView {
+final class NicknameTextFieldView: CustomBaseView {
 
     let nicknameTextField: UITextField = {
         let tf: UITextField = UITextField()
@@ -45,8 +45,8 @@ final class NicknameTextFieldView: UIView {
         return lb
     }()
     
-    init() {
-        super.init(frame: .zero)
+    override init() {
+        super.init()
         
         self.addSubview(nicknameTextField)
         self.addSubview(textFieldUnderlineView)
@@ -63,10 +63,5 @@ final class NicknameTextFieldView: UIView {
             make.top.equalTo(self.textFieldUnderlineView.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

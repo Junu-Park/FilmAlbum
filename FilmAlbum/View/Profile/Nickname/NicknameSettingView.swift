@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class NicknameSettingView: UIView {
+final class NicknameSettingView: CustomBaseView {
 
     lazy var profileImageView: ProfileImageView = ProfileImageView(profileImageType: self.profileImageType, isSelected: true, showCamera: true, canTap: true)
     
@@ -48,7 +48,7 @@ final class NicknameSettingView: UIView {
     init(profileImageType: ProfileImageType) {
         self.profileImageType = profileImageType
         
-        super.init(frame: .zero)
+        super.init()
         
         self.backgroundColor = UIColor.faBlack
         self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.getSetNickname()
@@ -83,10 +83,5 @@ final class NicknameSettingView: UIView {
             make.horizontalEdges.bottom.equalTo(self.safeAreaLayoutGuide).inset(16)
             make.height.equalTo(50)
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

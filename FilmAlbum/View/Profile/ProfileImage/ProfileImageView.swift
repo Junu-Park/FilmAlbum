@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class ProfileImageView: UIView {
+final class ProfileImageView: CustomBaseView {
     
     private lazy var profileImage: UIImageView = {
         let iv: UIImageView = UIImageView()
@@ -89,7 +89,7 @@ final class ProfileImageView: UIView {
     }
     
     init(profileImageType: ProfileImageType, isSelected: Bool = false, showCamera: Bool = false, canTap: Bool = false) {
-        super.init(frame: .zero)
+        super.init()
         
         self.profileImageType = profileImageType
         self.isSelected = isSelected
@@ -108,10 +108,5 @@ final class ProfileImageView: UIView {
             make.height.equalTo(self.cameraImage.snp.width)
             make.right.bottom.equalToSuperview()
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

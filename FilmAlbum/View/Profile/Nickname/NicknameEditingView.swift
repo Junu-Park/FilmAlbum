@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class NicknameEditingView: UIView {
+final class NicknameEditingView: CustomBaseView {
     
     lazy var profileImageView: ProfileImageView = ProfileImageView(profileImageType: self.profileImageType, isSelected: true, showCamera: true, canTap: true)
     
@@ -28,7 +28,7 @@ final class NicknameEditingView: UIView {
     }
     
     init(profileImageType: ProfileImageType) {
-        super.init(frame: .zero)
+        super.init()
         
         self.backgroundColor = UIColor.faBlack
         self.profileImageType = profileImageType
@@ -47,10 +47,5 @@ final class NicknameEditingView: UIView {
             make.top.equalTo(self.profileImageView.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
