@@ -30,30 +30,12 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetOnboardingComplete(newOnboardingComplete: Bool? = nil) -> Bool {
-        if let newOnboardingComplete {
-            UserDefaults.standard.set(newOnboardingComplete, forKey: UserDefaultsKey.onBoardingComplete.rawValue)
-            return newOnboardingComplete
-        } else {
-            return UserDefaults.standard.bool(forKey: UserDefaultsKey.onBoardingComplete.rawValue)
-        }
-    }
-    
     static var nickname: String {
         get {
             return UserDefaults.standard.string(forKey: UserDefaultsKey.nickname.rawValue) ?? ""
         }
         set {
             UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.nickname.rawValue)
-        }
-    }
-    
-    @discardableResult static func getSetNickname(newNickname nickname: String? = nil) -> String {
-        if let nickname {
-            UserDefaults.standard.set(nickname, forKey: UserDefaultsKey.nickname.rawValue)
-            return nickname
-        } else {
-            return UserDefaults.standard.string(forKey: UserDefaultsKey.nickname.rawValue) ?? ""
         }
     }
     
@@ -69,34 +51,12 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetProfileImage(newProfileImageType profileImageType: ProfileImageType? = nil) -> ProfileImageType {
-        if let profileImageType {
-            UserDefaults.standard.set(profileImageType.rawValue, forKey: UserDefaultsKey.profileImage.rawValue)
-            return profileImageType
-        } else {
-            if UserDefaults.standard.bool(forKey: UserDefaultsKey.onBoardingComplete.rawValue) {
-                return ProfileImageType(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) ?? ProfileImageType.getRandomCase()
-            } else {
-                return ProfileImageType.getRandomCase()
-            }
-        }
-    }
-    
     static var createdDate: String {
         get {
             return UserDefaults.standard.string(forKey: UserDefaultsKey.createdDate.rawValue) ?? Date().convertToCreatedDateString()
         }
         set {
             UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.createdDate.rawValue)
-        }
-    }
-    
-    @discardableResult static func getSetCreatedDateString(newCreatedDate createdDate: Date? = nil) -> String {
-        if let createdDate {
-            UserDefaults.standard.set(createdDate.convertToCreatedDateString(), forKey: UserDefaultsKey.createdDate.rawValue)
-            return createdDate.convertToCreatedDateString()
-        } else {
-            return UserDefaults.standard.string(forKey: UserDefaultsKey.createdDate.rawValue) ?? Date().convertToCreatedDateString()
         }
     }
     
@@ -109,15 +69,6 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetLikeMovieList(newLikeMovieIDList: [Int]? = nil) -> [Int] {
-        if let newLikeMovieIDList {
-            UserDefaults.standard.set(newLikeMovieIDList, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
-            return newLikeMovieIDList
-        } else {
-            return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
-        }
-    }
-    
     static var searchTermList: [String] {
         get {
             return UserDefaults.standard.array(forKey: UserDefaultsKey.searchTermList.rawValue) as? [String] ?? []
@@ -127,32 +78,12 @@ final class UserDataManager {
         }
     }
     
-    @discardableResult static func getSetSearchTermList(newSearchTermList: [String]? = nil) -> [String] {
-        if let newSearchTermList {
-            UserDefaults.standard.set(newSearchTermList, forKey: UserDefaultsKey.searchTermList.rawValue)
-            return newSearchTermList
-        } else {
-            return UserDefaults.standard.array(forKey: UserDefaultsKey.searchTermList.rawValue) as? [String] ?? []
-        }
-    }
-    
     static var mbti: [String?] {
         get {
             return UserDefaults.standard.array(forKey: UserDefaultsKey.mbti.rawValue) as? [String] ?? Array(repeating: nil, count: 4)
         }
         set {
             UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.mbti.rawValue)
-        }
-    }
-    
-    @discardableResult static func getSetMBTI(newMBTI: Array<String?> = []) -> Array<String?> {
-        if !newMBTI.isEmpty {
-            if let mbit = newMBTI as? Array<String> {
-                UserDefaults.standard.set(mbit, forKey: UserDefaultsKey.mbti.rawValue)
-            }
-            return Array(repeating: nil, count: 4)
-        } else {
-            return UserDefaults.standard.array(forKey: UserDefaultsKey.mbti.rawValue) as? [String] ?? Array(repeating: nil, count: 4)
         }
     }
     
