@@ -39,7 +39,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
     struct Input {
         let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
         let profileImageViewTapped: Observer<Void> = Observer(value: ())
-        let profileNicknameCheck: Observer<String?> = Observer(value: UserDataManager.getSetNickname())
+        let profileNicknameCheck: Observer<String?> = Observer(value: UserDataManager.nickname)
         let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
         let profileSave: Observer<Void> = Observer(value: ())
     }
@@ -76,7 +76,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
         }
         self.input.profileSave.bind { [weak self] _, _ in
             UserDataManager.onboardingComplete = true
-            UserDataManager.getSetNickname(newNickname: self?.input.profileNicknameCheck.value)
+            UserDataManager.nickname = self?.input.profileNicknameCheck.value ?? ""
             UserDataManager.getSetProfileImage(newProfileImageType: self?.input.profileImageData.value)
             UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
             UserDataManager.getSetMBTI(newMBTI: self?.input.mbtiData.value ?? [])

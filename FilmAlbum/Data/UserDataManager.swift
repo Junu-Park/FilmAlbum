@@ -39,6 +39,15 @@ final class UserDataManager {
         }
     }
     
+    static var nickname: String {
+        get {
+            return UserDefaults.standard.string(forKey: UserDefaultsKey.nickname.rawValue) ?? ""
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.nickname.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetNickname(newNickname nickname: String? = nil) -> String {
         if let nickname {
             UserDefaults.standard.set(nickname, forKey: UserDefaultsKey.nickname.rawValue)

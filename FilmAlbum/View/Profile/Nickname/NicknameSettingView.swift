@@ -51,7 +51,7 @@ final class NicknameSettingView: CustomBaseView {
         super.init()
         
         self.backgroundColor = UIColor.faBlack
-        self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.getSetNickname()
+        self.nicknameTextFieldView.nicknameTextField.text = UserDataManager.nickname
         self.nicknameState = self.nicknameTextFieldView.nicknameTextField.text.checkNicknameValidation()
         
         self.addSubview(self.profileImageView)

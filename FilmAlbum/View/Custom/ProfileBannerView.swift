@@ -15,7 +15,7 @@ final class ProfileBannerView: CustomBaseView {
     
     private let nicknameLabel: UILabel = {
         let lb: UILabel = UILabel()
-        lb.text = UserDataManager.getSetNickname()
+        lb.text = UserDataManager.nickname
         lb.font = UIFont.fa16BoldFont
         return lb
     }()
@@ -84,7 +84,7 @@ final class ProfileBannerView: CustomBaseView {
     
     @objc private func receivedProfileEditingNotification() {
         self.profileImageView.profileImageType = UserDataManager.getSetProfileImage()
-        self.nicknameLabel.text = UserDataManager.getSetNickname()
+        self.nicknameLabel.text = UserDataManager.nickname
     }
     
     @objc private func receivedLikeButtonTappedNotification() {
