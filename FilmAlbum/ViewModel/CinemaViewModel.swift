@@ -38,9 +38,9 @@ final class CinemaViewModel: ViewModelProtocol {
             self?.output.reloadSection.value = 0
         }
         self.input.searchTermDelete.bind { [weak self] _, nV in
-            var list = UserDataManager.getSetSearchTermList()
+            var list = UserDataManager.searchTermList
             list.remove(at: nV)
-            UserDataManager.getSetSearchTermList(newSearchTermList: list)
+            UserDataManager.searchTermList = list
             NotificationCenter.default.post(name: NSNotification.Name("deleteButtonTapped"), object: nil)
             self?.output.reloadSection.value = 0
         }

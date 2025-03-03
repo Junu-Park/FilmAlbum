@@ -35,7 +35,7 @@ final class RecentSearchTermCollectionView: UICollectionView {
     }
     
     func setNoRecentSearchTermLabelHidden() {
-        self.noRecentSearchTermLabel.isHidden = !UserDataManager.getSetSearchTermList().isEmpty
+        self.noRecentSearchTermLabel.isHidden = !UserDataManager.searchTermList.isEmpty
     }
     
     @available(*, unavailable)

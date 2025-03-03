@@ -77,10 +77,10 @@ final class SearchViewModel: ViewModelProtocol {
     }
     
     private func saveSearchTerm(term: String) {
-        if !UserDataManager.getSetSearchTermList().contains(term) {
-            var list: [String] = UserDataManager.getSetSearchTermList()
+        if !UserDataManager.searchTermList.contains(term) {
+            var list: [String] = UserDataManager.searchTermList
             list.insert(term, at: 0)
-            UserDataManager.getSetSearchTermList(newSearchTermList: list)
+            UserDataManager.searchTermList = list
             NotificationCenter.default.post(name: NSNotification.Name("searchBarEnterTapped"), object: nil)
         }
     }

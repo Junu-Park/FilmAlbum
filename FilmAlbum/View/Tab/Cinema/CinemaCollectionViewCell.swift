@@ -78,7 +78,7 @@ final class CinemaCollectionViewCell: UICollectionViewCell {
 extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView.tag == 1 {
-            return UserDataManager.getSetSearchTermList().count
+            return UserDataManager.searchTermList.count
         } else if collectionView.tag == 2 {
             return trendingDataList.count
         } else {
@@ -89,7 +89,7 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView.tag == 1 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentSearchTermCollectionViewCell.id, for: indexPath) as? RecentSearchTermCollectionViewCell {
-                cell.titleLabel.text = UserDataManager.getSetSearchTermList()[indexPath.item]
+                cell.titleLabel.text = UserDataManager.searchTermList[indexPath.item]
                 
                 cell.titleLabel.tag = indexPath.item
                 cell.titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.searchTermTapped)))
@@ -142,7 +142,7 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
     
     @objc func searchTermTapped(_ sender: UITapGestureRecognizer) {
         if let index = sender.view?.tag {
-            self.searchDelegate?.searchTermTapped(searchTerm: UserDataManager.getSetSearchTermList()[index])
+            self.searchDelegate?.searchTermTapped(searchTerm: UserDataManager.searchTermList[index])
         }
     }
     

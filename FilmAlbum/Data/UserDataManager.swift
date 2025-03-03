@@ -118,6 +118,15 @@ final class UserDataManager {
         }
     }
     
+    static var searchTermList: [String] {
+        get {
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.searchTermList.rawValue) as? [String] ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.searchTermList.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetSearchTermList(newSearchTermList: [String]? = nil) -> [String] {
         if let newSearchTermList {
             UserDefaults.standard.set(newSearchTermList, forKey: UserDefaultsKey.searchTermList.rawValue)
