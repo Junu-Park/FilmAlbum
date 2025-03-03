@@ -36,7 +36,7 @@ final class ProfileBannerView: CustomBaseView {
     
     private let movieCountLabel: UILabel = {
         let lb: UILabel = UILabel()
-        lb.text = "\(UserDataManager.getSetLikeMovieList().count) 개의 무비박스 보관중"
+        lb.text = "\(UserDataManager.likeMovieList.count) 개의 무비박스 보관중"
         lb.clipsToBounds = true
         lb.layer.cornerRadius = 10
         lb.font = UIFont.fa14BoldFont
@@ -88,6 +88,6 @@ final class ProfileBannerView: CustomBaseView {
     }
     
     @objc private func receivedLikeButtonTappedNotification() {
-        self.movieCountLabel.text = "\(UserDataManager.getSetLikeMovieList().count) 개의 무비박스 보관중"
+        self.movieCountLabel.text = "\(UserDataManager.likeMovieList.count) 개의 무비박스 보관중"
     }
 }

@@ -152,7 +152,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.id, for: indexPath) as? SearchCollectionViewCell {
             
-            if UserDataManager.getSetLikeMovieList().contains(self.viewModel.output.searchResult.value[indexPath.item].id) {
+            if UserDataManager.likeMovieList.contains(self.viewModel.output.searchResult.value[indexPath.item].id) {
                 cell.likeButton.setImage(UIImage.faHeartFill, for: .normal)
             } else {
                 cell.likeButton.setImage(UIImage.faHeart, for: .normal)

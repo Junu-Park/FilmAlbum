@@ -101,7 +101,7 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
             }
         } else if collectionView.tag == 2 {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayMovieCollectionViewCell.id, for: indexPath) as? TodayMovieCollectionViewCell {
-                if UserDataManager.getSetLikeMovieList().contains(self.trendingDataList[indexPath.item].id) {
+                if UserDataManager.likeMovieList.contains(self.trendingDataList[indexPath.item].id) {
                     cell.likeButton.setImage(UIImage.faHeartFill, for: .normal)
                 } else {
                     cell.likeButton.setImage(UIImage.faHeart, for: .normal)
@@ -153,13 +153,13 @@ extension CinemaCollectionViewCell: UICollectionViewDelegate, UICollectionViewDa
 
 extension CinemaCollectionViewCell: LikeButtonDelegate {
     func likeButtonTapped(index: Int) {
-        var list = UserDataManager.getSetLikeMovieList()
+        var list = UserDataManager.likeMovieList
         if let order = list.firstIndex(of: self.trendingDataList[index].id) {
             list.remove(at: order)
         } else {
             list.append(self.trendingDataList[index].id)
         }
-        UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
+        UserDataManager.likeMovieList = list
         NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil)
         UIView.performWithoutAnimation {
             self.todayMovieView.reloadItems(at: [IndexPath(item: index, section: 0)])

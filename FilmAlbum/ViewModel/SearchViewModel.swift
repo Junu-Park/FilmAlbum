@@ -61,13 +61,13 @@ final class SearchViewModel: ViewModelProtocol {
         }
         self.input.likeButtonTapped.bind { [weak self] _, nV in
             if let self {
-                var list: [Int] = UserDataManager.getSetLikeMovieList()
+                var list: [Int] = UserDataManager.likeMovieList
                 if let order = list.firstIndex(of: self.searchResponse.results[nV].id) {
                     list.remove(at: order)
                 } else {
                     list.append(self.searchResponse.results[nV].id)
                 }
-                UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
+                UserDataManager.likeMovieList = list
                 NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearch": true])
                 self.output.reload.value = nV
             } else {

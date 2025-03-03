@@ -62,7 +62,7 @@ final class SearchDetailViewModel: ViewModelProtocol {
         }
         self.input.movieLike.bind { _, _ in
             if let id = self.input.movieData.value?.id {
-                if UserDataManager.getSetLikeMovieList().firstIndex(of: id) != nil {
+                if UserDataManager.likeMovieList.firstIndex(of: id) != nil {
                     self.output.movieLike.value = true
                 } else {
                     self.output.movieLike.value = false
@@ -71,7 +71,7 @@ final class SearchDetailViewModel: ViewModelProtocol {
         }
         self.input.movieLikeTapped.bind { _, _ in
             if let id = self.input.movieData.value?.id {
-                var list: [Int] = UserDataManager.getSetLikeMovieList()
+                var list: [Int] = UserDataManager.likeMovieList
                 if let index = list.firstIndex(of: id) {
                     list.remove(at: index)
                     self.output.movieLike.value = false
@@ -79,7 +79,7 @@ final class SearchDetailViewModel: ViewModelProtocol {
                     list.append(id)
                     self.output.movieLike.value = true
                 }
-                UserDataManager.getSetLikeMovieList(newLikeMovieIDList: list)
+                UserDataManager.likeMovieList = list
                 
                 NotificationCenter.default.post(name: NSNotification.Name("LikeButtonTapped"), object: nil, userInfo: ["isSearchDetail": true])
             }

@@ -100,6 +100,15 @@ final class UserDataManager {
         }
     }
     
+    static var likeMovieList: [Int] {
+        get {
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.likeMovieIDList.rawValue) as? [Int] ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetLikeMovieList(newLikeMovieIDList: [Int]? = nil) -> [Int] {
         if let newLikeMovieIDList {
             UserDefaults.standard.set(newLikeMovieIDList, forKey: UserDefaultsKey.likeMovieIDList.rawValue)
