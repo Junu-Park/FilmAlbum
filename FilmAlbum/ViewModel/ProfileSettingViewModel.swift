@@ -78,7 +78,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
             UserDataManager.onboardingComplete = true
             UserDataManager.nickname = self?.input.profileNicknameCheck.value ?? ""
             UserDataManager.profileImage = self?.input.profileImageData.value ?? ProfileImageType.getRandomCase()
-            UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
+            UserDataManager.createdDate = Date().convertToCreatedDateString()
             UserDataManager.getSetMBTI(newMBTI: self?.input.mbtiData.value ?? [])
             self?.output.profileSave.value = ()
         }

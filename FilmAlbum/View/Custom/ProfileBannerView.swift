@@ -23,7 +23,7 @@ final class ProfileBannerView: CustomBaseView {
     private let createdDateLabel: UILabel = {
         let lb: UILabel = UILabel()
         lb.textColor = UIColor.faGray
-        lb.text = UserDataManager.getSetCreatedDateString()
+        lb.text = UserDataManager.createdDate
         lb.font = UIFont.fa12BoldFont
         return lb
     }()

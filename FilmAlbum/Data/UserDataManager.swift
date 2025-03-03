@@ -82,6 +82,15 @@ final class UserDataManager {
         }
     }
     
+    static var createdDate: String {
+        get {
+            return UserDefaults.standard.string(forKey: UserDefaultsKey.createdDate.rawValue) ?? Date().convertToCreatedDateString()
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.createdDate.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetCreatedDateString(newCreatedDate createdDate: Date? = nil) -> String {
         if let createdDate {
             UserDefaults.standard.set(createdDate.convertToCreatedDateString(), forKey: UserDefaultsKey.createdDate.rawValue)
