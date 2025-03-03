@@ -75,7 +75,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
             self?.checkProfileSaveButtonState()
         }
         self.input.profileSave.bind { [weak self] _, _ in
-            UserDataManager.getSetOnboardingComplete(newOnboardingComplete: true)
+            UserDataManager.onboardingComplete = true
             UserDataManager.getSetNickname(newNickname: self?.input.profileNicknameCheck.value)
             UserDataManager.getSetProfileImage(newProfileImageType: self?.input.profileImageData.value)
             UserDataManager.getSetCreatedDateString(newCreatedDate: Date())

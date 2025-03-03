@@ -21,6 +21,15 @@ final class UserDataManager {
     
     private init() {}
     
+    static var onboardingComplete: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: UserDefaultsKey.onBoardingComplete.rawValue)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.onBoardingComplete.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetOnboardingComplete(newOnboardingComplete: Bool? = nil) -> Bool {
         if let newOnboardingComplete {
             UserDefaults.standard.set(newOnboardingComplete, forKey: UserDefaultsKey.onBoardingComplete.rawValue)
