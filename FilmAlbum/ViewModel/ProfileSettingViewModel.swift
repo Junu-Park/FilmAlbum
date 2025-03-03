@@ -37,15 +37,15 @@ enum MBTIType: String, CaseIterable {
 
 final class ProfileSettingViewModel: ViewModelProtocol {
     struct Input {
-        let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
+        let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.profileImage)
         let profileImageViewTapped: Observer<Void> = Observer(value: ())
         let profileNicknameCheck: Observer<String?> = Observer(value: UserDataManager.nickname)
         let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
         let profileSave: Observer<Void> = Observer(value: ())
     }
     struct Output {
-        let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
-        let profileImageViewTapped: Observer<ProfileImageType> = Observer(value: UserDataManager.getSetProfileImage())
+        let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.profileImage)
+        let profileImageViewTapped: Observer<ProfileImageType> = Observer(value: UserDataManager.profileImage)
         let profileNicknameCheck: Observer<NicknameCheckState> = Observer(value: NicknameCheckState.charCountError)
         let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
         let profileSaveButtonState: Observer<Bool> = Observer(value: false)
@@ -64,7 +64,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
             self?.output.profileImageData.value = nV
         }
         self.input.profileImageViewTapped.bind { [weak self] _, _ in
-            self?.output.profileImageViewTapped.value = self?.input.profileImageData.value ?? UserDataManager.getSetProfileImage()
+            self?.output.profileImageViewTapped.value = self?.input.profileImageData.value ?? UserDataManager.profileImage
         }
         self.input.profileNicknameCheck.bind { [weak self] _, nV in
             self?.output.profileNicknameCheck.value = self?.checkProfileNickname(text: nV) ?? NicknameCheckState.charCountError
@@ -77,7 +77,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
         self.input.profileSave.bind { [weak self] _, _ in
             UserDataManager.onboardingComplete = true
             UserDataManager.nickname = self?.input.profileNicknameCheck.value ?? ""
-            UserDataManager.getSetProfileImage(newProfileImageType: self?.input.profileImageData.value)
+            UserDataManager.profileImage = self?.input.profileImageData.value ?? ProfileImageType.getRandomCase()
             UserDataManager.getSetCreatedDateString(newCreatedDate: Date())
             UserDataManager.getSetMBTI(newMBTI: self?.input.mbtiData.value ?? [])
             self?.output.profileSave.value = ()

@@ -57,6 +57,18 @@ final class UserDataManager {
         }
     }
     
+    static var profileImage: ProfileImageType {
+        get {
+            guard UserDefaults.standard.bool(forKey: UserDefaultsKey.onBoardingComplete.rawValue), let profileImage = ProfileImageType(rawValue: UserDefaults.standard.integer(forKey: UserDefaultsKey.profileImage.rawValue)) else {
+                return ProfileImageType.getRandomCase()
+            }
+            return profileImage
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: UserDefaultsKey.profileImage.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetProfileImage(newProfileImageType profileImageType: ProfileImageType? = nil) -> ProfileImageType {
         if let profileImageType {
             UserDefaults.standard.set(profileImageType.rawValue, forKey: UserDefaultsKey.profileImage.rawValue)

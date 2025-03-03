@@ -11,7 +11,7 @@ import SnapKit
 
 final class ProfileBannerView: CustomBaseView {
     
-    private let profileImageView: ProfileImageView = ProfileImageView(profileImageType: UserDataManager.getSetProfileImage(), isSelected: true)
+    private let profileImageView: ProfileImageView = ProfileImageView(profileImageType: UserDataManager.profileImage, isSelected: true)
     
     private let nicknameLabel: UILabel = {
         let lb: UILabel = UILabel()
@@ -83,7 +83,7 @@ final class ProfileBannerView: CustomBaseView {
     }
     
     @objc private func receivedProfileEditingNotification() {
-        self.profileImageView.profileImageType = UserDataManager.getSetProfileImage()
+        self.profileImageView.profileImageType = UserDataManager.profileImage
         self.nicknameLabel.text = UserDataManager.nickname
     }
     

@@ -13,7 +13,7 @@ final class NicknameViewController: CustomBaseViewController {
     
     private lazy var settingView: NicknameSettingView = NicknameSettingView(profileImageType: self.viewModel.output.profileImageData.value)
     
-    private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.getSetProfileImage())
+    private let editingView: NicknameEditingView = NicknameEditingView(profileImageType: UserDataManager.profileImage)
     
     private let viewModel: ProfileSettingViewModel = ProfileSettingViewModel()
     
@@ -98,7 +98,7 @@ final class NicknameViewController: CustomBaseViewController {
     
     @objc private func saveButtonTapped() {
         UserDataManager.nickname = editingView.nicknameTextFieldView.nicknameTextField.text ?? ""
-        UserDataManager.getSetProfileImage(newProfileImageType: editingView.profileImageType)
+        UserDataManager.profileImage = editingView.profileImageType
         NotificationCenter.default.post(name: NSNotification.Name("ProfileEditing"), object: nil)
         self.dismiss(animated: true)
     }
