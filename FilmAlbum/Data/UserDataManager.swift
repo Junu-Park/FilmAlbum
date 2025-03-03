@@ -7,17 +7,17 @@
 
 import Foundation
 
-enum UserDefaultsKey: String, CaseIterable {
-    case onBoardingComplete = "OnBoardingComplete"
-    case nickname = "Nickname"
-    case profileImage = "ProfileImage"
-    case createdDate = "CreatedDate"
-    case likeMovieIDList = "LikeMovieIDList"
-    case searchTermList = "SearchTermList"
-    case mbti = "MBTI"
-}
-
 final class UserDataManager {
+    
+    private enum UserDefaultsKey: String, CaseIterable {
+        case onBoardingComplete = "OnBoardingComplete"
+        case nickname = "Nickname"
+        case profileImage = "ProfileImage"
+        case createdDate = "CreatedDate"
+        case likeMovieIDList = "LikeMovieIDList"
+        case searchTermList = "SearchTermList"
+        case mbti = "MBTI"
+    }
     
     private init() {}
     
