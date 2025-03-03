@@ -136,6 +136,15 @@ final class UserDataManager {
         }
     }
     
+    static var mbti: [String?] {
+        get {
+            return UserDefaults.standard.array(forKey: UserDefaultsKey.mbti.rawValue) as? [String] ?? Array(repeating: nil, count: 4)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaultsKey.mbti.rawValue)
+        }
+    }
+    
     @discardableResult static func getSetMBTI(newMBTI: Array<String?> = []) -> Array<String?> {
         if !newMBTI.isEmpty {
             if let mbit = newMBTI as? Array<String> {

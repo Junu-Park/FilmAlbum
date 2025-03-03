@@ -40,14 +40,14 @@ final class ProfileSettingViewModel: ViewModelProtocol {
         let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.profileImage)
         let profileImageViewTapped: Observer<Void> = Observer(value: ())
         let profileNicknameCheck: Observer<String?> = Observer(value: UserDataManager.nickname)
-        let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
+        let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.mbti)
         let profileSave: Observer<Void> = Observer(value: ())
     }
     struct Output {
         let profileImageData: Observer<ProfileImageType> = Observer(value: UserDataManager.profileImage)
         let profileImageViewTapped: Observer<ProfileImageType> = Observer(value: UserDataManager.profileImage)
         let profileNicknameCheck: Observer<NicknameCheckState> = Observer(value: NicknameCheckState.charCountError)
-        let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.getSetMBTI())
+        let mbtiData: Observer<Array<String?>> = Observer(value: UserDataManager.mbti)
         let profileSaveButtonState: Observer<Bool> = Observer(value: false)
         let profileSave: Observer<Void> = Observer(value: ())
     }
@@ -79,7 +79,7 @@ final class ProfileSettingViewModel: ViewModelProtocol {
             UserDataManager.nickname = self?.input.profileNicknameCheck.value ?? ""
             UserDataManager.profileImage = self?.input.profileImageData.value ?? ProfileImageType.getRandomCase()
             UserDataManager.createdDate = Date().convertToCreatedDateString()
-            UserDataManager.getSetMBTI(newMBTI: self?.input.mbtiData.value ?? [])
+            UserDataManager.mbti = self?.input.mbtiData.value ?? Array(repeating: nil, count: 4)
             self?.output.profileSave.value = ()
         }
     }
